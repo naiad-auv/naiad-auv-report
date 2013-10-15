@@ -23,3 +23,7 @@ DO NOT DO THIS YET, TEMPLATE NOT COMPLETE  (11th of October 2013)
    2. Add your name(s) and email(s).
    3. Fix the title.
  3. Start to write your report.
+
+### References are collected in the same bib file
+To make sure that all our references look the same we will use a single
+references.bib file. It's located in the "doc" folder.

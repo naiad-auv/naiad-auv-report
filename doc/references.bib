@@ -1,0 +1,68 @@
+% The first four references in this document are example references
+% that the template use.
+% If you need a to add a reference copy the correct type from below and fill
+% in all fields properly. You can use other types as well but remember
+% to add all required fields for that type if you do.
+%
+% http://en.wikibooks.org/wiki/LaTeX/Bibliography_Management#Standard_templates
+
+% Remember to search for the reference you need first in this document.
+% Someone else may have added it already, then use the same reference.
+
+% The reference id should be first listed author in a paper and the year.
+% As an example if "John Doe" wrote a paper back in 1999 the reference
+% should be referred to as "doe1999".
+
+% Website references should start with the "web:" prefix.
+
+% Misc
+% Put the same in "key" as you use in "title".
+@misc{web:website,
+    title = {Website},
+    key = {Website},
+    urldate = {2013-10-15},
+    note = {This is a note to the web:website reference.},
+    url = {\url{http://www.example.com}},
+    howpublished = {\url{http://www.example.com}},
+}
+
+% Article
+% Required fields: author, title, journal, year.
+% Optional fields: volume, number, pages, month, note.
+@article{article:article,
+    author    = {surname, firstname and surname, firstname},
+    title     = {Tile of the article:article reference},
+    journal   = {Journal},
+    volume   = {Volume},
+    pages    = {Pages},
+    year      = {year},
+    month    = {month},
+    note     = {Note of the article:article reference},
+}
+
+% Unpublished
+% Required fields: author, title, note.
+% Optional fields: month, year.
+@unpublished{unpublished:unpublished,
+    author = {surname, firstname and surname, firstname},
+    title = {Title of the unpublished:unpublished reference.},
+    note = {This is a note of the unpublished:unpublished reference.},
+    url = {\url{http://www.example.com}},
+    year = {2013},
+}
+
+% Book
+% Required fields: author/editor, title, publisher, year.
+% Optional fields: volume/number, series, address, edition, month, note.
+@book{book:book,
+    author    = {surname, firstname},
+    title     = {Title of book:book reference},
+    publisher = {Publisher},
+    volume   = {Volume},
+    series   = {Series},
+    address  = {Address},
+    edition  = {Edition},
+    year      = {2013},
+    month    = {Month},
+    note     = {Note},
+}

@@ -1,0 +1,11 @@
+*.DS_Store
+*[Tt]humbs.db
+*.Trashes
+*~
+
+# LaTeX
+*.aux
+*.bbl
+*.blg
+*.log
+*.pdf
