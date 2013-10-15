@@ -9,3 +9,6 @@
 *.blg
 *.log
 *.pdf
+
+# GIMP Files
+*.xcf
