@@ -14,16 +14,19 @@ the following parts:
  * Appendices (Optional)
 
 ### How to get started
-DO NOT DO THIS YET, TEMPLATE NOT COMPLETE  (11th of October 2013)
 
  1. Copy "template" directory and rename it to your topic e.g.
-"mission_control_system" or "imu".
- 2. Edit the main .tex file which is "sigproc-sp.tex"
+"mission\_control\_system" or "imu" (only lower-case characters and
+underline).
+ 2. Edit the "sigproc-sp.tex" file.
    1. Fix number of authors.
    2. Add your name(s) and email(s).
-   3. Fix the title.
+   3. Fix the title (it's the <subject> part).
  3. Start to write your report.
 
 ### References are collected in the same bib file
 To make sure that all our references look the same we will use a single
-references.bib file. It's located in the "doc" folder.
+references.bib file. It's located in the "doc" folder (one folder above the
+main tex-file for your report. If you add new references please push the
+updates to the master branch immediately. This is to prevent multiple
+references additions for the same reference.
