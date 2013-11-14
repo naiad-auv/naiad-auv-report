@@ -34,3 +34,9 @@ references.bib file. It's located in the "doc" folder (one folder above the
 main tex-file for your report. If you add new references please push the
 updates to the master branch immediately. This is to prevent multiple
 references additions for the same reference.
+
+### Troubleshooting
+If you're missing the headlines when you generate your report you probably need
+to install an extra set of fonts.
+
+    sudo apt-get install texlive-fonts-recommended
