@@ -18,6 +18,10 @@ the following parts:
  1. Copy "template" directory and rename it to your topic e.g.
 "mission\_control\_system" or "imu" (only lower-case characters and
 underline).
+
+    cd doc/
+    cp -r template/ name_of_report
+
  2. Edit the "sigproc-sp.tex" file.
    1. Fix number of authors.
    2. Add your name(s) and email(s).
