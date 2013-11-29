@@ -1,10 +1,37 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Introduction}\label{sec:introduction}
-Text
+As a requirement for the project the autonomous underwater vehicle were to use
+Space plug-and-play Avionics technology to make it modular in the sense that
+it should be easy to add and remove parts from it for different missions. In
+this report lessons learned from this work will be presented for future
+interest in this area.
 
-% You can use how many "subsections" and "subsubsections" you like.
-\subsection{Subsection}
-Text. This is a reference to table \ref{table:one_column}.
-\subsubsection{Subsubsection1}
-Text. This is a reference to table \ref{table:two_columns}.
+\subsection{Space plug-and-play Avionics}
+\subsubsection{Background}
+Space plug-and-play Avionics (SPA) has been developed by NASA and partners to
+improve the time it takes to assemble a new satellite for specific missions.
+In other words the goal is not to decrease the development time of specific
+components but instead design a plug-and-play system such that no matter what
+the mission requirements are, NASA can put together a sattelite within hours or
+days that meet a new mission's requirements.
+
+\subsubsection{The Standard}
+SPA is specified in a set of standards documents, each standard specifying
+functionality in a specific area ranging from "SPA Logical Interface Standard"
+to "28V Power Service". The standards document together defines everything from power
+supply levels and which hardware connectors to use to how software components should
+communicate with other software components. Focus during the Naiad project have
+been a subset of all the standards more specifically the following ones:
+
+\begin{itemize}
+  \item Local Subnet Adaptation Standard
+  \item Logical Interface Standard
+  \item Networking Standard
+  \item SpaceWire Subnet Adaptation Standard
+  \item ... SPA1 / MiniPlug?
+\end{itemize}
+
+\subsection{SPA over CAN Bus}
+
+\subsection{SPA with Ada}
