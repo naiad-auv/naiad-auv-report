@@ -18,6 +18,10 @@ the following parts:
  1. Copy "template" directory and rename it to your topic e.g.
 "mission\_control\_system" or "imu" (only lower-case characters and
 underline).
+
+    cd doc/
+    cp -r template/ name_of_report
+
  2. Edit the "sigproc-sp.tex" file.
    1. Fix number of authors.
    2. Add your name(s) and email(s).
@@ -30,3 +34,9 @@ references.bib file. It's located in the "doc" folder (one folder above the
 main tex-file for your report. If you add new references please push the
 updates to the master branch immediately. This is to prevent multiple
 references additions for the same reference.
+
+### Troubleshooting
+If you're missing the headlines when you generate your report you probably need
+to install an extra set of fonts.
+
+    sudo apt-get install texlive-fonts-recommended
