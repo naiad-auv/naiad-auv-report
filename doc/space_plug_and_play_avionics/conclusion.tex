@@ -1,11 +1,27 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Conclusion}\label{sec:conclusion}
+1) Need Central Addressing Service.
+2) Need Lookup Service.
+3) Need Data Manager.
+4) Need simple test service/data provider.
+5) Need simple test consumer.
+
+None of the listed parts can be created and tested without the others, they are
+all needed to set up basic functionality in a VPPN network. Therefore future
+work should focus on implementing this in Ada within one processing unit /
+local subnet. When that is done work can continue with gateways to other
+networks.
 
 
 
 % You can use how many "subsections" and "subsubsections" you like.
-\subsection{}
+\subsection{VPPN and CAN}
+What about sending a CAN Message with the a specific CAN message header and
+empty payload. The CAN endpoints that transmit would not detect a
+collision...or would the CRC be different? Maybe you can solve the ARP this
+way.
+
 Text
 \subsubsection{Subsubsection1}
 Text
