@@ -75,10 +75,23 @@ for IPv4 networks).
 Applying the same behaviour to the CAN Bus would cause the CAN Bus to
 malfunction due to collision errors when multiple CAN hosts transmit the same
 message ID but with different payload (including the unique identifier).
-This is the same bootstraping problem others have tried to solve with
-"IP over CAN".
+This is related to the bootstraping problem others have tried to solve with
+"IP over CAN" \cite{ietf:ip_over_can, web:porting_ip_can}.
+
+For the minimal implementation the project went forward with inspiration from
+Ditze et. al \cite{web:porting_ip_can} where the 29 bits message ID from the
+CAN Bus 2.0 B specification is divided into different subparts.
 
 \subsubsection{VPPN and Ada}
+During the initial implementation phase focus was put on Ada functionality and
+getting the communication between software components working. UDP/IP and TCP/IP
+were tested and it was clear early on that UDP/IP wouldn't work very well so
+the project continued with testing TCP/IP together with Ada Tasks more
+thoroughly. It was during a meeting with the customer at this point in the
+project the customer made clear that sockets were a no-go. TCP/IP communication
+was dropped in favour of "Protected Objects" from the Ada language for
+inter-process communication.
+
 Tasks/Protected Objects instead of UDP/TCP/IP
 
 % \begin{figure}[h]
