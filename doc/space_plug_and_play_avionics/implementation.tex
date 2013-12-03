@@ -43,32 +43,34 @@ back to the Application with information that the Application should contact
 the Service Provider. The Application would then subscribe to the Service
 Provider's sensor information in a peer to peer manner.
 
+<insert image of data flow and start up phase, activity diagram>
+
 Whenever the Service Provider (Sensor) on the CAN Bus network were to communicate
 with another component outside of the CAN Bus network the VPPN-CAN Gateway
 needs to do routing. To be able to do this routing the VPPN-CAN Gateway is also
 responsible for the adress resolution in the boot up phase for the CAN Bus.
 
-\subsubsection{VPPN and CAN Bus}
+\subsubsection{VPPN and CAN Bus}\label{subsubsec:vppn_can_bus}
 In the minimal design the VPPN-CAN Gateway component runs on the same
 processing unit as the Mission Control System and connects with other
 components on that local subnet through UDP/IP through the loopback interface.
 
-In a VPPN network each component both hardware and software must have a unique
+In a VPPN network each component, both hardware and software, must have a unique
 address. When starting the system the responsiblity of the VPPN-CAN Gateway is to
 enumerate the CAN Bus for all connected components and assign a local address to
 each one. This contradicts the behaviour of the CAN Bus which is message based
 and not address based. As per request from the customer the project went
-forward with the minimal implementation design without putting to much attention to
+forward with the minimal implementation design without putting any attention to
 the contradiction.
 
-First issue to solve is the assignment of addresses. In IP networks and SPA Local
+The main issue to solve is the assignment of addresses. In IP networks and SPA Local
 Subnets a common address is used to make the network manager aware of the newly
-connected component. For IP networks newly connected network devices sends a
+connected component. For IP networks newly connected network devices send a
 broadcast message to all other devices on the same local network with it's own
 address as 0.0.0.0 (IPv4). The DHCP server then replies with a response that
 includes a new IP address the device can use. In the SPA Local Subnet
 Adaptation Draft newly started processes sends a message to the loopback
-interface with port 3500 requesting an address. Together with the request for a
+interface at port 3500 requesting an address. Together with the request for a
 new address a unique identifier is included in the message (e.g. MAC Address
 for IPv4 networks).
 
@@ -76,11 +78,25 @@ Applying the same behaviour to the CAN Bus would cause the CAN Bus to
 malfunction due to collision errors when multiple CAN hosts transmit the same
 message ID but with different payload (including the unique identifier).
 This is related to the bootstraping problem others have tried to solve with
-"IP over CAN" \cite{ietf:ip_over_can, web:porting_ip_can}.
+"IP over CAN" \cite{web:draft-ip_over_can, web:porting_ip_can}.
 
 For the minimal implementation the project went forward with inspiration from
 Ditze et. al \cite{web:porting_ip_can} where the 29 bits message ID from the
-CAN Bus 2.0 B specification is divided into different subparts.
+CAN Bus 2.0B specification is divided into different subparts. Starts with a 10
+bits prioritisation band, 3 bits message type field, 8 bits sender address and
+the last 8 bits represent destination address.
+
+<insert image of message id mapping to the fields>
+
+To eliminate the problem with collisions on the CAN Bus unique component
+identifiers must be used within the message id. One solution explored was to
+define a message type as "DHCP" request and use both the sender and destination
+address as a 16 bit unique data field. 16 bit is not enough for MAC addresses
+used in IPv4 devices (48 bits) nor IPv6 devices (64 bits). Alternative
+solutions could be to store a part of the unique addresses in the CAN Bus
+Message ID and the rest in the payload. A second alternative would be
+to use a randomly generated identifier and with math prove the unlikelihood of
+a CAN Bus collission. At this point no further work took place regarding this topic.
 
 \subsubsection{VPPN and Ada}
 During the initial implementation phase focus was put on Ada functionality and

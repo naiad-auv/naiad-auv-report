@@ -17,6 +17,11 @@ networks.
 
 % You can use how many "subsections" and "subsubsections" you like.
 \subsection{VPPN and CAN}
+In section \ref{subsubsec:vppn_can_bus} the obvious problem with too few bits
+available to work with was presented. Suggested work for the future is to
+tackle the problem from IETFs suggestion \cite{web:draft-ip_over_can} with a much smaller prioritisation
+band
+
 What about sending a CAN Message with the a specific CAN message header and
 empty payload. The CAN endpoints that transmit would not detect a
 collision...or would the CRC be different? Maybe you can solve the ARP this
