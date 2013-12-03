@@ -2,7 +2,7 @@
 \subsection{Virtual Plug-and-Play Network}
 \subsubsection{Design}
 The goal with the first implementation was to test the capabilities of VPPN.
-This included basic infrastructure such as a data manager, a CAN Bus
+This included basic infrastructure such as a Lookup Service, a CAN Bus
 gateway, an application (a consumer of data) and a service provider. Figure
 \ref{fig:vppn-overview} shows the basic components needed and how they are
 interconnected.
@@ -16,7 +16,7 @@ interconnected.
 Each component's responsibility is described in the following list and an
 example connecting all components together after that.
 \begin{itemize}
-    \item {\em Data Manager} keeps track of all connected components in the VPPN
+    \item {\em Lookup Service (LS)} keeps track of all connected components in the VPPN
         network and which interfaces they have.
     \item {\em Application (consumer)} uses data supplied by the service
         provider.
@@ -30,13 +30,13 @@ In a fully operational VPPN network adress resolution and initial
 configuration is partly done by other components not used in this minimal
 design, for the minimal implementation hardcoded settings were planned instead.
 After initial configuration each component sends information to the
-data manager in the format of "Extensible Transducer Electronic Data Sheets"
+Lookup Service when requested in the format of "Extensible Transducer Electronic Data Sheets"
 (xTEDS) which is a XML file with a predefined structure. This file includes
 respective components capabilities and must be created when the component is
 constructed (it should be stored together with the component it describes).
 
-The Data Manager then goes through all xTEDS to find out which components wants
-information from other components. The Data Manager in the minimal
+The Lookup Service then goes through all xTEDS to find out which components wants
+information from other components. The Lookup Service in the minimal
 implementation would find that the "Application" wants sensor information of
 the same type the Service Provider supply. The Data Manager would then report
 back to the Application with information that the Application should contact
@@ -92,7 +92,8 @@ To eliminate the problem with collisions on the CAN Bus unique component
 identifiers must be used within the message id. One solution explored was to
 define a message type as "DHCP" request and use both the sender and destination
 address as a 16 bit unique data field. 16 bit is not enough for MAC addresses
-used in IPv4 devices (48 bits) nor IPv6 devices (64 bits). Alternative
+used in IPv4 devices (48 bits), unique identifiers in IPv6 devices (64 bits)
+nor the 128 bits CUUID used within VPPN. Alternative
 solutions could be to store a part of the unique addresses in the CAN Bus
 Message ID and the rest in the payload. A second alternative would be
 to use a randomly generated identifier and with math prove the unlikelihood of
@@ -108,7 +109,8 @@ project the customer made clear that sockets were a no-go. TCP/IP communication
 was dropped in favour of "Protected Objects" from the Ada language for
 inter-process communication.
 
-Tasks/Protected Objects instead of UDP/TCP/IP
+At this point it was decided to drop VPPN from the project, prioritising other
+requirements from the customer.
 
 % \begin{figure}[h]
 %     \includegraphics[width=0.5\textwidth]{./figure/figureA.png}
