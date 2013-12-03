@@ -1,15 +1,19 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Conclusion}\label{sec:conclusion}
-Due to limitations presented in this report Space plug-and-play Avionics have
-not been used in the final AUV. The following two sections present the
-limitations and how to continue with the combination of SPA/VPPN, the CAN Bus
-and Ada.
+Due to limitations presented in this report Space plug-and-play Avionics (SPA) have
+not been used in the final AUV. The following two sections show how to continue
+with the combination of SPA/VPPN, CAN Bus and Ada.
 
 \subsection{Virtual Plug-and-Play Network}
 \subsubsection{VPPN and CAN}
 In section \ref{subsubsec:vppn_can_bus} the problem with too few bits
 available to work with when it comes to address resolution was presented.
+Alternative solutions not explored could be to store a part of the unique
+addresses in the CAN Bus Message ID and the rest in the payload. A second
+alternative would be to use a randomly generated identifier and with math
+prove the unlikelihood of a CAN Bus collission.
+
 Suggested work for the future is to tackle the problem starting from the now
 expired IETF draft presented by Cach and Fiedler \cite{web:draft-ip_over_can}.
 The benefit of this solution is a
