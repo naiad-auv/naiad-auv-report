@@ -40,3 +40,8 @@ If you're missing the headlines when you generate your report you probably need
 to install an extra set of fonts.
 
     sudo apt-get install texlive-fonts-recommended
+
+### Ideas for topics to write about
+
+ * Infrastructure (Jenkins, Git, Github, Website, Hosting)
+ * Lessons learned about Ada for AVR, Ubuntu (ARM, amd64), Windows
