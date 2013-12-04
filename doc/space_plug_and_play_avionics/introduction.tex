@@ -19,9 +19,9 @@ days that meet a new mission's requirements.
 \subsubsection{The Standard}
 SPA is specified in a set of standards documents, each standard specifying
 functionality in a specific area ranging from "SPA Logical Interface Standard"
-to "28V Power Service". The standard documents together defines everything from power
-supply levels and which hardware connectors to use to how software components should
-communicate with other software components. Focus during the Naiad project have
+to "28V Power Service". The standard documents defines everything from power
+supply levels to how components should communicate with each other.
+Focus during the Naiad project have
 been a subset of all the standards more specifically the following ones:
 
 \begin{itemize}
@@ -37,14 +37,17 @@ should be done. It defines the use of UDP/IP as the main protocols to use. The
 Logical Interface Standard defines how hardware and software components should
 communicate on an application level. The Networking Standard, SpaceWire Subnet
 Adaptation Standard and the Mini-PnP / SPA-1 Protocol Draft all defines how the
-low-level networks should work and be connected with each other. The network
-standard defines how generic enumeration should be done for all components in
+respective subnets should work and be connected with each other.
+
+The network
+standard defines how enumeration should be done for all components in
 the network while the hardware specific adaptations defines how adress
 resolution should be done in respective hardware specific network.
 
 \subsection{SPA over CAN Bus}
-As another requirement from the customer was the use of a CAN Bus
-\cite{standard:can_bus}. This meant that as a main part of the projects
+Another requirement from the customer was the use of CAN Bus
+\cite{standard:can_bus} for communication between sensors and actuators.
+This meant that as a main part of the projects
 SPA implementation was to design and develop SPA functionality over the CAN
 Bus. No previous work has been found in this field.
 
@@ -58,9 +61,11 @@ Virtual Network Protocol (VNP) \cite{web:vnp} or Virtual Plug-and-Play
 Network, VPPN (working titles) is an initiative to bring SPA technology to
 the consumer and business market outside of the space industry. VPPN put focus
 on the software part of the SPA standard and have therefore removed all parts
-related to hardware specifics such as which hardware connectors to use.
+related to hardware specifics such as which hardware connectors to use. To
+clarify this, SPA and VPPN is as of writing name of the same technology but
+with different business targets. Throughout this report VPPN will be used
+except when refering to specific reports.
 
-The following parts of the report is structured as follows. What has been done
-when it comes to VPPN in the Naiad project is presented chapter
-\ref{sec:implementation} and conclusions with suggestions for future work is
-presented in chapter \ref{sec:conclusion}.
+The following parts of the report is structured as follows. Chapter \ref{sec:implementation}
+goes through what has been done with VPPN in the Naiad project and chapter
+\ref{sec:conclusion} focuses primarly on future work.
