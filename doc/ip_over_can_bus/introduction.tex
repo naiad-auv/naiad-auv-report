@@ -1,8 +1,10 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Introduction}\label{sec:introduction}
-As a part of the Space plug-and-play Avionics requirement one part turned out
-to focus on IP over CAN.
+As a part of the Space plug-and-play Avionics requirement one part
+focused on IP over CAN. The following introduction will give a short
+introduction to the Internet Protocol (IP) and the Controller Area Network
+(CAN or CAN Bus).
 
 % You can use how many "subsections" and "subsubsections" you like.
 \subsection{Internet Protocol (IP)}
@@ -11,7 +13,7 @@ single or across multipe link networks. Internet Protocol version 4 is the
 version currently most users use but with no more addresses available
 for new devices a move to Internet Protocol version 6 is currently ongoing.
 
-\subsubsection{IP version 4 (IPv4)}
+\subsubsection{IP version 4 (IPv4)}\label{introduction:ipv4}
 IPv4 originally defined as a standard in September 1981 \cite{web:rfc791} has
 seen a few updates throughout the years. The core part is that each host
 connected to a network has a 32 bit address. For human readability this address
@@ -40,6 +42,15 @@ IPv6 address consists of 128 bits. For human readability this address is often
 written in hexadecimal form in 8 groups seperated by colons
 (e.g. 2a00:860:0340:aabf:aabf:baad:3423:0495). RFC 5952 \cite{web:rfc5952}
 defines recommended text representation of IPv6 addresses.
+
+!!!FIX THIS!!! In IPv6 the address is diveded into two 64 bits parts \cite{web:rfc4291}.
+
+In comparison with IPv4 the address assignment can be done in two different
+ways. Similiar to DHCP, DHCPv6 exists and works in similiar manner
+\cite{web:rfc3315}. If DHCPv6 isn't available "Stateless Address
+Autoconfiguration" (SLAAC) is a way for each host to on its own set a unique
+address \cite{web:rfc4862, web:rfc4941}.
+
 
 \subsection{Controller Area Network (CAN)}
 text
