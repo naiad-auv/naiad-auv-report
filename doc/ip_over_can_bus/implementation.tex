@@ -6,6 +6,8 @@ bits prioritisation field, 3 bits message type field, 8 bits destination
 address and 8 bits sender address. It's from this solution work started, in the
 Naiad project.
 
+<insert image of 29 bits message id mapped to the IP over CAN suggestion>
+
 In their solution they suggest a gateway that routes traffic to and from the
 CAN Bus network. The routing that had to be done would map full 32 bits IP
 addresses to CAN Bus IP addresses of 8 bits. This would be done by dropping the
@@ -30,6 +32,9 @@ when sending a DHCP request message. This approach seems to be viable and would
 give 16 bits addresses which might be too few to prevent accidental CAN Bus
 collisions during boot up. The 16 bit identifier would have to be generated
 from some kind of hardware ID such as the MAC Address for ethernet devices.
+
+<insert image of 29 message id bits mapped to destination/sender adress and
+another step mapping it to host identifier field during DHCP request>
 
 At this point other priorities were made in the project so no further progress
 was made.
