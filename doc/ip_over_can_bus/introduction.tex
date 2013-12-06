@@ -72,3 +72,17 @@ One important aspect is that if multiple hosts transmit a message at the same
 time with the same message ID but with different payloads the CAN Bus will
 enter error state. Multiple hosts are not allowed to transmit messages with the
 same message ID.
+
+CAN with Flexible Data-Rate (CAN FD) is a new specification which increase the
+data rate from a maximum of 1Mbit/s to 8Mbit/s \cite{standard:can_bus_fd}.
+
+\subsection{IP over CAN}
+Previous work in this field is limited. In 2001 Petr Cach and Petr Fiedler
+created a first draft for IP over CAN \cite{web:draft-ip_over_can}. They
+clearly state that their solution is not for hard real-time operations. In
+2003 \cite{web:porting_ip_can} took another approach with a larger prioritisation
+band.
+
+The following parts of the report is structured as follows. Chapter \ref{sec:implementation}
+goes through what has been done with IP over CAN in the Naiad project and chapter
+\ref{sec:conclusion} focuses on lessons learned and future work.
