@@ -10,13 +10,13 @@ introduction to the Internet Protocol (IP) and the Controller Area Network
 \subsection{Internet Protocol (IP)}
 The Internet Protocol is the main protocol for addressing different hosts on a
 single or across multipe link networks. Internet Protocol version 4 is the
-version currently most users use but with no more addresses available
+version currently most hosts use but with no more addresses available
 for new devices a move to Internet Protocol version 6 is currently ongoing.
 
 \subsubsection{IP version 4 (IPv4)}\label{introduction:ipv4}
 IPv4 originally defined as a standard in September 1981 \cite{web:rfc791} has
 seen a few updates throughout the years. The core part is that each host
-connected to a network has a 32 bit address. For human readability this address
+connected to a network has a 32 bit address. For readability this address
 is often written in decimal form as four octets (e.g. 192.168.0.1).
 
 As the number of connected devices grew more than expected in the nineteen-nineties
@@ -37,20 +37,20 @@ within the network.
 IPv6 was first specified as proposed standard RFC 1883 \cite{web:rfc1883} in
 December 1995 now obsoleted by RFC 2460 \cite{web:rfc2460}. The motiviation for
 its creation is that it was in the end of nineteen-eighties apparent that the
-IPv4 address space was too small. Instead of the 32 bits address in IPv4 an
-IPv6 address consists of 128 bits. For human readability this address is often
-written in hexadecimal form in 8 groups seperated by colons
-(e.g. 2a00:860:0340:aabf:aabf:baad:3423:0495). RFC 5952 \cite{web:rfc5952}
+IPv4 address space was too small. Instead of the 32 bits addresses in IPv4 an
+IPv6 address consists of 128 bits. For readability this address is
+written in hexadecimal form in 8 groups separated by colons
+(e.g. 2a00:860:340:aabf:aabf:baad:3423:495). RFC 4291 defines the IPv6
+addressing architecture \cite{web:rfc4291} while RFC 5952 \cite{web:rfc5952}
 defines recommended text representation of IPv6 addresses.
-
-!!!FIX THIS!!! In IPv6 the address is diveded into two 64 bits parts \cite{web:rfc4291}.
 
 In comparison with IPv4 the address assignment can be done in two different
 ways. Similiar to DHCP, DHCPv6 exists and works in similiar manner
 \cite{web:rfc3315}. If DHCPv6 isn't available "Stateless Address
-Autoconfiguration" (SLAAC) is a way for each host to on its own set a unique
-address \cite{web:rfc4862, web:rfc4941}.
-
+Autoconfiguration" (SLAAC) is a way for each host to generate and set a unique
+address for each of its interfaces.
+This also includes what is called "Duplicate Address Detection" to prevent
+multiple hosts from using the same IPv6 addresses \cite{web:rfc4862, web:rfc4941}.
 
 \subsection{Controller Area Network (CAN)}
 text
