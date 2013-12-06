@@ -2,8 +2,25 @@
 % and do NOT add more "Section" level titles.
 \section{Conclusion}\label{sec:conclusion}
 The approach taken during the Naiad project started from the solution presented
-from Ditze et. al. This approach seemed to have some good features to it. Among
-others the 10 bits prioritisation band seemed to be usefull for systems with
+by Ditze et. al. This approach seemed to have some good features to it. Among
+others the 10 bits prioritisation band seemed to be useful for systems with
 hard real-time requirements. In the end it turned out that the same
-prioritisation band might be too big.
+prioritisation band might be too big which limit the number of bits that can be
+used of host identification during the address assignment procedure. Future
+work should look into the possibilty of using dynamic address assignment
+specified by Cach et. al. while trying to keep a prioritisation band as big as
+possible.
+
+At the time of writing the latest solution in this field is over 10 years old
+and put focus on IPv4. As of 2012 the IETF recommends that all IP capable
+devices use IPv6. This recommendation should be followed and future work should
+start from a IPv6 point of view.
+
+Current focus around IPv6 is often targeting wireless communication which is
+far from the CAN Bus specification but some parts are similiar. The targetted
+wireless networks often run with small embedded 8-bit microcontrollers which is
+often the case for hosts connected to CAN Busses as well. Future work should
+take a closer look if any of the ideas behind protocols specified by 6LoWPAN
+working group or the ROLL Working Group in IETF can be used for IP over CAN.
+
 
