@@ -2,7 +2,7 @@
 % and do NOT add more "Section" level titles.
 \section{Introduction}\label{sec:introduction}
 As a part of the Space plug-and-play Avionics requirement one part
-focused on IP over CAN. The following introduction will give a short
+focused on IP over CAN. The following sections will give a short
 introduction to the Internet Protocol (IP) and the Controller Area Network
 (CAN or CAN Bus).
 
@@ -21,12 +21,12 @@ is often written in decimal form as four octets (e.g. 192.168.0.1).
 
 As the number of connected devices grew more than expected in the nineteen-nineties
 "Network Address Translation" (NAT) was introduced to limit the number of
-publically accessible IP addresses assigned and improve routing for Internet
+publically accessible IP addresses assigned. At the same time improve routing for Internet
 Service Providers \cite{web:rfc1631, web:rfc1918, web:rfc3022}.
 
 One of the most common ways to assign IP addresses on a network is through the
 Dynamic Host Configuration Protocol (DHCP) \cite{web:rfc2131, web:rfc2132, web:rfc4361}.
-When a host connects to the network, the client, it sends a DHCP request and the DHCP
+When a host connects to the network, the client sends a DHCP request and the DHCP
 server(s) available on the network replies back with a DHCP offer with a free
 IP address the new host can use. As identification the client use either its
 MAC Address or another client identification value depending of version of the
@@ -37,20 +37,31 @@ within the network.
 IPv6 was first specified as proposed standard RFC 1883 \cite{web:rfc1883} in
 December 1995 now obsoleted by RFC 2460 \cite{web:rfc2460}. The motiviation for
 its creation is that it was in the end of nineteen-eighties apparent that the
-IPv4 address space was too small. Instead of the 32 bits addresses in IPv4 an
+IPv4 address space was too small. Instead of the 32 bits addresses in IPv4, an
 IPv6 address consists of 128 bits. For readability this address is
 written in hexadecimal form in 8 groups separated by colons
-(e.g. 2a00:860:340:aabf:aabf:baad:3423:495). RFC 4291 defines the IPv6
+(e.g. 2a00:860:340:aabf:aabf:baad:3423:495).
+
+RFC 4291 defines the IPv6
 addressing architecture \cite{web:rfc4291} while RFC 5952 \cite{web:rfc5952}
 defines recommended text representation of IPv6 addresses.
 
-In comparison with IPv4 the address assignment can be done in two different
-ways. Similiar to DHCP, DHCPv6 exists and works in similiar manner
-\cite{web:rfc3315}. If DHCPv6 isn't available "Stateless Address
+In comparison with IPv4 the address assignment can be done in more than two different
+ways. The first one is by static assignemt which is equal to IPv4.
+Next one is DHCPv6. It works in similiar manner
+\cite{web:rfc3315} as DHCP. As a configuration option of DHCPv6 a third
+assignment procedure is possible with "DHCP
+Prefix Delegation" (DHCP-PD) \cite{web:rfc3633}. It assigns complete blocks of
+addresses to routers which are then free to distribute addresses within that
+block of addresses. If DHCPv6 isn't available "Stateless Address
 Autoconfiguration" (SLAAC) is a way for each host to generate and set a unique
 address for each of its interfaces.
 This also includes what is called "Duplicate Address Detection" to prevent
-multiple hosts from using the same IPv6 addresses \cite{web:rfc4862, web:rfc4941}.
+multiple hosts from using the same IPv6 address \cite{web:rfc4862, web:rfc4941}.
+
+In April 2012 the IETF released a Best Current Practice (BPC) document
+"IPv6 Support Required for All IP-Capable Nodes". This BPC recommends that
+IPv6 must be implemented in all hosts that are IP capable \cite{web:rfc6540}.
 
 \subsection{Controller Area Network (CAN)}
 The CAN protocol is a message based broadcast protocol developed and specified
