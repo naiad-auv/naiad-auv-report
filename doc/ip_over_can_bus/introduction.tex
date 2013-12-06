@@ -53,4 +53,22 @@ This also includes what is called "Duplicate Address Detection" to prevent
 multiple hosts from using the same IPv6 addresses \cite{web:rfc4862, web:rfc4941}.
 
 \subsection{Controller Area Network (CAN)}
-text
+The CAN protocol is a message based broadcast protocol developed and specified
+by ROBERT BOSCH GmbH (Bosch). CAN Specification 2.0 was released in September
+1991 and consists of two parts, A and B. An implementation of the CAN
+Specification must comply with either of the two parts or both. The main
+difference is the length of message IDs which in the standard format is 11 bits
+long and in the extended format is 29 bits long. Part A requires support for
+the standard format while Part B implementations must support
+standard format and extended format \cite{standard:can_bus}.
+
+The key part of the CAN Bus protocol is that all hosts connected to the same
+bus will be able to read simultaneously from the bus, it's up to each host to
+filter out the wanted messages. The filtering process is done by specifying one
+or multiple masks on each host that is used when reading incoming message
+IDs.
+
+One important aspect is that if multiple hosts transmit a message at the same
+time with the same message ID but with different payloads the CAN Bus will
+enter error state. Multiple hosts are not allowed to transmit messages with the
+same message ID.
