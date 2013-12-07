@@ -44,8 +44,6 @@ back to the Application with information that the Application should contact
 the Service Provider. The Application would then ask ones for required data or
 subscribe to the Service Provider's sensor information in a peer to peer manner.
 
-<insert image of data flow and start up phase, activity diagram>
-
 Whenever the Service Provider on the CAN Bus subnet were to communicate
 with another component outside of the CAN Bus subnet the VPPN-CAN Gateway
 would route the traffic. To be able to do this routing the VPPN-CAN Gateway is also
@@ -86,9 +84,19 @@ For the minimal implementation the project went forward with inspiration from
 Ditze et. al \cite{web:porting_ip_can} where the 29 bits message ID from the
 CAN Bus 2.0B specification is divided into different subparts. Starts with a 10
 bits prioritisation band, 3 bits message type field, 8 bits sender address and
-the last 8 bits represent destination address.
+the last 8 bits represent destination address. This can be seen in table
+\ref{table:mapping_message_id_to_ip}.
 
-<insert image of message id mapping to the fields>
+\begin{table}
+\centering
+    \caption{Mapping of message ID for address based communication over CAN
+    Bus.}
+    \begin{tabular}{|c|c|c|c|} \hline
+    \label{table:mapping_message_id_to_ip}
+    Prioritisation & Msg & Sender Address & Dest. Address  \\ \hline
+            10 bits & 3 bits & 8 bits & 8 bits \\ \hline
+    \end{tabular}
+\end{table}
 
 To eliminate the problem with collisions on the CAN Bus unique component
 identifiers must be used within the message id. One solution explored was to
