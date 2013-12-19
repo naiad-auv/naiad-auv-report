@@ -1,27 +1,45 @@
-% Do NOT change this "Section" title
-% and do NOT add more "Section" level titles.
+
 \section{Implementation}\label{sec:implementation}
-Text
+The implementation has the following parts:
 
-% You can use how many "subsections" and "subsubsections" you like.
-\subsection{Subsection}
-Text
-\subsubsection{Subsubsection1}
-Test of one column figure. It should be shown as close as possible to this
-text. If you can't see the figure its number is \ref{fig:one_column_figure}
-and located on page \pageref{fig:one_column_figure}.
-\begin{figure}[h]
-    \includegraphics[width=0.5\textwidth]{./figure/figureA.png}
-    \caption{Figure A}
-    \label{fig:one_column_figure}
-\end{figure}
+\begin{itemize}
+   \item { \em The UART drivers for the AT90CAN128 microcontroller} \newline This part is not described in this report.
+   \item { \em The CAN drivers for the AT90CAN128} \newline This part is not described in this report.
+   \item { \em Conversion between CAN message and strings of bytes } \newline This is implemented in the Can Utils project.
+   \item { \em The UART drivers for BeagleBone Black} \newline Code for putting data on the BBBs UART send buffer and read from the receive buffer.
+   \item { \em Interface code for the BBB } \newline This is implemented in the BBB\_Can project.
+   \item { \em The main program on the AT90CAN128} \newline This is implemented in the AT90CAN\_Uart\_To\_Can project.
+\end{itemize}
 
-\subsubsection{Subsubsection1}
-Test of two columns figure. It should be shown at the top of a page. If you
-can't see the figure its number is \ref{fig:two_column_figure}
-and located on page \pageref{fig:two_column_figure}.
-\begin{figure*}[t]
-    \includegraphics[width=1.0\textwidth]{./figure/figureB.png}
-    \caption{Figure B}
-    \label{fig:two_column_figure}
-\end{figure*}
+\subsection{Protocol}
+The protocol for sending CAN messages over UART is made as simple as possible to maximize performance (number of CAN messages that can be sent per second). There are mainly four pieces of information in each CAN message: 
+\begin{itemize}
+   \item { Whether the message uses extended (29 bits) or normal (11 bits) message IDs} 
+   \item { The length (number of bytes) of the payload} 
+   \item { The message ID}
+   \item { The payload of the message}
+\end{itemize}
+
+Each message is encoded in the form of a header of five bytes followed by the payload of zero to eight bytes. The first byte of the header includes the length of the message which is encoded by the four least significant bits. The fifth bit least significant bit is set to 1 if the message is extended and 0 if it isn't. 
+The following four bytes of the header represents the message ID. 
+After the header follows the payload bytes (if any). \newline
+Please note that no "start of message" or "end of message" flags are used.
+
+%\subsection{Conversion between CAN message and bytes}
+Since conversions between CAN message and bytes would be done on both the BeagleBone Black, the AT90CAN128 and also in the Simulator, this functionality was put into the Can\_Utils emph{project}. \newline
+The Can\_Utils project has three functions: Message\_To\_Bytes, Bytes\_To\_Message\_Header and Bytes\_To\_Message\_Data.  \newline
+When converting bytes to a CAN message one will not know the length of message. Therefore one needs to first receive the bytes representing the the header, convert them to the header of the message in order to learn the length of the payload data and then read as many bytes as the payload contained. \newline
+For this reason there are two procedures Bytes\_To\_Message\_Header and Bytes\_To\_Message\_Data.  \newline
+When converting a CAN message to bytes, one already knows the length of the message and consequently the whole conversion can be done in one procedure, Message\_To\_Bytes.
+
+\subsection{Interface code for the BBB}
+The BBB\_Can project uses the UartWrapper to send and receive data (in the form of bytes) on the UART. BBB\_Can provides three procedures: \emph{Init}, \emph{Send} and \emph{Get}. \newline
+emph{Init} simply initiates the UartWrapper. \newline
+The emph{Send} procedure takes a CAN message as an argument, it calls the \emph{Message\_To\_Bytes} procedure in \emph{CAN\_Utils} to get a string of bytes representing the CAN message and writes these bytes to the UART buffer using UartWrapper. \newline
+The Get function has three out parameters: \emph{msg} (the CAN message received), \emph{bMsgReceived} (a boolean value set true if a CAN message was received) and \emph{bUARTChecksumOK} (obsolete and should not be read). 
+
+The \emph{Get} procedure reads as much data that there is in the UART receive buffer and puts it a separate software buffer. The reason for this is that the UartWrapper does not provide a function for getting the number of bytes in the receive buffer without reading all bytes. \newline
+If there are enough data in the software buffer, the header of the next message is read and converted to a CAN message. Given this, the number of bytes in the message payload is known and the remaining bytes are read from the software buffer. If not all payload bytes have been read into the software buffer, more data is read from the UART receive buffer until enough bytes can be read.
+
+
+\subsection{The main program on the AT90CAN128}
