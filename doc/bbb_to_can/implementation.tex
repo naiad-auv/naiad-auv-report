@@ -3,11 +3,11 @@
 The implementation has the following parts:
 
 \begin{itemize}
-   \item { \em The UART drivers for the AT90CAN128 microcontroller} \newline This part is not described in this report.
-   \item { \em The CAN drivers for the AT90CAN128} \newline This part is not described in this report.
-   \item { \em Conversion between CAN message and strings of bytes } \newline This is implemented in the Can Utils project.
-   \item { \em The UART drivers for BeagleBone Black} \newline Code for putting data on the BBBs UART send buffer and read from the receive buffer.
-   \item { \em Interface code for the BBB } \newline This is implemented in the BBB\_Can project.
+   \item { \em The UART drivers for the AT90CAN128 microcontroller} \newline This part is described in the AT90CAN drivers report.
+   \item { \em The CAN drivers for the AT90CAN128} \newline This part is described in the AT90CAN drivers report.
+   \item { \em Conversion between CAN message and strings of bytes } \newline This is implemented in the Can\_Utils project.
+   \item { \em The UART drivers for BeagleBone Black} \newline This part is described in the BeaglBone Black drivers report.
+   \item { \em Interface code for the BBB} \newline This is implemented in the BBB\_Can project.
    \item { \em The main program on the AT90CAN128} \newline This is implemented in the AT90CAN\_Uart\_To\_Can project.
 \end{itemize}
 
@@ -20,26 +20,37 @@ The protocol for sending CAN messages over UART is made as simple as possible to
    \item { The payload of the message}
 \end{itemize}
 
-Each message is encoded in the form of a header of five bytes followed by the payload of zero to eight bytes. The first byte of the header includes the length of the message which is encoded by the four least significant bits. The fifth bit least significant bit is set to 1 if the message is extended and 0 if it isn't. 
+Each message is encoded in the form of a header of five bytes followed by the payload of zero to eight bytes. The first byte of the header includes the length of the message which is put in the four least significant bits. The fifth least significant bit is set to 1 if the message is extended and 0 if it isn't. 
 The following four bytes of the header represents the message ID. 
 After the header follows the payload bytes (if any). \newline
 Please note that no "start of message" or "end of message" flags are used.
 
+\emph{Please note:} This protocol is dependent on the number of bytes being precisely correct. If even one byte more or less than expected is sent, the offset caused by this will cause the the sender and receiver will become unsynchronized and the whole communication will be compromised. The same will happen if one or several bytes are lost due to a receive buffer overflowing for example. \newline
+
 %\subsection{Conversion between CAN message and bytes}
 Since conversions between CAN message and bytes would be done on both the BeagleBone Black, the AT90CAN128 and also in the Simulator, this functionality was put into the Can\_Utils emph{project}. \newline
 The Can\_Utils project has three functions: Message\_To\_Bytes, Bytes\_To\_Message\_Header and Bytes\_To\_Message\_Data.  \newline
-When converting bytes to a CAN message one will not know the length of message. Therefore one needs to first receive the bytes representing the the header, convert them to the header of the message in order to learn the length of the payload data and then read as many bytes as the payload contained. \newline
+When converting bytes to a CAN message one will not know the length of message. Therefore one first needs to receive the bytes representing the the header, convert them to the header of the message in order to learn the length of the payload data and then read as many bytes as the payload contained. \newline
 For this reason there are two procedures Bytes\_To\_Message\_Header and Bytes\_To\_Message\_Data.  \newline
 When converting a CAN message to bytes, one already knows the length of the message and consequently the whole conversion can be done in one procedure, Message\_To\_Bytes.
 
 \subsection{Interface code for the BBB}
-The BBB\_Can project uses the UartWrapper to send and receive data (in the form of bytes) on the UART. BBB\_Can provides three procedures: \emph{Init}, \emph{Send} and \emph{Get}. \newline
-emph{Init} simply initiates the UartWrapper. \newline
-The emph{Send} procedure takes a CAN message as an argument, it calls the \emph{Message\_To\_Bytes} procedure in \emph{CAN\_Utils} to get a string of bytes representing the CAN message and writes these bytes to the UART buffer using UartWrapper. \newline
-The Get function has three out parameters: \emph{msg} (the CAN message received), \emph{bMsgReceived} (a boolean value set true if a CAN message was received) and \emph{bUARTChecksumOK} (obsolete and should not be read). 
+The BBB\_Can project uses the UartWrapper to send and receive data on the UART. BBB\_Can provides three procedures: \emph{Init}, \emph{Send} and \emph{Get}. \newline
+\emph{Init} simply initiates the UartWrapper. \newline
+The \emph{Send} procedure takes a CAN message as an argument, it calls the \emph{Message\_To\_Bytes} procedure in \emph{CAN\_Utils} to get a string of bytes representing the CAN message and writes these bytes to the UART buffer using UartWrapper. \newline
+The \emph{Get} function has three out parameters: \emph{msg} (the CAN message received), \emph{bMsgReceived} (a boolean value set true if a CAN message was received) and \emph{bUARTChecksumOK} (which is obsolete and should not be read). 
 
-The \emph{Get} procedure reads as much data that there is in the UART receive buffer and puts it a separate software buffer. The reason for this is that the UartWrapper does not provide a function for getting the number of bytes in the receive buffer without reading all bytes. \newline
-If there are enough data in the software buffer, the header of the next message is read and converted to a CAN message. Given this, the number of bytes in the message payload is known and the remaining bytes are read from the software buffer. If not all payload bytes have been read into the software buffer, more data is read from the UART receive buffer until enough bytes can be read.
+The \emph{Get} procedure reads as much data that there is in the UART receive buffer and puts it a separate software buffer. The reason for this separate software is that the UartWrapper does not provide a function for getting the number of bytes in the receive buffer without reading all available bytes. \newline
+If there is enough data in the software buffer, the header of the message is read and converted to a CAN message. Given this, the number of bytes in the message payload is known and the remaining bytes are read from the software buffer. If not all payload bytes have been put into the software buffer, more data is read from the UART receive buffer until enough bytes can be read. The procedure will then return with the received CAN message and \emph{bMsgReceived} set true. \newline
+If not enough data for a full header has been received the procedure will return with \emph{bMsgReceived} set false, \emph{msg} will then be undefined and shall not be read.
 
 
 \subsection{The main program on the AT90CAN128}
+The main program has two main functions:
+
+\begin{itemize}
+   \item { \emph{Handle_Uart}} 
+   \item { \emph{Handle_Can}}
+\end{itemize}
+ It reads CAN messages from the CAN receive buffer and writes them on to the UART send buffer to the BBB and reads CAN messages from the UART receive buffer an writes them to the CAN send buffer. Since it is single threaded it will alternate between these tasks. \newline
+As mentioned, the protocol for the communication over UART is critically sensitive to an overflow in the receive buffer. For this reason the 
