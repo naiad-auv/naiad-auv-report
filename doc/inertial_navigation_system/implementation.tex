@@ -1,14 +1,20 @@
 
 \section{Implementation}\label{sec:implementation}
-The sensors used were the VN-100 inertial measurement unit from VectorNav Technologies and the 8088 000-112 Fiber optic gyro from SAAB. The VN-100 (refereed to as the "IMU") is a digital sensor and provides a serial interface. The Fiber optic gyro (refereed to as the "FOG") is an analog sensor and gives a analog voltage output proportional to the angular speed of rotation. \newline
+The sensors used were the VN-100 inertial measurement unit from VectorNav Technologies and the 8088 000-112 Fiber optic gyro from SAAB. The VN-100 (refereed to as the "IMU") is a digital sensor and provides a serial interface. The Fiber optic gyro (refereed to as the "FOG") is an analog sensor and gives a analog voltage output proportional to the angular speed of rotation. 
 
-\subsection{Interface with Inertial measurement unit}
+The software running on the Generic CAN controller is called AT90CAN\_Ins\_Controller and handles communication with the IMU and the ADC that is connected to the FOG as well as outputs the measurements from the sensors onto the CAN bus.
+
+\subsection{Inertial measurement unit}
 The IMU is powered by the +5V feed from the Generic CAN controller. It provides a serial interface at both 3.3 Volt TTL levels and RS-232 levels, neither of which can be directly connected to Generic CAN controller since UART busses on the AT90CAN128 microcontroller works at +5 Volt TTL levels. A level change was consequently needed. The MAX232 converter was chosen to convert from RS-232 levels to +5 Volt TTL levels since it needs only a 5 Volt supply. \newline
 The IMU has one output pin called \emph{SYNC\_OUT} that can be configured to output a synchronization pulse whenever the IMU has completed a measurement. The SYNC\_OUT pin is connected to Port, D pin 2 on the AT90CAN128. This pin is activates the \emph{external interrupt 2}. \newline
 The above configuration enables an interrupt service routine to be activated every time the IMU has made a measurement.\newline 
 \emph{Please note that this pin also is the receive pin on the UART1 bus.} 
 
-\subsection{Interface with Fiber optic gyroscope}
+\subsubsection{Interface}
+As mentioned, the IMU communicates over a serial interface and is connected to the UART0 bus of the AT90CAN128. 
+
+
+\subsection{Fiber optic gyroscope}
 Since the Fiber optic gyroscope is a high precision analog sensor great care has to be taken when designing its interface circuit. \newline
 The accuracy of the FOG is highly dependent on the power supply, any noise on the power supply will decrease accuracy. The same need for accuracy is present in the analog to digital conversion. Fortunately, the manufacturer provided the Naiad AUV project with a schematic for the circuit that is to be used for the analog to digital conversion. The analog to digital converter (ADC) used was the ADS1255 extremely low-noise, 24-bit analog to digital converter which has an SPI interface.
 
@@ -30,9 +36,8 @@ The ADS1255 is supplied by both 5 Volts and as well as 3.3 Volts. For this reaso
 
 Both the ADS1255 and the THS4131 require a voltage reference of 2.5 Volts. This voltage level needs to be very stable and noise free or accuracy of the whole circuit could be affected. The ADR421ARMZ ultraprecision, low noise voltage reference was used for this task.
 
-
-\subsection{Software}
-The software running on the Generic CAN controller is 
+\subsubsection{Interface}
+The analog to digital converter communicates with the AT90CAN128 using SPI...  <INSERT MORE TEXT ABOUT THE SPI COMMUNICATION WITH THE ADC!!!>
 
 
 
