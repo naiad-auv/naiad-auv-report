@@ -1,6 +1,8 @@
 
 \section{Implementation}\label{sec:implementation}
-The sensors used were the VN-100 inertial measurement unit from VectorNav Technologies and the 8088 000-112 Fiber optic gyro from SAAB. The VN-100 (refereed to as the "IMU") is a digital sensor and provides a serial interface. The Fiber optic gyro (refereed to as the "FOG") is an analog sensor and gives a analog voltage output proportional to the angular speed of rotation. 
+The sensors used were the VN-100 inertial measurement unit from VectorNav Technologies and the 8088 000-112 Fiber optic gyro from SAAB. The VN-100 (refereed to as the "IMU") is a digital sensor and provides a serial interface. The IMU's  maximum output rate of 200 samples per second is used. The IMU can output angular rates of rotation, orientation, acceleration as well as the output from the magnetometer. The orientation can be configured in several different formats including quaternion, directional cosine orientation matrix and yaw, pitch and roll readings. Yaw, pitch and roll readings were chosen since this is the most compact way of describing the orientation.
+
+The Fiber optic gyro (refereed to as the "FOG") is an analog sensor and gives a analog voltage output proportional to the angular speed of rotation. 
 
 The software running on the Generic CAN controller is called AT90CAN\_Ins\_Controller and handles communication with the IMU and the ADC that is connected to the FOG as well as outputs the measurements from the sensors onto the CAN bus.
 
@@ -10,13 +12,39 @@ The IMU has one output pin called \emph{SYNC\_OUT} that can be configured to out
 The above configuration enables an interrupt service routine to be activated every time the IMU has made a measurement.\newline 
 \emph{Please note that this pin also is the receive pin on the UART1 bus.} 
 
-\subsubsection{Interface}
-As mentioned, the IMU communicates over a serial interface and is connected to the UART0 bus of the AT90CAN128. 
+\subsubsection{Software interface}
+As mentioned, the IMU communicates over a serial interface and is connected to the UART0 bus of the AT90CAN128. The AT90CAN\_Ins\_Controller software starts by initiating the UART to run at a baud-rate of 115200 baud. \newline
+The default mode of the IMU outputs data at an undesired rate and format. Hence a set of commands, shown in Table \ref{table:IMU_messages} in chronological order, need to be sent. The default baud-rate of the IMU is 115200 baud which is too slow for the highest output, hence the command to switch the baud-rate is sent. \newline
+The commands sent to the IMU start with a dollarsign "§", followed by "VNRRG" that indicates that one wants to write to a register, a comma, a two digit number indicating the ID of the register, a comma, register specific parameters, an asterisk "*", a checksum and finally ending with a newline character. 
+The first message sent turns off the use of checksums since checksums were not considered needed. \newline
+After the messages are sent the UART bus is reinitialized to run at 230.4 kBaud. The receive buffer is flushed to remove any old irrelevant data.
+
+As mentioned, an external interrupt service routine (ISR) is activated each time the IMU finishes a measurement. Since the process of receiving and interpret a response from the IMU, this cannot be done in an ISR. Hence, the ISR will only set a boolean flag when an interrupt occurs. \newline
+
+
+
+\begin{table*}
+\centering
+    \caption{Messages sent to initiate the IMU}
+    \begin{tabular}{|p{2.5cm}|l|p{6cm}|} \hline
+    \label{table:IMU_messages}
+    	\textbf{Command name} & \textbf{Command string} & \textbf{Meaning} \\ \hline
+        Communication Protocol Control & \$VNWRG,30,0,0,0,0,0,0,1 *68 & Turns of checksums, sets error messages to be returned by IMU if incorrect messages are received, and turns off some other functions. \\ \hline
+        Async Data Output Type Register & \$VNWRG,06,0* & Turns off asynchronous output to avoid unwanted data. \\ \hline
+        Async Data Output Frequency Register & \$VNWRG,07,200* & Sets asynchronous output rate to 200 Hz. \\ \hline        
+        Synchronization Control & \$VNWRG,32,3,0,1,0,3,1,1,500000,0* & Configures the synchronization pulse. \\ \hline
+        VPE Basic Control & \$VNWRG,35,1,2,1,1* & Various settings for the attitude filtering algorithm. \\ \hline
+        Async Data Output Type Register & \$VNWRG,06,16* & Sets asynchronous output to "Yaw, Pitch, Roll, Body True Acceleration, and Angular Rates". \\ \hline
+        Serial Baud Rate Register & \$VNWRG,05,230400* & Sets the baud-rate to 230.4 kBaud. \\ \hline        
+    \end{tabular}
+\end{table*}
+
+
 
 
 \subsection{Fiber optic gyroscope}
-Since the Fiber optic gyroscope is a high precision analog sensor great care has to be taken when designing its interface circuit. \newline
-The accuracy of the FOG is highly dependent on the power supply, any noise on the power supply will decrease accuracy. The same need for accuracy is present in the analog to digital conversion. Fortunately, the manufacturer provided the Naiad AUV project with a schematic for the circuit that is to be used for the analog to digital conversion. The analog to digital converter (ADC) used was the ADS1255 extremely low-noise, 24-bit analog to digital converter which has an SPI interface.
+Since the Fiber optic gyroscope is a high precision analog sensor great care has to be taken when designing its interface circuit in order to attain full precision. \newline
+The accuracy of the FOG is highly dependent on the quality of the power supply, any noise on the power supply will decrease accuracy. The same need for accuracy is present in the analog to digital conversion. Fortunately, the manufacturer provided the Naiad AUV project with a schematic for the circuit that is to be used for the analog to digital conversion. The analog to digital converter (ADC) used was the ADS1255 extremely low-noise, 24-bit analog to digital converter which has an SPI interface.
 
 \subsubsection{Power supply}
 The FOG has three power lines, +12 Volts, -12 Volts and +5 Volts as well as a power ground and a signal ground. \newline
@@ -36,7 +64,7 @@ The ADS1255 is supplied by both 5 Volts and as well as 3.3 Volts. For this reaso
 
 Both the ADS1255 and the THS4131 require a voltage reference of 2.5 Volts. This voltage level needs to be very stable and noise free or accuracy of the whole circuit could be affected. The ADR421ARMZ ultraprecision, low noise voltage reference was used for this task.
 
-\subsubsection{Interface}
+\subsubsection{Software interface}
 The analog to digital converter communicates with the AT90CAN128 using SPI...  <INSERT MORE TEXT ABOUT THE SPI COMMUNICATION WITH THE ADC!!!>
 
 
