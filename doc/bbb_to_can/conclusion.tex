@@ -1,9 +1,9 @@
 
 \section{Conclusion}\label{sec:conclusion}
-As mentioned in Section ~\ref{sec:result}, the implementation made of the BeagleBone Black to CAN communication has worked well. There are however a few ways the design could be improved with future work.
+As mentioned in Section ~\ref{sec:result}, the implementation of the BeagleBone Black to CAN communication has worked well. However, there are ways the current design can be improved.
 
 \subsection{Future work}
-As mentioned, the protocol for the communication over UART is based on the number of bytes being correct at any time. One could implement some form of "start of message" and "end of message" flags to signal the start and end of messages. This way one could ensure that if one message is sent incorrectly, with too many or too few bytes, the receiver would be able to find the "start of message" and "end of message" flags and regain synchronization. \newline
+As mentioned in the previous sections, the protocol for the communication over UART is based on the sequence of bytes being correct at any time. One could implement some form of "start of message" and "end of message" flags to signal the start and end of messages. This way one could ensure that if one message is sent incorrectly, with too many or too few bytes, the receiver would be able to find the "start of message" and "end of message" flags and regain synchronization. \newline
 Since any byte value can be sent in the payloads of the CAN messages, there is not any pattern of bytes that one can assume will not occur in the data that is to be sent over UART. Because of this, the one has to implement some form of byte stuffing in order to handle this.
 
 To improve the communication speed, the UART communication could be replaced and be done via SPI instead. This would require rewriting some of the AT90CAN\_Uart\_To\_Can code as well as implementing SPI on the BBB.
