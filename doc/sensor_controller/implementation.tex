@@ -1,19 +1,53 @@
 % TODO: Insert references to sensor datasheets
+% TODO: Write about how analog readings are converted to pressure
 
 \section{Implementation}\label{sec:implementation}
 The temperature sensor used was the \emph{DS18B20} digital temperature sensor. This sensor communicates over a 1-Wire interface. Since the Generic CAN controller does not have a 1-Wire interface a <INSERT NAME OF 1-WIRE INTERFACE CIRCUIT> was used to convert between the 1-wire and UART (which the Generic CAN controller supports).
 
-The pressure sensor used was the \emph{IMCL Low Cost Submersible Pressure Sensor}. The interface from the pressure sensor could be chosen when ordering the sensor so a simple analog voltage in the 0 to 5 Volt range was chosen since this is the range of the analog-to-digital converter on the AT90CAN128 microcontroller. Consequently, no interface circuitry was needed for the pressure sensor.
+The pressure sensor used was the \emph{IMCL Low Cost Submersible Pressure Sensor}. The interface from the pressure sensor could be chosen when ordering the sensor so a simple analog voltage in the 0 to +5 Volt range was chosen since this is the range of the analog-to-digital converter on the AT90CAN128 microcontroller. Consequently, no interface circuitry was needed for the pressure sensor.
 
-The salinity sensor chosen was the \emph{Atlas Scientific E.C Circuit}. The E.C Circuit is connected to a probe whose output the E.C Circuit measures. The E.C Circuit has a serial interface that is connected to one of the UART busses of the AT90CAN128 microcontroller. The E.C Circuit outputs the conductivity of the water, the Total Dissolved Solids (TDS) of salt in the water as well as the salinity expressed as an integer number in the Practical Salinity scale 1978. Out of these, only the last is used. \newline
+The salinity sensor chosen was the \emph{Atlas Scientific E.C Circuit}. The E.C Circuit is connected to a probe whose output the E.C Circuit measures. The E.C Circuit has a serial interface that is connected to one of the UART busses of the AT90CAN128 microcontroller. No level conversion is needed since the E.C Circuit's serial interface uses +5 Volt TTL levels. \newline
+The E.C Circuit outputs the conductivity of the water, the Total Dissolved Solids (TDS) of salt in the water as well as the salinity expressed as an integer number in the Practical Salinity scale 1978. Out of these, only the last is used. \newline
+Three types of probes can be used. One for fresh water, one for brackish water and one for salt water. The ranges of salinity each probe can measure do overlap, but one will still need to choose the correct probe or the salinity reading can come out of range. 
+
+Readings from all sensor will be put in the same CAN message containing 5 payload bytes according to Table \ref{table:Sensor_Message}. This CAN message is called the \emph{Sensor\_Message} and is sent at regular intervals.
+
+\begin{table*}
+\centering
+    \caption{Payload bytes of the Sensor CAN message}
+    \begin{tabular}{|l|l|p{11cm}|} \hline
+    \label{table:Sensor_Message}
+    	\textbf{Bytes} & \textbf{Data type} & \textbf{Meaning} \\ \hline
+        1 - 2 & Integer\_16 & Temperature in 16ths of degrees C, e.g. +20.25 will be sent as 324 \newline 
+        (00000001 01000100 in binary). \\ \hline
+        3 - 4 & Unsigned\_16 & Pressure in <FILL IN MORE>. \\ \hline
+        5  & Unsigned\_8 & Salinity in the Practical salinity scale, 0-42. 255 means that the value is out of range. 254 means no measurement has yet been done. \\ \hline
+    \end{tabular}
+\end{table*}
 
 \subsubsection{Temperature sensor}
-<CEZAR PLEASE FILL THIS IN>
+<CEZAR, PLEASE FILL THIS IN>
 
 \subsubsection{Pressure sensor}
-
+Since the pressure sensor is analog, the AVR.AT90CAN128.ADC library is used to read the analog output of the sensor whenever a CAN message is to be sent with sensor readings. This value is converted to <FILL THIS IN>.
 
 
 \subsubsection{Salinity sensor}
-The E.C Circuit is a circuit in itself 
+The E.C Circuit is a circuit board in itself with header pins on its underside. These are in turn connected to matching  header sockets on the Sensor Controller Board. \newline
+The E.C Circuit is dependent on a temperature reading of the water in order to provide accurate readings. Hence, the AT90CAN\_Sensor\_Controller software first makes a temperature measurement before sending a command to the the E.C Circuit. The command will be of the following format:
+
+\begin{quote}
+17.5,C\emph{<carrage return>}
+\end{quote}
+
+The "17.5" is the measured temperature, the "C" tells the E.C Circuit to make continuous measurements. When the temperature changes, a new command is sent to the E.C Circuit in order to keep it updated with an accurate temperature reading. \newline
+The responses from the E.C Circuit have the following format:
+
+\begin{quote}
+50000,32800,32\emph{<carrage return>}
+\end{quote}
+
+The last number ("32" in this example) represents the salinity in the Practical Salinity scale 1978. The two other numbers represent the conductivity of the water, the Total Dissolved Solids (TDS) of salt in the water and are discarded. The salinity reading will be in the range 0 to 42. If the reading was out of range the value "\--\--" will replace the numerical value. \newline
+The salinity reading will be output from the E.C Circuit at regular intervals. The latest reading is stored as a variable so that it can easily be fetched when it is time to send a CAN message with sensor data.
+
 
