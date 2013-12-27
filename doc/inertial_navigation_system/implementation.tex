@@ -14,7 +14,7 @@ The above configuration enables an interrupt service routine to be activated eve
 
 \subsubsection{Software interface}
 As mentioned, the IMU communicates over a serial interface and is connected to the UART0 bus of the AT90CAN128. The AT90CAN\_Ins\_Controller software starts by initiating the UART to run at a baud-rate of 115200 baud. \newline
-The default mode of the IMU outputs data at an undesired rate and format. Hence a set of commands, shown in chronological order in Table \ref{table:IMU_messages}, need to be sent to configure the IMU. The default baud-rate of the IMU is 115200 baud which is too slow for the highest output rate, for this reason a command to switch the baud-rate is sent. \newline
+The default mode of the IMU outputs data at an undesired rate and format. Hence a set of commands, shown in chronological order in Table ~\ref{table:IMU_messages}, need to be sent to configure the IMU. The default baud-rate of the IMU is 115200 baud which is too slow for the highest output rate, for this reason a command to switch the baud-rate is sent. \newline
 The commands sent to the IMU start with a dollarsign "\$", followed by "VNRRG" that indicates that one wants to write to a register, a comma, a two digit number indicating the ID of the register, a comma, register specific parameters, an asterisk "*", a checksum and finally a newline character. 
 The first message sent turns off the use of checksums since checksums were not considered to be needed. \newline
 After the messages are sent the UART bus is reinitialized to run at 230.4 kBaud. The receive buffer is flushed to remove any old irrelevant data.
