@@ -1,0 +1,19 @@
+% TODO: Insert references to sensor datasheets
+
+\section{Implementation}\label{sec:implementation}
+The temperature sensor used was the \emph{DS18B20} digital temperature sensor. This sensor communicates over a 1-Wire interface. Since the Generic CAN controller does not have a 1-Wire interface a <INSERT NAME OF 1-WIRE INTERFACE CIRCUIT> was used to convert between the 1-wire and UART (which the Generic CAN controller supports).
+
+The pressure sensor used was the \emph{IMCL Low Cost Submersible Pressure Sensor}. The interface from the pressure sensor could be chosen when ordering the sensor so a simple analog voltage in the 0 to 5 Volt range was chosen since this is the range of the analog-to-digital converter on the AT90CAN128 microcontroller. Consequently, no interface circuitry was needed for the pressure sensor.
+
+The salinity sensor chosen was the \emph{Atlas Scientific E.C Circuit}. The E.C Circuit is connected to a probe whose output the E.C Circuit measures. The E.C Circuit has a serial interface that is connected to one of the UART busses of the AT90CAN128 microcontroller. The E.C Circuit outputs the conductivity of the water, the Total Dissolved Solids (TDS) of salt in the water as well as the salinity expressed as an integer number in the Practical Salinity scale 1978. Out of these, only the last is used. \newline
+
+\subsubsection{Temperature sensor}
+<CEZAR PLEASE FILL THIS IN>
+
+\subsubsection{Pressure sensor}
+
+
+
+\subsubsection{Salinity sensor}
+The E.C Circuit is a circuit in itself 
+
