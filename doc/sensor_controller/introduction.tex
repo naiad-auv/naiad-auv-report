@@ -1,0 +1,11 @@
+
+\section{Introduction}\label{sec:introduction}
+The Customer's demands on the Naiad AUV included that there should be a sensor for the pressure, temperature and salinity of the water. The need for these readings are the following: \newline
+The speed of sound in water is needed to get accurate positional readings from sensors such as sonar and hydrophones, these only measure the time it takes for sound to travel a certain distance, multiplication with the speed of sound gives the distance travelled by the sound. \newline
+The salinity of the water will affect the density of the water, given an estimation of the density of the water a pressure reading will give an estimation of which depth the AUV is at, this reading will not be affected by drift (unlike for example inertial sensors).
+
+A Generic CAN controller was used to handle the sensors. The \emph{Generic CAN controller} is a small (approx. 76 by 40 millimetres) electronic board that has an AT90CAN128 microcontroller, an MCP2551 CAN transceiver and all the peripheral circuitry needed for these as well as its own power supply. The Generic CAN controller is used throughout the project for several tasks. It can be connected to the CAN bus and has two UART buses as well as an SPI bus. \newline
+An electronic board known as the \emph{Sensor Controller Board} was build to provide an electrical interface between the sensors and the Generic CAN controller. The Sensor Controller Board is "stacked" on top of the Generic CAN controller. \newline
+The AT90CAN128 microcontroller on the Generic CAN controller runs a program known as the \emph{AT90CAN\_Sensor\_Controller} that reads the sensor values and output their readings on the CAN bus.
+
+
