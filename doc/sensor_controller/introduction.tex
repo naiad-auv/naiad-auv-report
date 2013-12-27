@@ -1,6 +1,6 @@
 
 \section{Introduction}\label{sec:introduction}
-The Customer's demands on the Naiad AUV included that there should be a sensor for the pressure, temperature and salinity of the surrounding water. These readings are needed for the following reasons: \newline
+The Customer's demands on the Naiad AUV included that there should be sensors for the pressure, temperature and salinity of the surrounding water. These readings are needed for the following reasons: \newline
 The speed of sound in water is needed to get accurate positional readings from sensors such as sonar and hydrophones, since these only measure the time it takes for sound to travel a certain distance, multiplication with the speed of sound gives the distance travelled by the sound. \newline
 The salinity of the water will affect the density of the water, given an estimation of the density of the water a pressure reading will give an estimation of which depth the AUV is at. This reading will not be affected by drift (unlike for example inertial sensors).
 
@@ -9,4 +9,5 @@ An electronic board known as the \emph{Sensor Controller Board} was build to pro
 The AT90CAN128 microcontroller on the Generic CAN controller runs a program known as the \newline
 \emph{AT90CAN\_Sensor\_Controller} that reads the sensor values and outputs their readings on the CAN bus.
 
+Due to the financial situation of the project, the salinity sensor was never purchased and because of this no circuitry or software regarding  the salinity sensor could ever be tested. 
 
