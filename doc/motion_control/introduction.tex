@@ -1,0 +1,17 @@
+% Do NOT change this "Section" title
+% and do NOT add more "Section" level titles.
+\section{Introduction}\label{sec:introduction}
+
+This report will cover the motion control system in the Naiad AUV. Then Naiad UAV is a robotics project at Mälardalens University autumn of 2013. The goal of the project is to build a autonomous underwater vehicle for salvaging of industrial waste in BOTTENVIKEN. 
+
+In this report we will go over the reasoning and the implementation of the motion control system for the Naiad AUV. 
+
+The motion control system for the Naiad AUV is a layerd software system which has its basis in PID control. Each component of the current location(orientation and position) of the craft is controlled by a PID controller. 
+
+All PID based calculations are based in a optimal thruster configuration where each thruster only affects one component.
+
+A conversion from the optimal to the real system is done through Gaussian elimination on a matrix that represents each thrusters effect on each component in the actual craft.
+
+With this approach the flow of data in the system is easy to follow and it provide the Naiad AUV with a reliable motion control system that executes its task flawlessly with proper configuration.
+
+The report is organized as follows, in section 2 the methodology used is explained. In section 3 the implementation of the system in question is explained. In section 4 the results are shown and in section 5 the authors conclusions are given. 
