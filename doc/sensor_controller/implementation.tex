@@ -2,15 +2,15 @@
 % TODO: Write about how analog readings are converted to pressure 
 
 \section{Implementation}\label{sec:implementation}
-The temperature sensor used was the \emph{DS18B20} digital temperature sensor. This sensor communicates over a 1-Wire interface. Since the Generic CAN controller does not have a 1-Wire interface a <INSERT NAME OF 1-WIRE INTERFACE CIRCUIT> was used to convert between the 1-wire and UART (which the Generic CAN controller supports).
+The temperature sensor used was the \emph{DS18B20} digital temperature sensor~\cite{web:ds18b20}. This sensor communicates over a 1-Wire interface. Since the Generic CAN controller does not have a 1-Wire interface a <INSERT NAME OF 1-WIRE INTERFACE CIRCUIT> was used to convert between the 1-wire and UART (which the Generic CAN controller supports).
 
-The pressure sensor used was the \emph{IMCL Low Cost Submersible Pressure Sensor}. The interface from the pressure sensor could be chosen when ordering the sensor so a simple analog voltage in the 0 to +5 Volt range was chosen since this is the range of the analog-to-digital converter on the AT90CAN128 microcontroller. Consequently, no interface circuitry was needed for the pressure sensor.
+The pressure sensor used was the \emph{IMCL Low Cost Submersible Pressure Sensor}~\cite{web:imcl}. The interface from the pressure sensor could be chosen when ordering the sensor so a simple analog voltage in the 0 to +5 Volt range was chosen since this is the range of the analog-to-digital converter on the AT90CAN128 microcontroller. Consequently, no interface circuitry was needed for the pressure sensor.
 
-The salinity sensor chosen was the \emph{Atlas Scientific E.C Circuit}. The E.C Circuit is connected to a probe whose output the E.C Circuit measures. The E.C Circuit has a serial interface that is connected to one of the UART busses of the AT90CAN128 microcontroller. No level conversion is needed since the E.C Circuit's serial interface uses +5 Volt TTL levels. \newline
+The salinity sensor chosen was the \emph{Atlas Scientific E.C Circuit}~\cite{web:ec_circuit}. The E.C Circuit is connected to a probe whose output the E.C Circuit measures. The E.C Circuit has a serial interface that is connected to one of the UART busses of the AT90CAN128 microcontroller. No level conversion is needed since the E.C Circuit's serial interface uses +5 Volt TTL levels. \newline
 The E.C Circuit outputs the conductivity of the water, the Total Dissolved Solids (TDS) of salt in the water as well as the salinity expressed as an integer number in the Practical Salinity scale 1978. Out of these, only the last is used. \newline
 Three types of probes can be used. One for fresh water, one for brackish water and one for salt water. The ranges of salinity each probe can measure do overlap, but one will still need to choose the correct probe or the salinity reading can come out of range. 
 
-Readings from all sensor will be put in the same CAN message containing 5 payload bytes according to Table ~\ref{table:SensorMessage}. This CAN message is called the \emph{Sensor\_Message} and is sent at regular intervals.
+Readings from all sensor will be put in the same CAN message containing 5 payload bytes according to Table~\ref{table:SensorMessage}. This CAN message is called the \emph{Sensor\_Message} and is sent at regular intervals.
 
 \begin{table*}
 \centering
@@ -33,7 +33,7 @@ Since the pressure sensor is analog, the AVR.AT90CAN128.ADC library is used to r
 
 
 \subsection{Salinity sensor}
-The E.C Circuit is a circuit board in itself with header pins on its underside. These are in turn connected to matching  header sockets on the Sensor Controller Board. \newline
+The E.C Circuit~\cite{web:ec_circuit} is a circuit board in itself with header pins on its underside. These are in turn connected to matching  header sockets on the Sensor Controller Board. \newline
 The E.C Circuit is dependent on a temperature reading of the water in order to provide accurate readings. Hence, the AT90CAN\_Sensor\_Controller software first makes a temperature measurement before sending a command to the the E.C Circuit. The command will be of the following format:
 
 \begin{quote}
