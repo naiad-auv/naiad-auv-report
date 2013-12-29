@@ -1,10 +1,21 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Introduction}\label{sec:introduction}
-Text
+One of the requirement for the project the autonomous underwater vehicle were to use hydrophone to be able to listen to ping signals and locate them in two or three space, also the AUV should be able to move to the vicinity of the pinger. The way to listen to the pinger is to designs and builds hydrophones circuits for the listening professionally.
+  
+Whenever the hydrophone circuit received signals even in low or high frequencies should process this signals to best way.In the future,this work will help for better accurate in this area.       
 
 % You can use how many "subsections" and "subsubsections" you like.
-\subsection{Subsection}
-Text. This is a reference to table \ref{table:one_column}.
-\subsubsection{Subsubsection1}
-Text. This is a reference to table \ref{table:two_columns}.
+\subsection{Hydrophone circuit}
+The hydrophone that has been used in AUV made by Aquarian Audio Products who has sensor that capable of picking up sounds from below 20Hz to over 100KHz, the challenge of this frequencies range is to find amplifier circuit that deal with this range of the frequencies.
+Hydrophone circuit should be combine a matched sensor and FET ((Field Effect Transistor )) buffer amplifier combination that produces an output electrically signals.
+\newline Whenever the hydrophone circuit received the signal will increase the power of the signal and rectifier it to achieve full-wave rectification. 
+Many of the future electronics has a full selection of BR (bridge Rectifier ) IC (integrated cct ) that can used in our AUV project.
+\newline Simply the  question is to find OP amplifier integrate circuit that can deal with the range of the frequency that hydrophone deal with.  
+After it achieved full-wave rectification, the signal will pass through low pass filter that allow low frequencies to pass by, in other hand the high frequency signal will prevent to pass so the signal more likely go to ground instead of output depending on the cut-off frequency.
+
+Last process to the signal is to make comparator with two different threshold voltage level,the comparator switch high when ever the input voltage goes over the high threshold level and remain in this level until the comparator goes low when the input voltage goes under the low threshold level,this process called Schmitt Trigger process.
+        
+% This is a reference to table \ref{table:one_column}.
+%\subsubsection{Subsubsection1}
+%Text. This is a reference to table \ref{table:two_columns}.

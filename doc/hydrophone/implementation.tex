@@ -1,27 +1,41 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Implementation}\label{sec:implementation}
-Text
+The implementation has the following parts :
 
 % You can use how many "subsections" and "subsubsections" you like.
-\subsection{Subsection}
-Text
-\subsubsection{Subsubsection1}
-Test of one column figure. It should be shown as close as possible to this
-text. If you can't see the figure its number is \ref{fig:one_column_figure}
-and located on page \pageref{fig:one_column_figure}.
-\begin{figure}[h]
-    \includegraphics[width=0.5\textwidth]{./figure/figureA.png}
-    \caption{Figure A}
-    \label{fig:one_column_figure}
-\end{figure}
+\subsection{Hardware}
+The hardware section include three circuits :
+\begin{itemize}
+   \item { \em Bridge amplifier circuit.}
+   \item { \em Low pass filter. }
+   \item { \em Schmitt trigger circuit. }
+\end{itemize}
+\subsubsection{Amplifier circuit }
+The hydrophone cct is powered by the +12V , -12V feed from the Generic CAN controller. Amplifier circuit used OP amp named OP42GPZ - OP AMP, this OP amplifier is fast precision JFET (( The junction gate field-effect transistor )) input opertianal amplifier.
+According to typical performance characteristics and electrical characteristics, the gain bandwidth of this product has 10 Mhz, this band width is suitable to our hydrophone circuit, also OP amplifier is supplied with current less than 6 mA.
+In the rectifier circuit design it taken a great care to attain high precision analog signal by using   schottky diode whose characterized by low voltage drop and fast switching time.
+The result that has been achieved by using schottky diode is more accurate than using other type of diodes.  
 
-\subsubsection{Subsubsection1}
-Test of two columns figure. It should be shown at the top of a page. If you
-can't see the figure its number is \ref{fig:two_column_figure}
-and located on page \pageref{fig:two_column_figure}.
-\begin{figure*}[t]
-    \includegraphics[width=1.0\textwidth]{./figure/figureB.png}
-    \caption{Figure B}
-    \label{fig:two_column_figure}
-\end{figure*}
+\subsubsection{Low pass filter}
+Since low pass filter allow just low frequencies to pass or attenuates frequencies higher than the cutoff frequency.
+Hydrophone circuit will pass just limited range of frequencies to avoid noises or other sounds, any noise on the hydrophone circuit will decrease accuracy.    
+ 
+ \subsubsection{Schmitt trigger  circuit}
+The schmitt trigger circuit used in the circuit is the TL084BCNG4 - IC, OP AMP, this OP amplifier designed with higher slew rates 13V/µs, supply voltage +12v and 3 Mhz band width that cover the frequancy range with hydrophone circuit. 
+The comparator that will achieved from Schmitt trigger will let << INSERT SOME TEXT >> 
+ 
+%\subsubsection{Subsubsection1}
+%Test of one column figure. It should be shown as close as possible to this
+%text. If you can't see the figure its number is \ref{fig:one_column_figure}
+%and located on page \pageref{fig:one_column_figure}.
+
+%\begin{figure}[h]
+%    \includegraphics[width=0.5\textwidth]{./figure/figureA.png}
+%   \caption{Figure A}
+%   \label{fig:one_column_figure}
+%\end{figure}
+\subsection{Software }
+
+%\subsubsection{Subsubsection1}
+%
