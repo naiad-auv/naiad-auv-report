@@ -7,7 +7,8 @@ usage: $0 -t REPORT_TYPE
 Valid options for REPORT_TYPE are:
     all (default)
     technical (only the technical stuff)
-    competition (one report for the competitions)
+    lessons_learned (only leassons learned stuff)
+    competition (one overview report for the competitions)
 
 OPTIONS:
     -h      Shows this message
@@ -47,7 +48,10 @@ then
 fi
 
 # Checking if the input values are set properly
-if [[ $REPORT_TYPE != "all" && $REPORT_TYPE != "next_year" && "competition" ]]; then
+if [[ $REPORT_TYPE != "all"
+        && $REPORT_TYPE != "technical"
+        && $REPORT_TYPE != "competition"
+        && $REPORT_TYPE != "lessons_learned" ]]; then
      usage
      exit 1
 fi
@@ -72,14 +76,30 @@ fi
 # suggestions for the upcoming projects in the future.
 #
 # technical: All the reports that have any technical details about the AUV.
-TECHNICAL="space_plug_and_play_avionics
-            ip_over_can_bus"
+TECHNICAL="bbb_to_can
+            space_plug_and_play_avionics
+            ip_over_can_bus
+            hydrophone
+            inertial_navigation_system
+            motion_control
+            pneumatics_controller
+            sensor_controller"
+
+LL="hardware_managers_lessons_learned"
+
+COMPETITION="naiad_overview"
 
 # Leave empty
 REPORTS=
 
 if [[ $REPORT_TYPE == "all" ]]; then
-    REPORTS=$TECHNICAL
+    REPORTS="$COMPETITION $TECHNICAL $LL"
+elif [[ $REPORT_TYPE == "lessons_learned" ]]; then
+    REPORTS="$LL"
+elif [[ $REPORT_TYPE == "technical" ]]; then
+    REPORTS="$TECHNICAL"
+elif [[ $REPORT_TYPE == "competition" ]]; then
+    REPORTS="$COMPETITION"
 fi
 
 ### Generate all reports
