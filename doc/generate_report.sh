@@ -99,3 +99,41 @@ done
 
 pdftk $PDF_FILES_TO_MERGE cat output $REPORT_TYPE.pdf
 
+### Count number of pages
+PAGES=$( pdfinfo $REPORT_TYPE.pdf | grep 'Pages' - | awk '{print $2}' )
+
+mkdir -pv tempFolder123
+mv $REPORT_TYPE.pdf tempFolder123/$REPORT_TYPE.pdf
+
+### Generate page number document
+cd tempFolder123
+
+cat > ./pagenumbers.tex <<EOF
+\documentclass[12pt,a4paper]{article}
+\usepackage{multido}
+\usepackage[hmargin=.8cm,vmargin=1.5cm,nohead,nofoot]{geometry}
+\begin{document}
+\multido{}{$PAGES}{\vphantom{x}\newpage}
+\end{document}
+EOF
+
+pdflatex pagenumbers.tex
+
+pdftk $REPORT_TYPE.pdf burst output file_%03d.pdf
+pdftk pagenumbers.pdf burst output number_%03d.pdf
+
+time for i in $(seq -f %03g 1 $PAGES) ; do \
+    pdftk file_$i.pdf background number_$i.pdf output new-$i.pdf ; done
+
+pdftk new-???.pdf output $REPORT_TYPE.pdf
+
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE \
+    -dQUIET -dBATCH -sOutputFile=$REPORT_TYPE-compressed.pdf $REPORT_TYPE.pdf
+
+cd ..
+
+mv tempFolder123/$REPORT_TYPE.pdf .
+mv tempFolder123/$REPORT_TYPE-compressed.pdf .
+
+### Remove temporary folder
+rm -rf tempFolder123
