@@ -29,7 +29,7 @@ Readings from all sensor will be put in the same CAN message containing 5 payloa
 <CEZAR, PLEASE FILL THIS IN>
 
 \subsection{Pressure sensor}
-Since the pressure sensor is analog, the AVR.AT90CAN128.ADC library is used to read the analog output of the sensor whenever a CAN message is to be sent with sensor readings. This value is converted to <TO BE FILLED IN>.
+Since the pressure sensor is analog, the AVR.AT90CAN128.ADC library is used to read the analog output of the sensor whenever a CAN message is to be sent with sensor readings. This analog-to-digital value is converted to millibars before being being sent as a CAN message. 
 
 
 \subsection{Salinity sensor}
