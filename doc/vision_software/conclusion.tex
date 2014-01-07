@@ -1,7 +1,32 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Conclusion}\label{sec:conclusion}
-Text
+Future work:
+
+
+Testing
+The system can be tested fully using integration, unit tests, acceptance tests. These would have to be wrote manually as the test suite a-unit cannot be used with the bindings.
+
+Integrating disparity maps with velocity estimator func
+the disparity map can be integrated with the velocity estimator function to recieve the estimated distance in centimeters instead of estimated pixels.
+
+Integrating Can to the system
+The can controller for the gimme2 has been completed by the vision firmware team. this code must be added to the vision software system main file.
+
+Instruction handling system
+A system for handling messages from mission control must be implemented.
+
+PCL
+
+-euclidean segmentation
+a Euclidean segmentation module can be implemented to segment planes in a point cloud. 
+
+-triangulation mesh
+constructing a triangular mesh around the point cloud, effectively turning the pointcloud from a group of points to a reconstructed surface can be implemented.
+
+-coloring in mesh
+The reconstructed triangular mesh can then be “colored in” using the color intensity values from the original stereo images.
+
 
 % You can use how many "subsections" and "subsubsections" you like.
 \subsection{Subsection}
