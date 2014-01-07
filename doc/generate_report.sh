@@ -72,7 +72,8 @@ fi
 # suggestions for the upcoming projects in the future.
 #
 # technical: All the reports that have any technical details about the AUV.
-TECHNICAL="space_plug_and_play_avionics
+TECHNICAL="bbb_to_can
+            space_plug_and_play_avionics
             ip_over_can_bus"
 
 # Leave empty
