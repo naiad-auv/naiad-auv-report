@@ -85,9 +85,9 @@ TECHNICAL="bbb_to_can
             motion_control
             simulator
             pneumatics
-            pneumatics_controller
             thruster_controller
-            sensor_controller"
+            sensor_controller
+            vision_hardware"
 
 LL="hardware_managers_lessons_learned
      development_and_operations
@@ -112,6 +112,9 @@ fi
 for report in $REPORTS
 do
     cd $report
+    echo '""""""""'
+    echo $report
+    echo '""""""""'
     make
     cd ..
 done
