@@ -77,15 +77,21 @@ fi
 #
 # technical: All the reports that have any technical details about the AUV.
 TECHNICAL="bbb_to_can
+            bootloader_and_configuration_manager
             space_plug_and_play_avionics
             ip_over_can_bus
             hydrophone
             inertial_navigation_system
             motion_control
+            simulator
+            pneumatics
             pneumatics_controller
+            thruster_controller
             sensor_controller"
 
-LL="hardware_managers_lessons_learned"
+LL="hardware_managers_lessons_learned
+     development_and_operations
+     sponsorship"
 
 COMPETITION="naiad_overview"
 
