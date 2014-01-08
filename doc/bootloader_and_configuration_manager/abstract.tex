@@ -1,0 +1,3 @@
+\begin{abstract}
+The customer requests that the microcontrollers should be able to download new firmware via the CAN-bus. This is achieved by installing a bootloader in each microcontroller. The bootloader receives CAN messages holding hex data and program it into the microcontroller's flash memory. The data is sent from a configuration manager that take the contents of hex files and embed the data into CAN messages. Since Naiad has several microcontrollers the configuration manager also has to be able to keep track of them.
+\end{abstract}

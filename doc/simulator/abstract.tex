@@ -1,0 +1,12 @@
+\begin{abstract}
+
+The simulator is the test system of the AUV and was developed to test subsystems in the AUV together with the options to only monitor the motion of the AUV.
+Simulator the test system of the AUV was developed in order to test out different subsystems of the AUV as well as monitoring the movement of the AUV while in the water with the power and Ethernet cord connected to land from the AUV. As it then gets fed all information that goes between subsystems and generates fake messages from different Subsystems while in simulation mode.
+
+The implementation of the Simulator was made in Ada, it was created in an object oriented approach following the Model View ViewModel standard [?]. The Model View ViewModel puts all the logic away from the View layer and into the ViewModel layer to allow for proper testing of subparts of the code.
+
+The approach for simulating the movement of the simulator was using numerical integration. The numerical integration gets position and velocity from the accelerations created by the combined forces and torques.
+
+The backbone and the motion simulations of the simulator have been implemented and tested together with the motion control both as function calls and with CAN messages over Ethernet to test and validate the realistic motion together with the correct data transfers and responses. This yielded realistic movement patterns for the submarine  both with regards to the positioning as well as the orientation with regards to the motor force inputs.
+
+\end{abstract}

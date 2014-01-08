@@ -1,0 +1,13 @@
+% Do NOT change this "Section" title
+% and do NOT add more "Section" level titles.
+\section{Conclusion}\label{sec:conclusion}
+The results that were achieved with the simulator lived up to the main expectations that it was set up to achieve. Where the main part of the simulator was to work as a test platform for the motion control as well as observing the AUV in the water with regards to position and orientation.
+
+This allowed the simulator to be used both as a check for the motion control but also will allow the simulator to observe the AUV. And even though the simulator isn’t fully realistic with regards to the approximations of frictions and inertias the approximations were accurate enough for testing a self balancing system such as a PID controller. It would require new tuning values for the PID controllers to optimize overshoot and stabilizing times the AUV when in water, which could be done using a simulator that was AI improved using test data from the observations of the AUV.
+
+The communication working stably should not create any additional issues when it comes to the AUV as it works safe on the tests with the sending every quarter of a second being added to the communication to as best approximate the real issues that the motion control would have to work with.
+
+\subsection{Future work}
+Future work would involve increasing the modularity and the systems that could be simulated in the simulator together with choices about which sub systems that were to be simulated. Where each sub system would be running on its own with its own communication between other simulated sub systems and also one for external systems in the real AUV
+
+Another area of evolution would be to improve the approximations of movement for the simulated motion of the AUV. This could and should be done using logged data about how the AUV moves in the water depending on different parameters. Improvements could be implemented either through constant tuning AI or creating algorithms based completely on AI in order to try and approximate the reality in a more precise way. 

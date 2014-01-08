@@ -77,15 +77,22 @@ fi
 #
 # technical: All the reports that have any technical details about the AUV.
 TECHNICAL="bbb_to_can
+            bootloader_and_configuration_manager
             space_plug_and_play_avionics
             ip_over_can_bus
             hydrophone
             inertial_navigation_system
             motion_control
-            pneumatics_controller
-            sensor_controller"
+            simulator
+            pneumatics
+            thruster_controller
+            sensor_controller
+            vision_hardware
+            vision_software"
 
-LL="hardware_managers_lessons_learned"
+LL="hardware_managers_lessons_learned
+     development_and_operations
+     sponsorship"
 
 COMPETITION="naiad_overview"
 
@@ -106,6 +113,9 @@ fi
 for report in $REPORTS
 do
     cd $report
+    echo '""""""""'
+    echo $report
+    echo '""""""""'
     make
     cd ..
 done

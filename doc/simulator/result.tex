@@ -1,0 +1,20 @@
+% Do NOT change this "Section" title
+% and do NOT add more "Section" level titles.
+\section{Result}\label{sec:result}
+
+% You can use how many "subsections" and "subsubsections" you like.
+\subsection{Representation}
+The graphical interface used to represent the data from the simulator in a clean, informative and user friendly way ended up meeting those requirements. The interface shown in picture [?] is demonstrating how clean and easily accessible the data is while buttons for popup menus are used for setting other data points.
+
+\subsection{Simulated Motion}
+The validation of the AUVs movement in water is heavily restricted without testing the real AUV in water, this is due to the fact that the AUV. This is due to the hard to predict movements of the AUV, especially when wanting to validate the results without using the same or similar methods as used to create the simulator itself. Some basic methods were used to check for miss behavior of the system in both planar and rotational movement.
+\subsubsection{Planar movement}
+The motion of the simulator based on different forces works as expected when it comes to planar movement without any rotations. As the motors forces are set to counteract gravity and then pushing the AUV in a certain direction gives the expected axis of accelerations with realistic ratios between them.  (Pictures to be added).
+\subsubsection{Orientation movement}
+The movement in the orientation view of the simulator is less easy to predict regarding how it should act, the floating force together with friction always manages to stable the Z axis of the AUV with the Z axis of the reference frame when motors are turned off, which is a reasonably good sign but far from a proof that it works as intended.
+
+With the motors are set to create a torque and no planar acceleration. The results of the AUV being in the same position when changing orientation around an axis that is close to that of the combined torque, due to the rotational power, which was also as expected.
+\subsection{Communication}
+The communication over Ethernet using TCP was confirmed working after testing sending the different CAN messages over TCP that were supposed to be received and the printed out the data set on the protected object of received data. Using the TCP the information is already confirmed to be intact as long as the data sent was not corrupted before sending. This results in a secure communication with the AUV when completed and is also tested working when connect to the motion control using Ethernet where all data reached between them and control of the simulated submarine seemed to have all components acting as expected. 
+
+	

@@ -1,0 +1,15 @@
+% Do NOT change this "Section" title
+% and do NOT add more "Section" level titles.
+\section{Method}\label{sec:method}
+The customer provided us with resources from a previous project named weRobot. This project was part of the course CDT310 back in 2008 and they created a bootloader for AT90CAN together with a PC client that can send hex files from the computer to the bootloader via CAN.
+
+% You can use how many "subsections" and "subsubsections" you like.
+
+\subsection{Bootloader}
+The weRobot bootloader is an improvement made upon Atmel's Slim CAN Bootloader ~\cite{web:slimbootloader}. Because of a problem with running the weRobot bootloader, this project uses the original bootloader from Atmel, but with the extra functionalities of the weRobot bootloader reimplemented.
+
+The Slim CAN Bootloader is written in C and it is designed to be compiled with the IAR Embedded Workbench. In this project the workbench used was the AVR Time-limited license v6.30.
+
+\subsection{Configuration Manager}
+The Configuration Manager is built upon the weRobot PC client. The PC client is written in Ada and compiled with GNAT GPL Ada Development Environment 2013.
+The GUI is made in the GtkGlade GUI builder so it requires the GtkAda library to compile. There was no information found on, in which version of GtkAda it was made, however the deprecated components have been replaced so that it now works in GtkAda 3.4.2 which is the latest version at the time of writing.
