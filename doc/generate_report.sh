@@ -83,7 +83,7 @@ TECHNICAL="bbb_to_can
             hydrophone
             inertial_navigation_system
             motion_control
-            motion_simulator
+            simulator
             pneumatics
             pneumatics_controller
             thruster_controller
