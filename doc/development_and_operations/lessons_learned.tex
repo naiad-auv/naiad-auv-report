@@ -1,10 +1,119 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Lessons Learned}\label{sec:lessons_learned}
-Text
 
 % You can use how many "subsections" and "subsubsections" you like.
-\subsection{Subsection}
+\subsection{Development}
+The requirements we got from our customers including one specific on the
+programming language to use, Ada. In the beginning this felt like a bad choice
+as the members of the project team had limited experience with Ada but as we
+couldn't do anything about it. Instead we took height for a longer learning
+period and a more open mind set for future trouble such as which compilers works
+and for which architectures all Ada features can be used on.
+
+\subsubsection{Ada}
+Ada is a strong-typed language. The first release of the language was published
+in 1983 with updates in 1995, 2005 and the latest in 2012. With the limited
+experience of Ada within the project team we didn't decide upon a specific version
+to use early on. It later turned out that it would have been wise to limit us to
+Ada 2005 functionality for better portability between different version of
+the compiler used.
+
+\textbf{Compilation} and \textbf{cross-compilation} was done with the
+"GNU Compiler Collection" (GCC) compiler including the GNAT frontend. When
+someone is talking about "gnat" they are basically talking about GCC compiled
+with Ada programming language support. As of January 2014 ada is not compiled
+by default with GCC though packages in Debian/Ubuntu exists for easy installation.
+
+In the beginning of the project we were recommended to use the GNAT GPL compiler
+supplied to academia for free by "Adacore". The latest release was from April
+2013. The GNAT GPL compiler from Adacore is basically the GCC compiler with
+some extra features and bundled packages from Adacore. The reason for the
+recommendation were that the GNAT GPL version earlier included a compiler for
+AVR architecture as well, this support was dropped with the 2013 release from
+Adacore. Some talks were made about aquiring a GNAT Pro License from Adacore to
+be able to compare functionality between the GPL and PRO license but it was left
+with just talks.
+
+As development platforms Windows 7/8 and Ubuntu 12.04 LTS/13.10 were used. Instead
+of trying to aquire the GNAT Pro license we looked into the available packages
+in the Ubuntu repository (those with Windows still used the Adacore GNAT GPL version).
+The GNAT packages available in Ubuntu is directly imported from the Debian
+project and have a strict policy \cite{web:debian_ada_policy} how they should
+be compiled so every Ada package available in the repository should work with all others.
+The downside of that policy is that most packages are quite old but the upside
+is that they all work together and are easy to install.
+
+For cross-compilation against the AVR platform the AVR-Ada project \cite{web:avr-ada}
+is available. It requires GCC 4.7.X and the supplied package in Ubuntu is gnat-4.6 so some
+gcc compilation is required to be done to get it to work on Ubuntu.
+
+We also used the BeagleBone Black in the project which is an ARM processor with
+the ARMv7 architecture. As we installed Ubuntu directly on the BeagleBone Blacks
+we could also install the Ubuntu package and compile Ada code natively directly
+on the BeagleBone Blacks, we never tried to cross-compile for ARM.
+
+In the end on Windows we use the Adacore GNAT GPL bundle from 2012 to be able
+to compile for the at90can micro controller (AVR architecture). Compilation for
+the BeagleBone Blacks was done with gnat-4.6 available in the repository, natively
+on the board. As a lot of development and testing took place on Ubuntu 64-bits
+machines both Adacore GNAT GPL bundle from 2013 and the gnat-4.6 package from the
+repository were used. One important aspect to remember here is that if the GPS
+IDE used remember to set the compiler to 2005 version otherwise some features
+might compile on one machine and not on others. We noticed this when first trying
+out our code on a development machine with the amd64 architecture and then compiling
+the same code on the BeagleBone Blacks, it didn't work.
+
+As some final pointers it's worth mentioning that compiling for the AVR architecture
+on Ubuntu is very limited, it works but support for specific MCUs is limited. During
+Naiad project some development was made to support the at90can but the work was
+never finished. Also, compilation for the AVR architecture doesn't support any
+object-oriented programming such as tagged types and interfaces nor Ada tasks, this
+is true for both the Adacore GNAT GPL bundle and the gnat-4.6 package from Ubuntu
+repository.
+
+\subsubsection{Version Control System}
+Available as a service from M\"{a}lardalens University is a restricted Subversion repository
+including code and other work from previous projects in the course. The repository
+size is pretty big so it's hard to work with. Early on in the project we decided
+to go with Git and Github as version control system. Though only few of the project
+members had used Git before so some training had to be done early on. This limitation
+also made us choose a centralised version control system workflow. Basically
+we set up a common repository on Github \cite{web:github_naiad-auv-software}
+and gave all project members access to it.
+
+The use of Git and Github was a good choice in the end though we have had some
+problems with the workflow that conflicts wasn't sorted out properly, especially
+on Windows machines where the TortoiseGIT GUI can be hard to understand from time
+to time. As suggestion for next year Git is the best choice for VCS though be prepared to
+spend some extra time to teach those that don't know Git from before about a proper
+distributed workflow such as git-flow \cite{web:git-flow} and put one project member
+as release manager which is the only one that have commit access to the main/master branch.
+
+\subsubsection{Continious Integration}
+jenkins build server
+
+\subsubsection{Aunit}
 Text
-\subsubsection{Subsubsection1}
+\subsubsection{Ada, GPS, available help}
 Text
+\subsubsection{Coding Guidelines}
+Decide upon a first set of guidelines and let the guidelines evolve
+
+\subsubsection{Compilation of Ada code}
+Text
+\subsubsection{LateX}
+Use git
+use line breaks.
+Text
+\subsection{Operations}
+No public ip
+
+\subsubsection{VPS - Tilaa}
+Text
+\subsubsection{Wordpress and MySQL}
+Text
+\subsubsection{Backup}
+website
+wiki
+
