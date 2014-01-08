@@ -1,20 +1,25 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Introduction}\label{sec:introduction}
-One of the requirement for the project the autonomous underwater vehicle were to use hydrophone to be able to listen to ping signals and locate them in two or three space, also the AUV should be able to move to the vicinity of the pinger. The way to listen to the pinger is to designs and builds hydrophones circuits for the listening professionally.
+A hydrophone is a device that uses a microphone to listen to sounds under water. Hydrophones are based on the idea of piezoelectric transducers that produce electrical signals in response to a pressure change. As sound is a pressure wave, it generates electrical signals propotional to the amplitude of sound.
+For the AUV it was decided to use an array of 4 hydrophones arranged in a rectangular pattern. 
+The hydrophone circuit amplifies the received signal and then performs full wave rectification. The signal is then passed through low pass filter and through a schmitt trigger. The result is that it generates pulses when the input signal crosses a threshold. \newline
+The hydrophone software uses external interrupts to get triggers from the circuit and records the time the signal arrived. When the signal is received at each hydrophone the multilateration algorithm calculates the pinger location based on the time difference of the arrival of the signal at each hydrophone. It then sends out a message containing the pinger location in 3 dimensions.\newline
+The initial plan was to implement the hydrophone software on the Generic CAN Controller but the simulations of the multilateration algorithm done in MATLAB showed that the AT90CAN128 which has a maximum frequency of 16MHz shows that is too slow. Hence the calculated position has a lot of errors. Thus even though the multilateration algorithm is implemented and tested in Ada, it was not tested on AT90CAN128. Due to the financial conditions of the project, it was put on hold.
+%One of the requirement for the project the autonomous underwater vehicle were to use hydrophone to be able to listen to ping signals and locate them in two or three space, also the AUV should be able to move to the vicinity of the pinger. The way to listen to the pinger is to designs and builds hydrophones circuits for the listening professionally.
   
-Whenever the hydrophone circuit received signals even in low or high frequencies should process this signals to best way.In the future,this work will help for better accurate in this area.       
+%Whenever the hydrophone circuit received signals even in low or high frequencies should process this signals to best way.In the future,this work will help for better accurate in this area.       
 
 % You can use how many "subsections" and "subsubsections" you like.
-\subsection{Hydrophone circuit}
-The hydrophone that has been used in AUV made by Aquarian Audio Products who has sensor that capable of picking up sounds from below 20Hz to over 100KHz, the challenge of this frequencies range is to find amplifier circuit that deal with this range of the frequencies.
-Hydrophone circuit should be combine a matched sensor and FET ((Field Effect Transistor )) buffer amplifier combination that produces an output electrically signals.
-\newline Whenever the hydrophone circuit received the signal will increase the power of the signal and rectifier it to achieve full-wave rectification. 
-Many of the future electronics has a full selection of BR (bridge Rectifier ) IC (integrated cct ) that can used in our AUV project.
-\newline Simply the  question is to find OP amplifier integrate circuit that can deal with the range of the frequency that hydrophone deal with.  
-After it achieved full-wave rectification, the signal will pass through low pass filter that allow low frequencies to pass by, in other hand the high frequency signal will prevent to pass so the signal more likely go to ground instead of output depending on the cut-off frequency.
+%\subsection{Hydrophone circuit}
+%The hydrophone that has been used in AUV made by Aquarian Audio Products who has sensor that capable of picking up sounds from below 20Hz to over 100KHz, the challenge of this frequencies range is to find amplifier circuit that deal with this range of the frequencies.
+%Hydrophone circuit should be combine a matched sensor and FET ((Field Effect Transistor )) buffer amplifier combination that produces an output electrically signals.
+%\newline Whenever the hydrophone circuit received the signal will increase the power of the signal and rectifier it to achieve full-wave rectification. 
+%Many of the future electronics has a full selection of BR (bridge Rectifier ) IC (integrated cct ) that can used in our AUV project.
+%\newline Simply the  question is to find OP amplifier integrate circuit that can deal with the range of the %frequency that hydrophone deal with.  
+%After it achieved full-wave rectification, the signal will pass through low pass filter that allow low frequencies to pass by, in other hand the high frequency signal will prevent to pass so the signal more likely go to ground instead of output depending on the cut-off frequency.
 
-Last process to the signal is to make comparator with two different threshold voltage level,the comparator switch high when ever the input voltage goes over the high threshold level and remain in this level until the comparator goes low when the input voltage goes under the low threshold level,this process called Schmitt Trigger process.
+%Last process to the signal is to make comparator with two different threshold voltage level,the comparator switch high when ever the input voltage goes over the high threshold level and remain in this level until the comparator goes low when the input voltage goes under the low threshold level,this process called Schmitt Trigger process.%
         
 % This is a reference to table \ref{table:one_column}.
 %\subsubsection{Subsubsection1}

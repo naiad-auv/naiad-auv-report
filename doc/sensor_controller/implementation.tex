@@ -2,7 +2,7 @@
 % TODO: Write about how analog readings are converted to pressure 
 
 \section{Implementation}\label{sec:implementation}
-The temperature sensor used was the \emph{DS18B20} digital temperature sensor~\cite{web:ds18b20}. This sensor communicates over a 1-Wire interface. Since the Generic CAN controller does not have a 1-Wire interface a <INSERT NAME OF 1-WIRE INTERFACE CIRCUIT> was used to convert between the 1-wire and UART (which the Generic CAN controller supports).
+The temperature sensor used was the \emph{DS18B20} digital temperature sensor~\cite{web:ds18b20}. This sensor communicates over a 1-Wire interface. Since the Generic CAN controller does not have a 1-Wire interface a DS2480B integrated circuit was used to convert between the 1-wire and UART (which the Generic CAN controller supports).
 
 The pressure sensor used was the \emph{IMCL Low Cost Submersible Pressure Sensor}~\cite{web:imcl}. The interface from the pressure sensor could be chosen when ordering the sensor so a simple analog voltage in the 0 to +5 Volt range was chosen since this is the range of the analog-to-digital converter on the AT90CAN128 microcontroller. Consequently, no interface circuitry was needed for the pressure sensor.
 
@@ -26,10 +26,12 @@ Readings from all sensor will be put in the same CAN message containing 5 payloa
 \end{table*}
 
 \subsection{Temperature sensor}
-<CEZAR, PLEASE FILL THIS IN>
+To receive the data from the temperature sensor a protocol converter between UART and 1-wire communications has been used. In order to read the temperature a number of characters have to be sent from the UART to the converter which interprets the received characters and generates the corresponding 1-wire signals. The temperature sensor detects the signals and makes a conversion of the temperature and puts the data on the 1-wire bus. Afterwards, the converter takes the data from the 1-wire bus, translates it into characters and sends them over the UART to the AT90CAN128. 
+
+On the AT90CAN128 the characters are computed into a value which has a resolution of 1 degree Celsius which is more than enough since the speed of sound doesn't change that much at this little temperature variation. A procedure has been written so that when it is called it will make a temperature reading and return as output parameter the computed temperature.
 
 \subsection{Pressure sensor}
-Since the pressure sensor is analog, the AVR.AT90CAN128.ADC library is used to read the analog output of the sensor whenever a CAN message is to be sent with sensor readings. This value is converted to <TO BE FILLED IN>.
+Since the pressure sensor is analog, the AVR.AT90CAN128.ADC library is used to read the analog output of the sensor whenever a CAN message is to be sent with sensor readings. This analog-to-digital value is converted to millibars before being being sent as a CAN message. 
 
 
 \subsection{Salinity sensor}

@@ -7,7 +7,8 @@ usage: $0 -t REPORT_TYPE
 Valid options for REPORT_TYPE are:
     all (default)
     technical (only the technical stuff)
-    competition (one report for the competitions)
+    lessons_learned (only leassons learned stuff)
+    competition (one overview report for the competitions)
 
 OPTIONS:
     -h      Shows this message
@@ -47,7 +48,10 @@ then
 fi
 
 # Checking if the input values are set properly
-if [[ $REPORT_TYPE != "all" && $REPORT_TYPE != "next_year" && "competition" ]]; then
+if [[ $REPORT_TYPE != "all"
+        && $REPORT_TYPE != "technical"
+        && $REPORT_TYPE != "competition"
+        && $REPORT_TYPE != "lessons_learned" ]]; then
      usage
      exit 1
 fi
@@ -72,20 +76,46 @@ fi
 # suggestions for the upcoming projects in the future.
 #
 # technical: All the reports that have any technical details about the AUV.
-TECHNICAL="space_plug_and_play_avionics
-            ip_over_can_bus"
+TECHNICAL="bbb_to_can
+            bootloader_and_configuration_manager
+            space_plug_and_play_avionics
+            ip_over_can_bus
+            hydrophone
+            inertial_navigation_system
+            motion_control
+            simulator
+            pneumatics
+            thruster_controller
+            sensor_controller
+            vision_hardware
+            vision_software"
+
+LL="hardware_managers_lessons_learned
+     development_and_operations
+     sponsorship"
+
+COMPETITION="naiad_overview"
 
 # Leave empty
 REPORTS=
 
 if [[ $REPORT_TYPE == "all" ]]; then
-    REPORTS=$TECHNICAL
+    REPORTS="$COMPETITION $TECHNICAL $LL"
+elif [[ $REPORT_TYPE == "lessons_learned" ]]; then
+    REPORTS="$LL"
+elif [[ $REPORT_TYPE == "technical" ]]; then
+    REPORTS="$TECHNICAL"
+elif [[ $REPORT_TYPE == "competition" ]]; then
+    REPORTS="$COMPETITION"
 fi
 
 ### Generate all reports
 for report in $REPORTS
 do
     cd $report
+    echo '""""""""'
+    echo $report
+    echo '""""""""'
     make
     cd ..
 done
@@ -99,3 +129,41 @@ done
 
 pdftk $PDF_FILES_TO_MERGE cat output $REPORT_TYPE.pdf
 
+### Count number of pages
+PAGES=$( pdfinfo $REPORT_TYPE.pdf | grep 'Pages' - | awk '{print $2}' )
+
+mkdir -pv tempFolder123
+mv $REPORT_TYPE.pdf tempFolder123/$REPORT_TYPE.pdf
+
+### Generate page number document
+cd tempFolder123
+
+cat > ./pagenumbers.tex <<EOF
+\documentclass[12pt,a4paper]{article}
+\usepackage{multido}
+\usepackage[hmargin=.8cm,vmargin=1.5cm,nohead,nofoot]{geometry}
+\begin{document}
+\multido{}{$PAGES}{\vphantom{x}\newpage}
+\end{document}
+EOF
+
+pdflatex pagenumbers.tex
+
+pdftk $REPORT_TYPE.pdf burst output file_%03d.pdf
+pdftk pagenumbers.pdf burst output number_%03d.pdf
+
+time for i in $(seq -f %03g 1 $PAGES) ; do \
+    pdftk file_$i.pdf background number_$i.pdf output new-$i.pdf ; done
+
+pdftk new-???.pdf output $REPORT_TYPE.pdf
+
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE \
+    -dQUIET -dBATCH -sOutputFile=$REPORT_TYPE-compressed.pdf $REPORT_TYPE.pdf
+
+cd ..
+
+mv tempFolder123/$REPORT_TYPE.pdf .
+mv tempFolder123/$REPORT_TYPE-compressed.pdf .
+
+### Remove temporary folder
+rm -rf tempFolder123

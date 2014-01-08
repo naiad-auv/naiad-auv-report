@@ -1,0 +1,144 @@
+% Do NOT change this "Section" title
+% and do NOT add more "Section" level titles.
+\section{Method}\label{sec:method}
+\subsection{Preparation}
+\subsubsection{OpenCV meets Ada}
+The first task undertaken in this project was to try to get OpenCV working with Ada. Bindings were found online \cite{web:oldAdaBindings} however these binding were found to be rigidly implemented to an older version of OpenCV and an operating system no longer supported. An alternative solution was required. After much research a method of binding OpenCV to Ada was found \cite{web:newAdaBindings} and this method was adapted to bind opencv to ada. This generated bindings that could be used by including the wrapper file in the ada project, however linking several projects that used the bindings together, and compiling and running the project in an IDE proved troublesome. A Makefile was constructed to link everything together.
+
+\subsubsection{PCL meets Ada}
+Much like OpenCV, PCL needed to be converted from C++ to Ada. The same approach as OpenCV was undertaken. The PCL modules required were first constructed in C++ and then Ada bindings were generated using the binding commands found \cite{web:newAdaBindings}. The PCL functions could then be called from ada. The makefile was then adjusted to incorporate PCL. This simply required adding include directories to the necessary PCL libraries in the Makefile 
+
+\subsubsection{Developing for GIMME2}
+As GIMME-2 was a state of the art hardware platform, development support was limited. One positive was that its ARM processor architecture is also used in the Beaglebone Black and Pandaboard. As the Ubuntu operating system was not supported by GIMME-2, it was decided to statically compile the binaries needed on a Pandaboard statically and then move the binaries to the Gimme2 to be run.
+
+\subsection{Software}
+\subsubsection{Stereo vision}
+It works. sometimes.
+\begin{description}
+  \item [Calibrating the cameras] \hfill \\As Gimme2 was having problems taking two pictures simultaneously, a custom stereo rig was constructed to run and test the calibration software. Calibration and Rectification code was constructed to calibrate the cameras. This code can be tested on the GIMME-2 when it was the ability to take 10 consecutive stereo images.
+  \item [Disparity maps] \hfill \\Since the GIMME2 flaunts a stereo system, disparity maps were used for motion and distance estimation. OpenCV functionalities were used for this purpose.
+
+\end{description}
+
+\subsubsection{Image Enhancement}
+Cleaning up the image was attacked on four fronts. Blurring the image, Sharpening the image to make features more clear and easier to detect, manipulating image properties,and noise reduction. 
+\begin{description}
+\item[Median Filter]\hfill \\The idea behind the Median filter is to search for highly improbable pixel values, and replace them with the median value of the surrounding pixels (computer and machine vision, 4th ed)
+The median filter makes a 3x3 sliding window that reduces noise by filtering every pixel of the image. It works by replacing the value at the centre of the window with the median value of the pixels in the window.
+
+\item[Quaternion Switching Filter]\hfill \\
+The quaternion switching filter \cite{web:QNSF} is a filter based on quaternions.
+A quaternion is a vector representation that has 1 real part and 3 imaginary parts of the form 
+Q=w+ ix+jy+kz \cite{article:Hamilton1844}
+\\Quaternions are useful in image processing as an rgb pixel can be represented as a purely imaginary quaternion by letting the real part of the vector equal zero. A quaternion with only imaginary parts is known as a right quaternion.\cite{article:Hamilton1866}
+The quaternions allows us to represent a 3 value pixel as a single function. We can then also use quaternion unit transform theory to find the pixel chromaticity difference and pixel intensity difference of the pixels in the sliding window.
+
+If the combined greatest difference is greater than a user defined threshold then the pixel is subjected to a Vector Median Filter. If the difference is less than the threshold then no filtering is performed on the pixel
+\end{description}
+ 
+\subsubsection{Manipulating image properties} 
+\begin{description}
+\item[Image Contrast]\hfill \\
+It is a basic image manipulation functionality targeted to enhance the image quality if required.
+It makes use of the opencv function convertTo using alpha and beta as gain and bias parameters respetively.
+
+\item[Invert image]\hfill \\
+In this context, invert refers to the reversal in the nature of the pixel intensities of the image.
+For instance, an originally pure black input pixel yields a pure white pixel as output.
+It makes use of the simple form of  
+\begin{align*} &V(new) = 255 - V(old) \\ 
+\end{align*} 
+\\where V is the value of the pixel in BGR, to invert an image. 
+this method is particularly helpful when working with masks.
+
+In the final implementation, the opencv function addWeighted was used to achieve the desired functionality, with constants 1.00 and -1.00 for alpha and beta channels respectively.
+
+cv::addWeighted(mask, 1.0, img.at(src), -1.0, 0, img.at(dst));
+
+where the mask is a pure white image.
+
+\item[split channels]\hfill \\
+This enables us to split an input image in it's basic color components, so we could have color-channel filtering without use of any extra hardware.
+
+\item[Gaussian Blur]\hfill \\
+The Gaussian Blur function \cite{web:gaussianBlur}  needed to be implemented for the edge detection modules. A blur basically smooths out the image and makes jagged edges smoother and the image works better with the edge detection mods. Gaussian blur can also be used for noise reduction.
+\\The Gaussian blur works by using a 2D Gaussian kernel that can be separated into two operations of the 1D kernel. This enables very fast implementation of multidimensional Gaussian filtering.  
+
+\item[Gaussian Sharpen]\hfill \\
+A Gaussian sharpen image module was implemented. This method was based on the Gaussian blur method as described above. It works by implementing a gaussian blur on the source image, and then subtracting the gaussian blurred image from the original image. 
+
+\item[Image Fusion]\hfill \\
+Several situations in image processing require both high spatial and high spectral information in a single image. However, this is not always possible due to design or observational limitations.
+To overcome these limitations, image fusion techniques are applied.
+
+Naiad's vision system implements single-source image fusion techniques to enhance image clarity and quality. However, this module is not used by default due to cost in terms of execution time. But with time, as the FPGA becomes usable, this module could be easily enabled.
+
+For future, it is being planned to have a multi-focus fusion module in place to work alongside the stereo-vision system to help find object more efficiently. 
+\cite{article:Zheng2010} \cite{article:Zhang2010} \cite{article:Shutao}
+
+\item[Enhance Colors]\hfill \\
+This function was implemented by converting an image to HSI . Then scrolling through each pixel in the image and adding a number to the intensity to increase the intensity of each pixel. This enhanced the colors of the image. This function was particularly useful when detecting red templates. When pictures of the red templates were taken it was observed that in parts of the template the red appeared a little faded. The enhance colors module worked a treat in enhancing the red color which led to better results when the canny and contour modules were run on the template. 
+\end{description}
+
+\subsubsection{Interpreting image} 
+\begin{description}
+\item[Threshold]\hfill \\
+
+The vision system has the ability to threshold the input image to filter for any specified range of the visual spectrum. 
+It works on HSI images, and it was particularly challenging to filter Red color as the Hue values see a wrap-around effect for Red, meaning that the spectrum begins at Red and ends at Red.
+This problem was solved by working around the easily detected colors.
+To detect red, we first filter for Yellow, and Green separately. Then we filter out the Orange component from a bitwise OR-combination of the previous outputs. The resultant output is the red component.
+the opencv function inRange is used here.
+
+\item[Canny]\hfill \\
+
+The canny edge detection algorithm \cite{article:canny}  was used for detecting edges in the images. the canny algorithm is based on three main objectives
+\begin{enumerate}
+  \item the response to noise is reduced using gaussian filtering
+  \item Use non-maximum suppression to obtain good accuracy (only use points from the top of a ridge of edge data, whilst suppressing all others)
+  \item eliminate multiple responses to a single edge by providing a single response
+\end{enumerate}
+
+The canny module took a greyscale input and outputs a binary image with the estimated lines on it.
+
+\item[contours]\hfill \\
+The contour module used was based on the opencv contour module. This module is based on suzuki and abe which analyzes the topological structure of binary
+images by following the detected borders \cite{article:suzuki} 
+The contour module searches through the canny input and finds contours on the image. This can then be used in shape or template recognition modules.
+
+\item[Approx poly]\hfill \\
+After the contours were found the opencv function approx poly was used to approximate the curves found in the contour function. The approxpoly function is based on the Douglas-Peucker algorithm \cite{article:douglas}
+This was initially used to find shapes in test images supplied to the vision system. If three contours are found the shape is assumed to be a triangle, if four contours are found the shape is assumed to be a square. This was later replaced by OpenCVs shape matching function which provided more accurate results.
+
+\item[Good features to track]\hfill \\
+OpenCV's good features to track module was implemented to use with optical flow. This yielded better results with optical flow than from using optical flow with contours. This module is based on the Shi-Tomasi algorithm \cite{article:tomasi}. This module uses the algorithm to find the most prominent corners in an image region. The method also shows comparatively better results than the Harris corner algorithm \cite{article:tomasi}
+
+\item[Optical flow tracking]\hfill \\
+Optical flow tracking was implemented to use as part of velocity estimation in the vision system. Optical flow tracking in openCV uses the Lucas-Kanade method and uses a sparse iterative method \cite{web:opticalFlow}, which computes optical flow for a sparse feature set using features detected in the good features to track module described above. This module was used in to find an estimated velocity for the AUV.
+
+\end{description}
+
+\subsubsection{Comprehending features found} 
+\begin{description}
+\item[hough circles]\hfill \\
+OpenCV's hough circles function was implemented to enable the ability to detect circles. The hough circles module is based on the Hough circle transform as described in Yuen \cite{article:yuen} 
+
+\item[hough lines]\hfill \\
+The AUV was equipped with line detection capability by implementing OpenCV's hough lines module.The module is based on Matas2000 \cite{article:matas} This can be used to find objects with parallel lines like pipes etc.
+
+\item[template matching]\hfill \\
+OpenCV's matchShapes function was used for the object recognition part of the vision system. This function is based on Hu Invariants \cite{article:hu} The matchShapes module is also scale invariant.
+\end{description}
+
+\subsubsection{Three dimensional reconstruction} 
+\begin{description}
+\item[converting to Ada.]\hfill \\
+PCL was converted to Ada in much the same way as opencv. Modules were written in c++ and then bound to Ada. \cite{web:newAdaBindings}. The PCL modules could then be called from Ada.
+
+\item[Downsampling point cloud]\hfill \\
+The point clouds to be reconstructed to 3D must undergo stages before the actual reconstruction can occur. Different filters were implemented to clean the point cloud to obtain better results.
+\\The first PCL module implemented was a downsampling module \cite{web:pclVoxel} . The downsampling module is based on a voxelized grid approach. The size of the voxel is specified and all points in that voxel are approximated with their centroid.	
+
+\item[Remove outliers]\hfill \\
+A statistical outlier removal module was constructed to remove outliers from point clouds \cite{web:pclOutliers}. The module works by computing the mean distances of every point to their neighbours. Then all points whose mean distances are outside a defined interval are assumed to be outliers and are removed from the point cloud.
+\end{description}

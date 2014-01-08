@@ -1,0 +1,35 @@
+% Do NOT change this "Section" title
+% and do NOT add more "Section" level titles.
+\section{Method}\label{sec:method}
+
+
+
+% You can use how many "subsections" and "subsubsections" you like.
+\subsection{Representation}
+
+To visibly represent the Ada written simulator, the choice ended up being an obvious one with GTK Ada [?]. The reason behind it being that GTK Ada was the documentation even though it was not greatly documented it was still far better than any of the other options that almost completely lacked documentation. The aspect of documentation was also combined with all the graphical tools that were needed to create the clean, informative and user friendly user interface that was planned. Another aspect for making it the better choice was that it was available on multiple platforms including Windows and Ubuntu.
+\subsection{Design}
+
+For the structure of the program between the Graphical interface and the motion calculation and the Ethernet sockets for communication with the AUV, the approach named Model View ViewModel (MVVM) was decided upon. This is due to the clean coding with a clear interface between each layer in the program and a simple way of integrating the pieces. Here the top part which is the graphical interface calls for the underlying layers. This follows both the object oriented approach that is used for this project and implements well with Ada AUnit as well as there will not be any logic mixed up with the interface layer using that approach making parts easier to test.
+\subsection{Motion Simulation}
+
+Simulating the motion of the AUV is based on numeric integration of the accelerations that can be calculated using the functions described below. The method that will be used is to calculate the accelerations in a local coordinate system. The motors directions and torques that would create is already defined in the local coordinate system. This means converting the Velocities and angular velocities to the local frame will be the only thing needed, which is simply achievable using the orientation matrixes inverse. And is used for the acceleration formulas as it affects both the friction force and the angular acceleration straight of.
+\begin{equation}
+Global Vector = Orientation*Local Vector
+\end{equation}
+\begin{equation}
+Acceleration = \frac{\sum Force}{Mass}
+\end{equation}
+\begin{equation}
+J*\alpha = - \omega \times J \cdot\omega + T 
+\end{equation}
+
+The inertia and the mass are both automatically calculated in the design program used for designing the hull of the AUV named solid works. The affect of friction is less predictable and harder to mathematically calculate without expensive software. Assumptions regarding that a relative symmetric object actually is symmetric will be used to simplify the problem while still resulting in accurate approximations seen in other similar approaches.
+
+The accelerations are then converted back to the Global reference frame, allowing for the numerical integration of the velocities, positions, angular velocity and orientation. Representing the orientation as a matrix and the others as vectors.
+\subsection{Communication}
+
+The communication of the simulator will be used to see the flow of data going around between the different parts of the AUV that is passed on by the sensor fusion module to the simulator, it will also push out messages when in simulation mode where it simulates a sub system and takes all its inputs and sends corresponding outputs for that specific subsystem.
+
+The communication between the simulator and the Beagle bone black that the simulator will be connected to in the AUV will be using Ethernet. For communicating over Ethernet tcp sockets will be used as they are easy to implement and give reliable performance. The set of data sent over the TCP will be following the same standard as the data sent over the CAN bus which will simply be done by just pushing all data from CAN to Ethernet and vice versa without actually having to convert the messages just passing them on.
+
