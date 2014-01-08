@@ -87,7 +87,8 @@ TECHNICAL="bbb_to_can
             pneumatics
             thruster_controller
             sensor_controller
-            vision_hardware"
+            vision_hardware
+            vision_software"
 
 LL="hardware_managers_lessons_learned
      development_and_operations
