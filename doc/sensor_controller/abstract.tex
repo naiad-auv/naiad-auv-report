@@ -1,0 +1,4 @@
+\begin{abstract}
+The Customer's demands on the Naiad AUV included that there should be sensors for the pressure, temperature and salinity of the surrounding water. These sensors are read by a Generic CAN controller which is a piece of hardware that is used in many roles throughout the project. A circuit board known as the \emph{Sensor board} serves as an electrical interface between the sensors and the Generic CAN controller. \newline
+At regular intervals, the Generic CAN controller sends a CAN message known as the \emph{Sensor message} containing the last readings of pressure, temperature and salinity. These values can be used to determine the speed of sound in water, which is important for sensors like sonar and hydrophones, or to determine at which depth the AUV is at.
+\end{abstract}

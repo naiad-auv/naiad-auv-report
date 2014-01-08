@@ -1,10 +1,18 @@
-% Do NOT change this "Section" title
-% and do NOT add more "Section" level titles.
-\section{Conclusion}\label{sec:conclusion}
-Text
 
-% You can use how many "subsections" and "subsubsections" you like.
-\subsection{Subsection}
-Text
-\subsubsection{Subsubsection1}
-Text
+\section{Conclusion and future work}\label{sec:conclusion}
+As stated in Section \ref{sec:result}, the majority of the INS system is implemented. Once the bugs are fixed, at least outputting readings from the IMU to the CAN bus should work. \\
+To get readings from the FOG there some more implementation to do but this should not take much time. \\ % THIS MIGHT CHANGE IF WE CONTINUE WORKING
+Future work should primarily focus on getting the INS system and Sensor Fusion to work together only using the IMU data (but without data from the FOG). Once this is done, focus should be to determine the accuracy of this system and how much drift there is. In terms of orientation there should only be a problem of drift in the yaw-axis (see Section \ref{sec:introduction}), which is what the FOG is meant to correct. \\
+Once this is done the accuracy of the FOG should be tested. It is likely that there is some need for calibration before full accuracy is achieved.
+
+There are some possible ways to implement the INS system differently:
+
+\begin{itemize}
+\item Connecting the INS board (the interface circuit) directly to the Sensor Fusion board directly instead of sending INS data over the CAN bus. This would reduce the traffic on the CAN bus significantly and decrease the time it takes from a measurement is done on either the IMU or the FOG till the measured value reaches the Sensor Fusion board. This would however go against the Project's goal of having a modular design.
+
+\item One could (assuming one does \emph{not} do the above) possibly implement some form of filtering (Kalman filters etc.) in the AT90CAN\_Ins\_Controller software in order to remove noise on the acceleration data. This is not something that has been researched during this project, but it might be worth looking into in the future.
+
+\end{itemize}
+
+
+

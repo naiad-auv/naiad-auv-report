@@ -1,0 +1,63 @@
+
+\section{Introduction}\label{sec:introduction}
+The Naiad Autonomous Underwater Vehicle (AUV) was built by 18 M.Sc students from M\"{a}lardalen University, majoring in robotics and intelligent embedded systems in the Robotics project course at  M\"{a}lardalen University, Sweden. \newline
+The Naiad AUV is a prototype that will serve as a first step towards the long term goal which is to create a shoal of autonomous underwater vehicles (AUVs) cooperating to solve a common mission. The mission will consist of cleaning the Baltic sea from toxic waste by finding barrels of such waste that has been dumped in the Baltic sea for decades. \newline
+
+
+
+\subsection{Background}
+Let's write some nice stuff about the Baltic sea, toxic waste etc.
+
+\subsection{Goals of the Naiad AUV}
+At the start of the project, the goals set for the AUV included: %NOTE: A complete list would be too long, therefore this list only contains the most important parts.
+
+\begin{enumerate}
+   \item { \em The AUV should be built using a mono-hull}
+   \item { \em The hull should be easy to open and close}
+   \item { \em A communication cable for remote operation should use either Ethernet or an optical fiber}
+   \item { \em The robot should be able to operate using external power}
+   \item { \em Actuators} 
+   \begin{enumerate}
+   		\item { \em Every actuator has its own micro controller} 
+   		\item { \em All actuators should operate over the CAN-bus} 
+   		\item { \em There should be two droppable markers} 
+   		\item { \em There should be two unpowered torpedoes} 
+   		\item { \em There should be a simple gripper} 
+   \end{enumerate}
+   \item { \em Sensors}
+   \begin{enumerate}
+   		\item { \em All low rate sensors should operate over the CAN-bus} 
+   		\item { \em High speed sensors should operate over Ethernet} 
+   		\item { \em There should be pressure, temperature and salinity sensors} 
+   		\item { \em There should be an inertial measurement unit} 
+   		\item { \em There should be an independent gyroscope for the yaw-angle} 
+   		\item { \em There should be two stereo camera systems}  
+   \end{enumerate}
+   \item { \em Communication} 
+   \begin{enumerate}
+   		\item { \em Nodes should communicate over the CAN-bus} 
+   		\item { \em The project should study the Space Plug and Play Avionics
+				(SPA) system and implement part of it} 
+		\item { \em Robot-to-robot communication should be implemented} 		
+   \end{enumerate}
+   \item { \em Software} 
+   \begin{enumerate}
+   		\item { \em The software for the micro controllers should be downloaded via the CAN bus} 
+   		\item { \em The software for the micro controllers should be handled by a configuration manager}	
+   \end{enumerate}
+   \item { \em There should be a simulator} 
+      \begin{enumerate}
+   		\item { \em The simulator should be able to handle more than one instance
+			of the robot} 
+   		\item { \em The simulator should handle inter-robot-communication} 
+		\item { \em The GUI of the simulator should be used to monitor the actual
+				robot in operation} 		
+   \end{enumerate}
+\end{enumerate}
+
+The non-functional requirements included:
+\begin{enumerate}
+   \item { \em The programming language should be Ada and using the Ravenscar profile} 
+   \item { \em The preferred computer in the system is the GIMME-2} 
+   \item { \em The batteries should be easy to change} 
+\end{enumerate}

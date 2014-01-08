@@ -1,27 +1,85 @@
-% Do NOT change this "Section" title
-% and do NOT add more "Section" level titles.
+
 \section{Implementation}\label{sec:implementation}
-Text
+The sensors used were the VN-100 inertial measurement unit from VectorNav Technologies~\cite{web:vn100} and the 8088 000-112 Fiber optic gyro from SAAB~\cite{web:fog1}. The VN-100 (refereed to as the "IMU") is a digital sensor and provides a serial interface. The IMU's  maximum output rate of 200 samples per second is used. The IMU can output angular rates of rotation, orientation, acceleration as well as the output from its magnetometer. The orientation can be given in several different formats including quaternion, directional cosine orientation matrix and yaw, pitch and roll readings. Yaw, pitch and roll readings were chosen since this is the most compact way of describing the orientation.
 
-% You can use how many "subsections" and "subsubsections" you like.
-\subsection{Subsection}
-Text
-\subsubsection{Subsubsection1}
-Test of one column figure. It should be shown as close as possible to this
-text. If you can't see the figure its number is \ref{fig:one_column_figure}
-and located on page \pageref{fig:one_column_figure}.
-\begin{figure}[h]
-    \includegraphics[width=0.5\textwidth]{./figure/figureA.png}
-    \caption{Figure A}
-    \label{fig:one_column_figure}
-\end{figure}
+The Fiber optic gyro (refereed to as the "FOG") is an analog sensor and gives a analog voltage output proportional to the angular speed of rotation. The analog output is filtered and sampled by a analog-to-digital converter (ADC) that interfaces with the AT90CAN128 on the Generic CAN controller via SPI.
 
-\subsubsection{Subsubsection1}
-Test of two columns figure. It should be shown at the top of a page. If you
-can't see the figure its number is \ref{fig:two_column_figure}
-and located on page \pageref{fig:two_column_figure}.
-\begin{figure*}[t]
-    \includegraphics[width=1.0\textwidth]{./figure/figureB.png}
-    \caption{Figure B}
-    \label{fig:two_column_figure}
-\end{figure*}
+The software running on the Generic CAN controller is called AT90CAN\_Ins\_Controller and handles communication with the IMU and the ADC that is connected to the FOG as well as outputs the measurements from the sensors onto the CAN bus.
+
+\subsection{Inertial measurement unit}
+The IMU is powered by the +5V feed from the Generic CAN controller. It provides a serial interface at both 3.3 Volt TTL levels and RS-232 levels, neither of which can be directly connected to Generic CAN controller since the UART busses on the AT90CAN128 microcontroller work at +5 Volt TTL levels. A level change was consequently needed. The MAX232~\cite{web:max232} driver/receiver was chosen to convert between RS-232 levels and +5 Volt TTL levels since it needs only a 5 Volt supply. \newline
+The IMU has one output pin called \emph{SYNC\_OUT} that can be configured to output a synchronization pulse whenever the IMU has completed a measurement. The SYNC\_OUT pin is connected to Port D, pin 2 on the AT90CAN128. This pin is activates the \emph{external interrupt 2}. \newline
+The above configuration enables an interrupt service routine to be activated every time the IMU has made a measurement.\newline 
+\emph{Please note that this pin also is the receive pin on the UART1 bus. Hence UART1 is therefore inactivated.} 
+
+\subsubsection{Software interface}
+As mentioned, the IMU communicates over a serial interface and is connected to the UART0 bus of the AT90CAN128. The AT90CAN\_Ins\_Controller software starts by initiating the UART to run at a baud-rate of 115200 baud. \newline
+The default mode of the IMU outputs data at an undesired rate and format. Hence a set of commands, shown in chronological order in Table~\ref{table:IMU_messages}, need to be sent to configure the IMU. The default baud-rate of the IMU is 115200 baud which is too slow for the highest output rate, for this reason a command to switch the baud-rate is sent. \newline
+The commands sent to the IMU start with a dollarsign "\$", followed by "VNRRG" that indicates that one wants to write to a register, a comma, a two digit number indicating the ID of the register, a comma, register specific parameters, an asterisk "*", a checksum and finally a newline character. 
+The first message sent turns off the use of checksums since checksums were not considered to be needed. \newline
+After the messages are sent the UART bus is reinitialized to run at 230.4 kBaud. The receive buffer is flushed to remove any old irrelevant data.
+
+As mentioned, an external interrupt service routine (ISR) is activated each time the IMU finishes a measurement. Since the process of receiving and interpreting a response from the IMU is too computationally demanding to be done in an ISR, the ISR will only set a boolean flag. \newline
+The main loop calls a function called \emph{Update} that reads the interrupt flag. If the flag is set the function will start to read the UART receive buffer. Each message from the IMU will have the following format: 
+
+\begin{quote}
+   \$VNYBA,+123.456,+789.123,+456.789,+123.456, \newline
+   +789.123,+456.789,+123.456,+789.123,+456.789*
+\end{quote}
+
+The \emph{Update} function begins by calling a function called \newline
+\emph{Start\_Message} that reads characters one at a time, searching for the dollar sign. Once the dollar sign is found the function ensures that the text "VNYBA," follows, if not the message found in the buffer is not desired so the function searches for the next dollar sign and the process repeats. \newline
+Once the correct message has been found, its contents needs to be decoded. The message consists of 9 float values: yaw, pitch and roll angles, acceleration in x-, y- and z-axes and magnetic strength in x-, y- and z-axes, each value divided by commas. \newline
+Characters are read one by one and put into a temporary buffer until a comma is found. This way this buffer contains a string on the "+123.456" format. Since the Ada toolchain used for this project did not include any implementation of string-to-float conversion (such as Float'Value), a function fStr2Float (put in the Str2Float package) was implemented for this.
+
+When yaw, pitch and roll angles as well as acceleration in x-, y- and z-axes have been read these values are put into CAN-messages using functions in the \emph{Can\_Float\_Conversions} project that in turn are sent on the CAN bus to be read by the Sensor fusion. \newline
+The magnetic readings are not read and are consequently left in the receive buffer. This is another reason for having the \emph{Start\_Message} function mentioned above.
+
+\begin{table*}
+\centering
+    \caption{Messages sent to initiate the IMU}
+    \begin{tabular}{|p{2.5cm}|l|p{6cm}|} \hline
+    \label{table:IMU_messages}
+    	\textbf{Command name} & \textbf{Command string} & \textbf{Meaning} \\ \hline
+        Communication Protocol Control & \$VNWRG,30,0,0,0,0,0,0,1 *68 & Turns of checksums, sets error messages to be returned by IMU if incorrect messages are received, and turns off some other functions. \\ \hline
+        Async Data Output Type Register & \$VNWRG,06,0* & Turns off asynchronous output to avoid unwanted data. \\ \hline
+        Async Data Output Frequency Register & \$VNWRG,07,200* & Sets asynchronous output rate to 200 Hz. \\ \hline        
+        Synchronization Control & \$VNWRG,32,3,0,1,0,3,1,1,500000,0* & Configures the synchronization pulse. \\ \hline
+        VPE Basic Control & \$VNWRG,35,1,2,1,1* & Various settings for the attitude filtering algorithm. \\ \hline
+        Async Data Output Type Register & \$VNWRG,06,16* & Sets asynchronous output to "Yaw, Pitch, Roll, Body True Acceleration, and Angular Rates". This turns on asynchronous output. \\ \hline
+        Serial Baud Rate Register & \$VNWRG,05,230400* & Sets the baud-rate to 230.4 kBaud. \\ \hline        
+    \end{tabular}
+\end{table*}
+
+
+
+
+\subsection{Fiber optic gyroscope}
+Since the Fiber optic gyroscope is a high precision analog sensor great care has to be taken when designing its interface circuit in order to attain full precision. \newline
+The accuracy of the FOG is highly dependent on the quality of the power supply, any noise on the power supply will decrease accuracy. The same need for accuracy is present in the analog to digital conversion. Fortunately, the manufacturer provided the Naiad AUV project with a schematic for the circuit that was to be used for the analog to digital conversion. The analog to digital converter (ADC) used was the ADS1255~\cite{web:ads1255} extremely low-noise, 24-bit analog to digital converter which has an SPI interface.
+
+\subsubsection{Power supply}
+The FOG has three power lines, +12 Volts, -12 Volts and +5 Volts as well as a power ground and a signal ground. \newline
+According to the manual of the FOG, the +5 Volt line is not allowed to be present without the +12 Volts and -12 Volts lines. This is ensured by using a PVG612 Photovoltaic Relay~\cite{web:pvg612a} that is activated by a digital output pin from the AT90CAN128, which is set high after a delay after start up. \newline
+In order to stabilize the supply voltage several capacitors are connected between each supply line and ground. These capacitors are placed as close to the FOG connector as possible and have very low equivalent series resistance (ESR) in order to remove as much noise as possible. 
+
+Although the Generic CAN controller could supply the INS board with +12 Volts, this supply is not galvanically isolated from the supply voltage. For this reason only the 5 Volt supply, which is galvanically isolated, was used by the INS controller and consequently DC-to-DC conversion from 5 Volts to +12 and -12 Volts was needed. \newline
+The User manual of the FOG specifies that low noise switching DC-to-DC converters with a switching frequency of at least 400 kHz are to be used. The LT1931 inverting DC-to-DC converter~\cite{web:lt1931} was used to supply -12 Volts. The LMR62014 step-up voltage regulator~\cite{web:lmr62014} was chosen to supply +12 Volts. Both of which use switching frequencies well over 1 MHz.
+
+
+\subsubsection{Analog to digital conversion}
+Before analog to digital conversion, the analog output from the FOG is filtered to remove high frequency components that could otherwise give rise to aliasing distortion. This filter is included in the schematic provided by the manufacturer of the FOG and was not modified during the project. \newline
+The THS4131 differential amplifier~\cite{web:ths4131} is the central component of the anti-aliasing filter. 
+
+The ADS1255 analog-to-digital converter is run at <INSERT SAMPLE RATE> samples pers second and has a resolution of 24 bits, however only about <INSERT EFFECTIVE RESOLUTION> bits are accurate is at this sample rate. \newline
+The ADS1255 is supplied by both 5 Volts and as well as 3.3 Volts. For this reason the LM1117MP-3.3 linear voltage regulator~\cite{web:lm1117} was used to convert from 5 Volts to 3.3 Volts. 
+
+Both the ADS1255 and the THS4131 require a voltage reference of 2.5 Volts. This voltage level needs to be very stable and noise free or accuracy of the whole circuit could be affected. The ADR421ARMZ ultraprecision, low noise voltage reference circuit~\cite{web:adr421} was used for this task.
+
+\subsubsection{Software interface}
+The Analog to Digital Converter (ADC) communicates with the AT90CAN128 using SPI. The ADC also has a Data Ready pin (DDRY) which goes low when the data is available for the SPI. The DDRY pin is connected to the external interrupt pin 3 of the AT90CAN128. The software also initializes Timer 1 of the AT90CAN128 and the resolution is set to 1$\mu$s. This timer is required since the time delay between issuing a read command to the ADC and then reading the data on the SPI is less than 1$\mu$s. The other clock in the AT90CAN128.CLOCK has a resolution of 1ms.
+\begin{enumerate}
+\item \textbf{Initialization :}The code starts with initializing the timer to 1$\mu$s and starting it. Then the SPI is initialized with a clock of 1 MHz. The SPI mode is set to setup on rising and sample on falling edge (CPOL = 0, CPHA = 1). The AT90CAN128 is also configured as SPI master. It then selects the slave device i.e. the ADS1255 ADC by pulling down the Slave Select (SS) pin. Then the ADC is RESET by writing the RESET command on the SPI. The ADC is then configured by writing to the registers. It is configured to use 100 Samples per Second (SPS) for analog to digital conversion. After that an auto calibrate command is send to complete the initialization. 
+\item \textbf{Execution :}When start is called the SPI sends the continuous read data command (RDATAC) on the SPI and then waits for 1$\mu$s before reading the data. Once the first data is read, the external interrupt is initialized. The external interrupt is configured to generate an interrupt on the falling edge of the Data Ready pin (DDRY). Whenever the interrupt occurs the SPI reads 3 bytes of data from the SPI and then updates the yaw value to the current one. Whenever the get\_yaw function is called it disables the interrupt and returns the latest yaw value before enabling the interrupts again.
+\end{enumerate}
+\newpage

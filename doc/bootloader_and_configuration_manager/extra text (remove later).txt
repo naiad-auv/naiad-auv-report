@@ -1,0 +1,38 @@
+
+blabla customer allows us to not use ravenscar for this part?
+
+
+abstract
+max 250 words
+
+
+introduction
+The goals we received and why they're important
+
+The customer gave us two requirements for how to handle the firmware.
+
+The first was that the firmware (Software for the micro controllers) should be downloaded via the CAN-bus. The second that the firmware should be handled by a configuration manager.
+
+The customer suggested that we program the micro controllers with a bootloader. AT90CAN micro controllers that we will use have good support for bootloaders so that was the agreed method.
+
+1.12.1 The firmware (Software for the micro controllers) should be downloaded via the CAN-bus
+
+The customer suggested that we program the micro controllers with a bootloader. AT90CAN micro controllers that we will use have good support for bootloaders so that was the agreed method.
+
+1.12.2 The firmware should be handled by a configuration manager
+
+
+method
+The bootloader is based on a previous project which in turn is based on the Slim CAN Bootloader.
+
+
+implementation
+Description of The actual changes we made
+
+result
+it works yay :P
+short description of how it works?
+or how to use it?
+
+conclusion
+what will happen in the future?

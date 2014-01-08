@@ -1,0 +1,29 @@
+% Do NOT change this "Section" title
+% and do NOT add more "Section" level titles.
+\section{Conclusion}\label{sec:conclusion}
+\subsection{Future work}
+\subsubsection{Testing}
+The system can be tested fully using integration, unit tests, acceptance tests. These would have to be wrote manually as the test suite a-unit cannot be used with the bindings.
+
+\subsubsection{Integrating disparity maps}
+The disparity maps obtained from the Gimme2 when it functions properly can be integrated into the velocity estimator function.
+The disparity map can be integrated with the velocity estimator function to recieve the estimated distance in centimeters instead of estimated pixels.
+
+\subsubsection{Integrating Can to the system}
+The can controller for the gimme2 has been completed by the vision firmware team. This code must be added to the vision software system main file.
+
+\subsubsection{Instruction handling system}
+A system for handling messages from mission control must be implemented.
+
+\subsubsection{PCL future work}
+\begin{description}
+\item[euclidean segmentation]\hfill \\
+a Euclidean segmentation module can be implemented to segment planes in a point cloud.
+\item[triangulation mesh]\hfill \\
+Constructing a triangular mesh around the point cloud, effectively turning the pointcloud from a group of points to a reconstructed surface can be implemented.
+\item[Adding color to mesh]\hfill \\
+Color can be added to the reconstructed triangular mesh by using the color intensity values from the original stereo images.
+\end{description}
+
+
+
