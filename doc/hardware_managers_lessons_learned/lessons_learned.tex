@@ -37,16 +37,15 @@ A system such as an AUV, or any other robot developed during the Robotics Projec
 If one does the opposite, first developing a subsystem and then define its interface, then this subsystem will have to be finished before any other subsystem (that is to interface with this subsystem) can be developed. 
 
 
-%then any other subsystem that is to be interfaced with this subsystem can be developed before this s
-
 \subsection{Clearly define each subsystem and its interface}\label{sec:define}
 As mentioned in Section~\ref{sec:top_down}, in a project of this size there will be many different subsystem that will be created by different people but still have to work together in the end. An example of this is the Motion Control subsystem that interfaces with each Motor controller that in turn controls the motors. \\
 It is of the utmost importance that the person(s) that build one subsystem (i.e. the Motion Control) knows what to expect from the subsystem(s) (i.e. the Motor Control) that their subsystem uses. There has been several instances throughout the project where one subsystem has been created to solve one function and those who are to use this subsystem have understood that it would solve a slightly different task. 
 
 I strongly recommend defining a set of tests for each subsystem at an early state, before the subsystems are developed.
 This will both help the person(s) developing the subsystem and help others understand what the subsystem will do. 
-Methods such as User stories, Unit testing and Integration testing should be used, or at least looked into, by the following years' projects.\\
+Methods such as User stories~\cite{web:wiki_user_story}, Unit testing~\cite{web:wiki_integration_testing} and Integration testing~\cite{web:wiki_unit_testing} should be used, or at least looked into, during the following years' projects.\\
 I also strongly encourage that the process of defining each subsystem, their interfaces and tests is done by several people and that what is decided is then presented to the whole project group so that anyone can come with suggestions or ideas.
+
 
 
 \subsection{Firmware is software}\label{sec:firmware}
@@ -64,5 +63,18 @@ I have realized that when working in a project such as this project course, one 
 This can sometimes be hard to do in practice since assuming that a person could make a mistake can be interpreted by that person that one does not trust him/her. For this reason, this lesson is closely related to Section~\ref{sec:ego}, each person has to realize that he/she can make mistakes and allow others to check his/her work. \\
 For managers (software, hardware and overall managers) this lesson also closely relates to Section~\ref{sec:listen}.
 
-%\subsection{}
+
+\subsection{Talk to the client about requirements}\label{sec:client}
+During the project it became apparent that several of the "hard" requirements given by the client were not so hard at all. Neither did all the requirements seem as thought through as they first appeared. Several of the requirements turned out to be more of "nice to have" rather than "need to have", for example the robot-to-robot communication, IP-over-CAN, the use of space-plug-and-play, etc. \\
+The above gave reason to go through each requirement and prioritize them and skip several of them.
+
+The same is likely to be true in following projects courses. Consequently, I strongly advice future students of this project course to look carefully at the given requirements, analyse them so that their purposes are fully understood and prioritize them. Once this is done, requirements that either seem to be to hard or that have low priority should be disregarded. \\
+All this should be done in collaboration with the client.
+
+This lesson is closely related to Section~\ref{sec:time}.
+
+\subsection{Time is precious}\label{sec:time}
+There is a lot of work that needs to be done during a project such as this one. Even though each student is meant to put in a lot of time into the project, one will soon find that one will only have time for a fraction of what one first thought that one would be able to do. One principle that was mentioned during the project was "Take whatever time you think something is going to take, multiply by $\pi$ and round up". This was said as a joke but in some instances it was not too far from reality. \\
+For these reasons, one has to be very selective on what to spend time on. This applies for each person on all levels of the project.
+
 
