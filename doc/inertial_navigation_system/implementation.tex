@@ -60,7 +60,7 @@ The accuracy of the FOG is highly dependent on the quality of the power supply, 
 
 \subsubsection{Power supply}
 The FOG has three power lines, +12 Volts, -12 Volts and +5 Volts as well as a power ground and a signal ground. \newline
-According to the manual of the FOG, the +5 Volt line is not allowed to be present without the +12 Volts and -12 Volts lines. This is ensured by using a PVG612 Photovoltaic Relay~\cite{web:pvg612a} that is activated by a digital output pin from the AT90CAN128, which is set high after a delay at start up. \newline
+According to the manual of the FOG, the +5 Volt line is not allowed to be present without the +12 Volts and -12 Volts lines. For this reason a PVG612 Photovoltaic Relay~\cite{web:pvg612a} is used to switch the +5 Volt line. The relay is activated by a digital output pin from the AT90CAN128 which is set high after a delay at start up, thus ensuring that the +5 Volt line is not present before the +12 and -12 Volt lines. \newline
 In order to stabilize the supply voltage several capacitors are connected between each supply line and ground. These capacitors are placed as close to the FOG connector as possible and have very low equivalent series resistance (ESR) in order to remove as much noise as possible. 
 
 Although the Generic CAN controller could supply the INS board with +12 Volts, this supply is not galvanically isolated from the supply voltage. For this reason only the 5 Volt supply, which is galvanically isolated, was used by the INS controller and consequently DC-to-DC conversion from 5 Volts to +12 and -12 Volts was needed. \newline
