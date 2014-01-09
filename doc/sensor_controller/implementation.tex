@@ -6,7 +6,8 @@ The temperature sensor used was the \emph{DS18B20} digital temperature sensor~\c
 
 The pressure sensor used was the \emph{IMCL Low Cost Submersible Pressure Sensor}~\cite{web:imcl}. The interface from the pressure sensor could be chosen when ordering the sensor so a simple analog voltage in the 0 to +5 Volt range was chosen since this is the range of the analog-to-digital converter on the AT90CAN128 microcontroller. Consequently, no interface circuitry was needed for the pressure sensor.
 
-The salinity sensor chosen was the \emph{Atlas Scientific E.C Circuit}~\cite{web:ec_circuit}. The E.C Circuit is connected to a probe whose output the E.C Circuit measures. The E.C Circuit has a serial interface that is connected to one of the UART busses of the AT90CAN128 microcontroller. No level conversion is needed since the E.C Circuit's serial interface uses +5 Volt TTL levels. \newline
+The salinity sensor chosen was the \emph{Atlas Scientific E.C Circuit}~\cite{web:ec_circuit}. The E.C Circuit is connected to a probe whose output the E.C Circuit measures. The E.C Circuit has a serial interface that is connected to one of the UART busses of the AT90CAN128 microcontroller. No level conversion is needed since the E.C Circuit's serial interface uses +5 Volt TTL levels.
+
 The E.C Circuit outputs the conductivity of the water, the Total Dissolved Solids (TDS) of salt in the water as well as the salinity expressed as an integer number in the Practical Salinity scale 1978. Out of these, only the last is used. \newline
 Three types of probes can be used. One for fresh water, one for brackish water and one for salt water. The ranges of salinity each probe can measure do overlap, but one will still need to choose the correct probe or the salinity reading can come out of range. 
 
@@ -20,7 +21,7 @@ Readings from all sensor will be put in the same CAN message containing 5 payloa
     	\textbf{Bytes} & \textbf{Data type} & \textbf{Meaning} \\ \hline
         1 - 2 & Integer\_16 & Temperature in 16ths of degrees C, e.g. +20.25 will be sent as 324 \newline 
         (00000001 01000100 in binary). \\ \hline
-        3 - 4 & Unsigned\_16 & Pressure in <FILL IN MORE>. \\ \hline
+        3 - 4 & Unsigned\_16 & Pressure in millibars. \\ \hline
         5  & Unsigned\_8 & Salinity in the Practical salinity scale, 0-42. 255 means that the value is out of range. 254 means no measurement has yet been done. \\ \hline
     \end{tabular}
 \end{table*}
@@ -31,7 +32,7 @@ To receive the data from the temperature sensor a protocol converter between UAR
 On the AT90CAN128 the characters are computed into a value which has a resolution of 1 degree Celsius which is more than enough since the speed of sound doesn't change that much at this little temperature variation. A procedure has been written so that when it is called it will make a temperature reading and return as output parameter the computed temperature.
 
 \subsection{Pressure sensor}
-Since the pressure sensor is analog, the AVR.AT90CAN128.ADC library is used to read the analog output of the sensor whenever a CAN message is to be sent with sensor readings. This analog-to-digital value is converted to millibars before being being sent as a CAN message. 
+Since the pressure sensor is analog, the AVR.AT90CAN128.ADC library~\cite{web:naiad_git} is used to read the analog output of the sensor whenever a CAN message is to be sent with sensor readings. This analog-to-digital value is converted to millibars before being being sent as a CAN message. 
 
 
 \subsection{Salinity sensor}
