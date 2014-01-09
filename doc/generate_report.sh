@@ -76,13 +76,14 @@ fi
 # suggestions for the upcoming projects in the future.
 #
 # technical: All the reports that have any technical details about the AUV.
+
 TECHNICAL="bbb_to_can
+            at90can_drivers
             bootloader_and_configuration_manager
             space_plug_and_play_avionics
             ip_over_can_bus
             hydrophone
             inertial_navigation_system
-            motion_control
             simulator
             pneumatics
             thruster_controller
@@ -90,9 +91,12 @@ TECHNICAL="bbb_to_can
             vision_hardware
             vision_software"
 
-LL="hardware_managers_lessons_learned
-     development_and_operations
-     sponsorship"
+#            motion_control
+
+LL="project_management
+    hardware_managers_lessons_learned
+    sponsorship
+    development_and_operations"
 
 COMPETITION="naiad_overview"
 
