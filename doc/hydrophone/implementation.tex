@@ -26,17 +26,17 @@ The hydrophone circuit includes three smaller circuits, namely:
    \item { \em Schmitt trigger circuit. }
 \end{itemize}
 \subsubsection{Amplifier circuit }
-The hydrophone cct is powered by the +12V , -12V feed from the Generic CAN controller. The amplifier circuit used OP amp named OP42GPZ - OP AMP. This OP amplifier is a fast precision JFET (( The junction gate field-effect transistor )) input operational amplifier.
-According to typical performance characteristics and electrical characteristics, the gain bandwidth of this product has 10 Mhz. This band width is suitable to our hydrophone circuit, also the OP amplifier is supplied with current less than 6 mA.
-In the rectifier circuit design it takes great care to attain a high precision signal by using a schottky diode ,  that is characterized by a low voltage drop and fast switching time.
-The result that has been achieved by using a schottky diode is more accurate than using other type of diodes.  
+The hydrophone circuit is powered by the +12V , -12V feed from the Generic CAN controller. The amplifier circuit used OP amp named OP42GPZ - OP AMP. This OP amplifier is a fast precision JFET (( The junction gate field-effect transistor )) input operational amplifier.
+According to typical performance characteristics and electrical characteristics, the gain bandwidth of this product has 10 MHz. This band width is suitable to our hydrophone circuit, also the OP amplifier is supplied with current less than 6 mA.
+In the rectifier circuit design it takes great care to attain a high precision signal by using a Schottky diode , that is characterized by a low voltage drop and fast switching time.
+The result that has been achieved by using a Schottky diode is more accurate than using other type of diodes.  
 
 \subsubsection{Low pass filter}
 Since low pass filters only allow low frequencies to pass or attenuates frequencies higher than the cutoff frequency.
 This means that the Hydrophone circuit will pass just a limited range of frequencies to avoid noises or other sounds. Any noise on the hydrophone circuit will decrease accuracy.    
  
  \subsubsection{Schmitt trigger  circuit}
-The schmitt trigger circuit used in the circuit is the TL084BCNG4 - IC, OP AMP. This OP amplifier designed with higher slew rates 13V/µs, supply voltage +12v and 3 Mhz band width that covers the frequency range of the hydrophone circuit.
+The schmitt trigger circuit used in the circuit is the TL084BCNG4 - IC, OP AMP. This OP amplifier designed with higher slew rates 13V/µs, supply voltage +12V and 3 MHz band width that covers the frequency range of the hydrophone circuit.
 The comparator that will achieved from schmitt trigger will be records the time the signal arrived by the hydrophone software by using external interrupts.
  
 %\subsubsection{Subsubsection1}
