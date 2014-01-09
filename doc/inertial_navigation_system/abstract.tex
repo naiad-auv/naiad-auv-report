@@ -1,7 +1,7 @@
 \begin{abstract}
 For most AUVs, an accurate estimation of the AUV's position and orientation is important for mission success. In the Vasa Project, an Inertial measurement unit (IMU) was the only sensor used to obtain position and orientation data. This solution was found to be insufficient, particularly regarding the accuracy of the yaw (heading). Lessons learned from the Vasa Project were used in the design of the Naiad AUV. \newline
 The Naiad AUV is equipped with two inertial sensors: One VN-100 Inertial measurement unit (IMU) and a SAAB Fiber optic gyroscope (FOG). The VN-100 is a significantly better IMU than the one used in the Vasa Project. The fiber optic gyroscope is used as a second sensor for yaw readings. \newline
-The IMU and FOG are connected to a circuit board known as the \emph{INS board} that serves as an electrical interface to a Generic CAN controller that reads the sensors and outputs the their readings on the CAN bus. \newline
+The IMU and FOG are connected to a circuit board known as the \emph{INS board}. This circuit serves as an electrical interface to a Generic CAN controller that reads the sensors and outputs the their readings on the CAN bus. \newline
 The \emph{Sensor fusion} board will in turn receive these readings from the CAN bus and calculate an estimation of the AUV's orientation and position. \newline
 The IMU, the FOG, the INS board and the Generic CAN controller connected to the INS board constitute the \emph{Inertial navigation system}.
 \end{abstract}

@@ -3,14 +3,14 @@
 Here I have listed the lessons I learned during the project that I want to share with others.
 
 \subsection{Leave your ego at home}\label{sec:ego}
-Throughout the course of a project like this you will participate in many discussions. Many times will there be people that think differently than you do. More importantly, \emph{there will be times when you are wrong}. When those who oppose you have valid arguments, you have to reconsider if you really are right. \\
+Throughout the course of a project like this you will participate in many discussions. Many times there will be people that think differently than you do. More importantly, \emph{there will be times when you are wrong}. When those who oppose you have valid arguments, you have to reconsider if you really are right. \\
 Don't be afraid to acknowledge that you are wrong. Keep an open mind and focus on factual arguments rather than taking anything personal. \\
 Remember that design choices should never be determined by the egos of individuals in the group.
 
 
 \subsection{Listen to your colleges}\label{sec:listen}
-Early on I realized that even though I was the manager (or "boss" or whatever word one wants to use) of the hardware team, I still did not know particularity much more than anybody else in the team. Therefore I frequently discussed the decisions I took with my colleagues and I was very clear that I wanted feedback. If somebody realized that a I had taken a bad decision then I wanted that person to tell me this so that I could make better decision, etc. \\
-I believe that this was a very good thing to do. Many times did my members of my team come to me and tell me that what I had decided wasn't the best way, which often helped to avoid many mistakes. \\
+Early on I realized that even though I was the manager of the hardware team, I still did not know particularly much more than anybody else in the team. Therefore I frequently discussed the decisions I took with my colleagues and I was very clear that I wanted feedback. If somebody realized that I had taken a bad decision then I wanted that person to tell me this so that I could make better decisions, etc. \\
+I believe that this was a very good thing to do. There were many times when members of my team come to me and told me that a decision I had made were not the best, which often helped to avoid many mistakes. \\
 This lesson is closely related with Section~\ref{sec:ego}.
 
 
@@ -23,34 +23,34 @@ The interface between hardware and software should be discussed between the hard
 
 
 \subsection{Define software standards and follow them}\label{sec:software_standards}
-Regarding software standards, I am not too concerned about coding styles such as weather one should use underlines or not (e.g. \emph{my\_variable} or \emph{myVariable}), even though these types of standards do improve readability. \\
+Regarding software standards, I am not too concerned about coding styles such as whether one should use underlines or not (e.g. \emph{my\_variable} or \emph{myVariable}), even though these types of standards do improve readability. \\
 More concern should be put into what the overall structure of the whole body of code should look like. This includes a folder structure (e.g. one folder for hardware specific drivers, with subfolders for each hardware, one folder for platform independent code, and so on) how different parts of the code depend on each other and so forth.
 
 Please note that these definitions will in turn be further defined in Section~\ref{sec:define} and that this lesson also is associated with Section~\ref{sec:top_down}.
 
-Once the software structure and coding standards are decided, one has to make sure that they are followed properly. I strongly advice the Software manager to read all code that his subordinates write. This will enable him/her to ensure that the code is written in a good way. This will also give the Software manager a better overview of all the software that is written during the project. \\
+Once the software structure and coding standards are decided, one has to make sure that they are followed properly. I  advice the Software manager to read all code that his subordinates write. This will enable him/her to ensure that the code is written in a good way. This will also give the Software manager a better overview of all the software that is written during the project. \\
 If somebody thinks there should be changes made in the coding standards or the structure of the software, then this should be discussed in the whole project group and a decision should be made. Individuals should avoid to deviate from the decided standards at their own initiative.
 
 
 \subsection{Use a top down design flow}\label{sec:top_down}
-A system such as an AUV, or any other robot developed during the Robotics Project course will be a system of subsystem where the subsystems are dependent of each other. For this reason it is important to first define the subsystems and their interfaces before starting to develop each subsystem. \\
+A system such as an AUV, or any other robot developed during the Robotics Project course will be a system of subsystems where the subsystems are dependent of each other. For this reason it is important to first define the subsystems and their interfaces before starting to develop each subsystem. \\
 If one does the opposite, first developing a subsystem and then define its interface, then this subsystem will have to be finished before any other subsystem (that is to interface with this subsystem) can be developed. 
 
-
-%then any other subsystem that is to be interfaced with this subsystem can be developed before this s
 
 \subsection{Clearly define each subsystem and its interface}\label{sec:define}
 As mentioned in Section~\ref{sec:top_down}, in a project of this size there will be many different subsystem that will be created by different people but still have to work together in the end. An example of this is the Motion Control subsystem that interfaces with each Motor controller that in turn controls the motors. \\
 It is of the utmost importance that the person(s) that build one subsystem (i.e. the Motion Control) knows what to expect from the subsystem(s) (i.e. the Motor Control) that their subsystem uses. There has been several instances throughout the project where one subsystem has been created to solve one function and those who are to use this subsystem have understood that it would solve a slightly different task. 
 
-I recommend defining a set of tests for each subsystem at an early state (before the subsystems are developed). This will both help the person(s) developing the subsystem and help others understand what the subsystem will do. \\
-I also strongly encourage that the process of defining each subsystem, their interfaces and tests is done by several people and that what is decided is then presented to the whole project group so that anyone can come with suggestions or ideas.
+I recommend defining a set of tests for each subsystem at an early state, before the subsystems are developed.
+This will both help the person(s) developing the subsystem and help others understand what the subsystem will do. 
+Defining User stories~\cite{web:wiki_user_story} and/or Integration tests~\cite{web:wiki_unit_testing} that will be used later on in the development cycle (testing phase) are good ways for the project team to define the goals for the different subsystems. \\
+I also encourage that the process of defining each subsystem, their interfaces and tests is done by several people and that what is decided is then presented to the whole project group so that anyone can come with suggestions or ideas.
 
 
 \subsection{Firmware is software}\label{sec:firmware}
 As mentioned, there were several possible definitions of firmware and firmware could be considered either software or hardware. %During this project firmware was to include code written for the AT90CAN128 microcontroller and the low level drivers for the GIMMIE-2 board. \\
 In any case, each piece of firmware will need to interface with to two things: the hardware (the Sensor controller needs to interface to its sensors, the Motorcontroller needs to interface with the motors, etc.) and to the software (e.g. Motion control, Mission control, Simulator etc). \\
-I have come to realize that the firmware-hardware interface is more complex than the firmware-hardware interface. The reason for this is that the firmware-hardware interface is specific to each subsystem, for example: the person writing the Sensor controller firmware only needs to talk to the person building the Sensor controller hardware (choosing sensors and building interface circuits). Whereas the firmware-software interface is more general. This is discussed in Sections~\ref{sec:software_standards},~\ref{sec:top_down} and~\ref{sec:define}.
+I have come to realize that the firmware-software interface is more complex than the firmware-hardware interface. The reason for this is that the firmware-hardware interface is specific to each subsystem, for example: the person writing the Sensor controller firmware only needs to talk to the person building the Sensor controller hardware (choosing sensors and building interface circuits). Whereas the firmware-software interface is more general. This is discussed in Sections~\ref{sec:software_standards},~\ref{sec:top_down} and~\ref{sec:define}.
 
 
 \subsection{Have a person responsible for sponsorship only}
@@ -58,9 +58,20 @@ The work of getting sponsors is enough work for at least one person throughout t
 
 \subsection{Individuals will make mistakes}
 The well known fact that "To err is human" has been apparent during this project, not only others but also myself have made mistakes that have had negative consequences for the project. \\ %None of theses mistakes have had permanent effects on the project. 
-I have realized that when working in a project such as the Robotics Project course, one has to remember that each individual can make mistakes and that one has to work in a way such that the mistakes of an individual do not become a mistake of the whole project group, mistakes need to be found and corrected. %if someone makes a mistake, then someone else will find the mistake so that it can be corrected. 
-This can sometimes be hard to do in practice since assuming that a person could make a mistake can be interpreted by that person that one does not trust him/her. For this reason, this lesson is closely related to Section~\ref{sec:ego}, each person has to realize that he/she can make mistakes and allow others to check his/her work. \\
+I have realized that when working in a project such as this project course, one has to remember that any individual can make mistakes. For this reason one has to work in a way such that the mistakes of an individual do not become a mistake of the whole project group, mistakes need to be found and corrected. This can sometimes be hard to do in practice since assuming that a person could make a mistake can be interpreted by that person that one does not trust him/her. For this reason, this lesson is closely related to Section~\ref{sec:ego}, each person has to realize that he/she can make mistakes and allow others to check his/her work. \\
 For managers (software, hardware and overall managers) this lesson also closely relates to Section~\ref{sec:listen}.
 
-%\subsection{}
+
+\subsection{Talk to the client about requirements}\label{sec:client}
+During the project it became apparent that several of the "hard" requirements given by the client were not so hard at all. Neither did all the requirements seem as thought through as they first appeared. Several of the requirements turned out to be more of "nice to have" rather than "need to have", for example the robot-to-robot communication, IP-over-CAN, the use of space-plug-and-play, etc. \\
+
+The same is likely to be true in following project courses. Consequently, I strongly advice future students of this project course to look carefully at the given requirements, analyze them so that their purposes are fully understood and prioritize them. Once this is done, requirements that either seem to be to hard to fulfil or that have low priority should be left for later evaluation. It is better to start with a few important requirements than trying to meet all from the beginning. \\
+All this should be done in collaboration with the customer.
+
+This lesson is closely related to Section~\ref{sec:time}.
+
+\subsection{Time is precious}\label{sec:time}
+There is a lot of work that needs to be done during a project such as this one. Even though each student is meant to put in a lot of time into the project, one will soon find that one will only have time for a fraction of what one first thought that one would be able to do. One principle that was mentioned during the project was "Take whatever time you think something is going to take, multiply by $\pi$ and round up". This was said as a joke but in some instances it was not too far from reality. \\
+For these reasons, one has to be very selective on what to spend time on. This applies for each person on all levels of the project.
+
 
