@@ -18,16 +18,42 @@ For the transmit interrupt, when the message has been transmitted the message is
 \end{enumerate}
 
 \subsection{SPI Drivers}
-The AT90CAN128 has 1 8 bit SPI module. The SPI drivers primarily has following functions:
+The AT90CAN128 has a 8 bit SPI module. The SPI drivers primarily has following functions:
 \begin{enumerate}
 \item \textbf{Initialization (Init) :}The Init function takes input the Clock divisor to use for the SPI clock, the clock mode, a boolean variable to tell if the device is master or slave, boolean to tell if the most significant bit is transmitted first and a boolean to tell if the Slave Select pin is used or not. The function disables the SPI device, configures it with the values passed and enables it.
 \item \textbf{SPI transmit and receive :}There are three functions to transmit and receive SPI data depending on if only transmit, only receive or both transmit and receive is required. 
 The SPI\_IO function takes input a byte which it transmits on the SPI and waits for the reply. It calls the master or slave IO functions depending on whether the AT90CAN128 is master or slave. The reply is then returned. \newline
 The WriteSPI is used to transmit 1 byte of data. This function calls SPI\_IO internally. Whatever is received during that SPI transmit is discarded. \newline
 The ReadSPI is used to read a byte of SPI data. This function also calls SPI\_IO internally. A temp value of 0 is transmitted and the received value is returned.
-
-
-\subsection{UART Drivers}
-
-
 \end{enumerate}
+
+\subsection{UART drivers}
+The UART drivers provide the ability to send and received data over the two UART buses that the AT90CAN128 has. For each of the two buses there is one send buffer that holds data that is to be sent and one receive buffer that holds data that has yet to be sent. The buffers are implemented as circular buffers.  \\
+The UART drivers are implemented in the \\
+AVR.AT90CAN128.USART package that provides the following functions and procedures:
+
+\begin{itemize}
+\item \textbf{Init} initiates the UART by setting the registers controlling the baud rate and UART interrupts.
+\item \textbf{Put}  writes one byte to the send buffer and checks whether UART transmission is already ongoing, if not, transmission of the first byte is started. 
+\item \textbf{Write} uses \textbf{Put} to write a a string of data to the buffer.
+\item \textbf{Space\_Available} returns the amount of space left.
+\item \textbf{Data\_Available} returns the number of bytes present in the receive buffer.
+\item \textbf{Get\_Char} reads a byte from the receive buffer (if the buffer is not empty).
+\item \textbf{Read} reads a string of bytes from the receive buffer.
+\item \textbf{Flush\_Receive\_Buffer} empties a receive buffer.
+\end{itemize}
+
+Each function takes a variable of the type \textit{BAUDTYPE} as argument. \textit{BAUDTYPE} is used to represent which UART bus that a function call refers to. \\
+Four UART interrupts are used: \emph{USART0 Data Register Empty}, \emph{USART1 Data Register Empty}, \emph{USART0 Receive Complete} and \emph{USART1 Receive Complete}. \\
+
+
+\subsubsection{USART Data Register Empty interrupts}
+These interrupts occur when transmission of a byte has been completed. When this happens, the Interrupt Service Routine (ISR) checks whether the send buffer is non-empty (if there is more data to send). If so, a byte is read from the send buffer and transmission of this byte is started.
+
+
+\subsubsection{Receive Complete interrupts}
+These interrupts occur when a byte has been received. The ISR will fetch the byte by reading the \emph{USART0 Data Register} (or \emph{USART1 Data Register} depending on which bus caused the interrupt). If the receive buffer is not full the ISR will put this byte into the receive buffer. \\
+If the receive buffer is full the byte can not be stored in the receive buffer and will be lost. Because of this it is important that the application software reads the receive buffer often enough, particularly in applications where large quantities of data is received over UART.
+
+
+

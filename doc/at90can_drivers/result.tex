@@ -3,24 +3,9 @@
 \section{Result}\label{sec:result}
 Text
 
-% You can use how many "subsections" and "subsubsections" you like.
-\subsection{Subsection}
-After this comes a table or at least somewhere close by...perhaps in the top
-of the column?
 
-\subsubsection{Subsubsection1}
-After this comes a table or at least somewhere close by...perhaps in the top
-of the next page?
-\begin{table*}
-\centering
-    \caption{Awesome two columns table example}
-    \begin{tabular}{|c|c|l|} \hline
-    \label{table:two_columns}
-        rhoncus faucibus egestas. & is & a \\ \hline
-        one & column & table\\ \hline
-        It & is & pretty \\ \hline
-        nice & don't & know \\ \hline
-        what & to write & here.\\
-        \hline
-    \end{tabular}
-\end{table*}
+\subsection{UART drivers}
+The UART drivers have been tested and used extensively throughout the project and work well. There was one error that was detected quite some time after the UART code was implemented: \\
+If a Receive Complete interrupt occurred when the receive buffer was full, the ISR will not do anything. This meant that the \emph{USART0 Data Register} (or \emph{USART1 Data Register}) would not be read. \\
+When the next byte was received it would too be put in this register and since this register had not been read, an error occurred and the AT90CAN128 would reset itself. \\
+This error was removed by fetching the received byte regardless whether the receive buffer was full or not.
