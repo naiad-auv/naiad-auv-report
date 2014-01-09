@@ -28,7 +28,7 @@ More concern should be put into what the overall structure of the whole body of 
 
 Please note that these definitions will in turn be further defined in Section~\ref{sec:define} and that this lesson also is associated with Section~\ref{sec:top_down}.
 
-Once the software structure and coding standards are decided, one has to make sure that they are followed properly. I strongly advice the Software manager to read all code that his subordinates write. This will enable him/her to ensure that the code is written in a good way. This will also give the Software manager a better overview of all the software that is written during the project. \\
+Once the software structure and coding standards are decided, one has to make sure that they are followed properly. I  advice the Software manager to read all code that his subordinates write. This will enable him/her to ensure that the code is written in a good way. This will also give the Software manager a better overview of all the software that is written during the project. \\
 If somebody thinks there should be changes made in the coding standards or the structure of the software, then this should be discussed in the whole project group and a decision should be made. Individuals should avoid to deviate from the decided standards at their own initiative.
 
 
@@ -41,11 +41,10 @@ If one does the opposite, first developing a subsystem and then define its inter
 As mentioned in Section~\ref{sec:top_down}, in a project of this size there will be many different subsystem that will be created by different people but still have to work together in the end. An example of this is the Motion Control subsystem that interfaces with each Motor controller that in turn controls the motors. \\
 It is of the utmost importance that the person(s) that build one subsystem (i.e. the Motion Control) knows what to expect from the subsystem(s) (i.e. the Motor Control) that their subsystem uses. There has been several instances throughout the project where one subsystem has been created to solve one function and those who are to use this subsystem have understood that it would solve a slightly different task. 
 
-I strongly recommend defining a set of tests for each subsystem at an early state, before the subsystems are developed.
+I recommend defining a set of tests for each subsystem at an early state, before the subsystems are developed.
 This will both help the person(s) developing the subsystem and help others understand what the subsystem will do. 
-Methods such as User stories~\cite{web:wiki_user_story}, Unit testing~\cite{web:wiki_integration_testing} and Integration testing~\cite{web:wiki_unit_testing} should be used, or at least looked into, during the following years' projects.\\
-I also strongly encourage that the process of defining each subsystem, their interfaces and tests is done by several people and that what is decided is then presented to the whole project group so that anyone can come with suggestions or ideas.
-
+Defining User stories~\cite{web:wiki_user_story} and/or Integration tests~\cite{web:wiki_unit_testing} that will be used later on in the development cycle (testing phase) are good ways for the project team to define the goals for the different subsystems. \\
+I also encourage that the process of defining each subsystem, their interfaces and tests is done by several people and that what is decided is then presented to the whole project group so that anyone can come with suggestions or ideas.
 
 
 \subsection{Firmware is software}\label{sec:firmware}
@@ -66,10 +65,9 @@ For managers (software, hardware and overall managers) this lesson also closely 
 
 \subsection{Talk to the client about requirements}\label{sec:client}
 During the project it became apparent that several of the "hard" requirements given by the client were not so hard at all. Neither did all the requirements seem as thought through as they first appeared. Several of the requirements turned out to be more of "nice to have" rather than "need to have", for example the robot-to-robot communication, IP-over-CAN, the use of space-plug-and-play, etc. \\
-The above gave reason to go through each requirement and prioritize them and skip several of them.
 
-The same is likely to be true in following projects courses. Consequently, I strongly advice future students of this project course to look carefully at the given requirements, analyse them so that their purposes are fully understood and prioritize them. Once this is done, requirements that either seem to be to hard or that have low priority should be disregarded. \\
-All this should be done in collaboration with the client.
+The same is likely to be true in following projects courses. Consequently, I strongly advice future students of this project course to look carefully at the given requirements, analyse them so that their purposes are fully understood and prioritize them. Once this is done, requirements that either seem to be to hard to fulfil or that have low priority should be left for later evaluation. It is better to start with a few important requirements than trying to meet all from the beginning. \\
+All this should be done in collaboration with the customer.
 
 This lesson is closely related to Section~\ref{sec:time}.
 
