@@ -8,7 +8,7 @@ The software running on the Generic CAN controller is called AT90CAN\_Ins\_Contr
 
 \subsection{Inertial measurement unit}
 The IMU is powered by the +5V feed from the Generic CAN controller. It provides a serial interface at both 3.3 Volt TTL levels and RS-232 levels, neither of which can be directly connected to Generic CAN controller since the UART busses on the AT90CAN128 microcontroller work at +5 Volt TTL levels. A level change was consequently needed. The MAX232~\cite{web:max232} driver/receiver was chosen to convert between RS-232 levels and +5 Volt TTL levels since it needs only a 5 Volt supply. \newline
-The IMU has one output pin called \emph{SYNC\_OUT} that can be configured to output a synchronization pulse whenever the IMU has completed a measurement. The SYNC\_OUT pin is connected to Port D, pin 2 on the AT90CAN128. This pin is activates the \emph{external interrupt 2}. \newline
+The IMU has one output pin called \emph{SYNC\_OUT} that can be configured to output a synchronization pulse whenever the IMU has completed a measurement. The SYNC\_OUT pin is connected to Port D, pin 2 on the AT90CAN128. This pin activates the \emph{external interrupt 2}. \newline
 The above configuration enables an interrupt service routine to be activated every time the IMU has made a measurement.\newline 
 \emph{Please note that this pin also is the receive pin on the UART1 bus. Hence UART1 is therefore inactivated.} 
 
