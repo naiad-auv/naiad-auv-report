@@ -2,36 +2,40 @@
 % and do NOT add more "Section" level titles.
 \section{Method}\label{sec:method}
 \subsection{Preparation}
-\subsubsection{OpenCV meets Ada}
+\subsubsection{OpenCV with Ada}
 The first task undertaken in this project was to try to get OpenCV working with Ada. Bindings were found online \cite{web:oldAdaBindings} however these binding were found to be rigidly implemented to an older version of OpenCV and an operating system no longer supported. An alternative solution was required. After much research a method of binding OpenCV to Ada was found \cite{web:newAdaBindings} and this method was adapted to bind opencv to ada. This generated bindings that could be used by including the wrapper file in the ada project, however linking several projects that used the bindings together, and compiling and running the project in an IDE proved troublesome. A Makefile was constructed to link everything together.
 
-\subsubsection{PCL meets Ada}
-Much like OpenCV, PCL needed to be converted from C++ to Ada. The same approach as OpenCV was undertaken. The PCL modules required were first constructed in C++ and then Ada bindings were generated using the binding commands found \cite{web:newAdaBindings}. The PCL functions could then be called from ada. The makefile was then adjusted to incorporate PCL. This simply required adding include directories to the necessary PCL libraries in the Makefile 
+\subsubsection{PCL with Ada}
+Much like OpenCV, PCL needed to be converted from C++ to Ada. The same approach as OpenCV was undertaken. The PCL modules required were first developed in C++ and then Ada bindings were generated using the binding commands found \cite{web:newAdaBindings}. The PCL functions could then be called from ada. The makefile was then adjusted to incorporate PCL. This simply required adding include directories to the necessary PCL libraries in the Makefile 
 
-\subsubsection{Developing for GIMME2}
-As GIMME-2 was a state of the art hardware platform, development support was limited. One positive was that its ARM processor architecture is also used in the Beaglebone Black and Pandaboard. As the Ubuntu operating system was not supported by GIMME-2, it was decided to statically compile the binaries needed on a Pandaboard statically and then move the binaries to the Gimme2 to be run.
+\subsubsection{Developing for GIMME-2}
+As GIMME-2 was a state of the art hardware platform, development support was limited. One positive was that its ARM processor architecture is also used in the Beaglebone Black and Pandaboard. As the Ubuntu operating system was not supported by GIMME-2, it was decided to statically compile the binaries needed on a Pandaboard statically and then move the binaries to the GIMME-2 to be run.
 
 \subsection{Software}
 \subsubsection{Stereo vision}
 It works. sometimes.
+
+The hardware is potentially capable of stereo vision, taking pitures with its dual caera lenses at the same time, which enables depth perception and motion calculations.
+
 \begin{description}
-  \item [Calibrating the cameras] \hfill \\As Gimme2 was having problems taking two pictures simultaneously, a custom stereo rig was constructed to run and test the calibration software. Calibration and Rectification code was constructed to calibrate the cameras. This code can be tested on the GIMME-2 when it was the ability to take 10 consecutive stereo images.
-  \item [Disparity maps] \hfill \\Since the GIMME2 flaunts a stereo system, disparity maps were used for motion and distance estimation. OpenCV functionalities were used for this purpose.
+  \item [Calibrating the cameras] \hfill \\As GIMME-2 was having problems taking two pictures simultaneously, a custom stereo rig was constructed to run and test the calibration software. Calibration and Rectification code was constructed to calibrate the cameras. This code can be tested on the GIMME-2 when it was the ability to take 10 consecutive stereo images.
+  \item [Disparity maps] \hfill \\Since the GIMME-2 flaunts a stereo system, disparity maps were used for motion and distance estimation. OpenCV functionalities were used for this purpose.
 
 \end{description}
 
 \subsubsection{Image Enhancement}
-Cleaning up the image was attacked on four fronts. Blurring the image, Sharpening the image to make features more clear and easier to detect, manipulating image properties,and noise reduction. 
+Cleaning up the image was attempted by four methods. Blurring the image, Sharpening the image to make features more clear and easier to detect, manipulating image properties, and noise reduction. 
 \begin{description}
 \item[Median Filter]\hfill \\The idea behind the Median filter is to search for highly improbable pixel values, and replace them with the median value of the surrounding pixels (computer and machine vision, 4th ed)
+
 The median filter makes a 3x3 sliding window that reduces noise by filtering every pixel of the image. It works by replacing the value at the centre of the window with the median value of the pixels in the window.
 
 \item[Quaternion Switching Filter]\hfill \\
 The quaternion switching filter \cite{web:QNSF} is a filter based on quaternions.
 A quaternion is a vector representation that has 1 real part and 3 imaginary parts of the form 
 Q=w+ ix+jy+kz \cite{article:Hamilton1844}
-\\Quaternions are useful in image processing as an rgb pixel can be represented as a purely imaginary quaternion by letting the real part of the vector equal zero. A quaternion with only imaginary parts is known as a right quaternion.\cite{article:Hamilton1866}
-The quaternions allows us to represent a 3 value pixel as a single function. We can then also use quaternion unit transform theory to find the pixel chromaticity difference and pixel intensity difference of the pixels in the sliding window.
+\\Quaternions are useful in image processing as an RGB pixel can be represented as a purely imaginary quaternion by letting the real part of the vector equal zero. A quaternion with only imaginary parts is known as a right quaternion.\cite{article:Hamilton1866}
+The quaternions allows representation of a 3 value pixel as a single function. Then quaternion unit transform theory can be used to find the pixel chromaticity difference and pixel intensity difference for the pixels in the sliding window.
 
 If the combined greatest difference is greater than a user defined threshold then the pixel is subjected to a Vector Median Filter. If the difference is less than the threshold then no filtering is performed on the pixel
 \end{description}
@@ -39,26 +43,28 @@ If the combined greatest difference is greater than a user defined threshold the
 \subsubsection{Manipulating image properties} 
 \begin{description}
 \item[Image Contrast]\hfill \\
-It is a basic image manipulation functionality targeted to enhance the image quality if required.
-It makes use of the opencv function convertTo using alpha and beta as gain and bias parameters respetively.
+This is a basic image manipulation functionality targeted to enhance the image quality if required.
+It makes use of the opencv function \emph{convertTo} using alpha and beta as gain and bias parameters respetively.
 
 \item[Invert image]\hfill \\
-In this context, invert refers to the reversal in the nature of the pixel intensities of the image.
+In this context, \emph{Invert} refers to the reversal in the nature of the pixel intensities of the image.
 For instance, an originally pure black input pixel yields a pure white pixel as output.
 It makes use of the simple form of  
 \begin{align*} &V(new) = 255 - V(old) \\ 
 \end{align*} 
 \\where V is the value of the pixel in BGR, to invert an image. 
-this method is particularly helpful when working with masks.
+This method is particularly helpful when working with masks.
 
-In the final implementation, the opencv function addWeighted was used to achieve the desired functionality, with constants 1.00 and -1.00 for alpha and beta channels respectively.
+In the final implementation, the opencv function \emph{addWeighted} was used to achieve the desired functionality, with constants 1.00 and -1.00 for alpha and beta channels respectively.
 
-cv::addWeighted(mask, 1.0, img.at(src), -1.0, 0, img.at(dst));
+\begin{align*}
+addWeighted(mask, 1.0, img.at(src), -1.0, 0, img.at(dst))
+\end{align*}
 
 where the mask is a pure white image.
 
 \item[split channels]\hfill \\
-This enables us to split an input image in it's basic color components, so we could have color-channel filtering without use of any extra hardware.
+This enables to split an input image in it's basic color components, so the system could have color-channel filtering without use of any extra hardware.
 
 \item[Gaussian Blur]\hfill \\
 The Gaussian Blur function \cite{web:gaussianBlur}  needed to be implemented for the edge detection modules. A blur basically smooths out the image and makes jagged edges smoother and the image works better with the edge detection mods. Gaussian blur can also be used for noise reduction.
@@ -77,7 +83,7 @@ For future, it is being planned to have a multi-focus fusion module in place to 
 \cite{article:Zheng2010} \cite{article:Zhang2010} \cite{article:Shutao}
 
 \item[Enhance Colors]\hfill \\
-This function was implemented by converting an image to HSI . Then scrolling through each pixel in the image and adding a number to the intensity to increase the intensity of each pixel. This enhanced the colors of the image. This function was particularly useful when detecting red templates. When pictures of the red templates were taken it was observed that in parts of the template the red appeared a little faded. The enhance colors module worked a treat in enhancing the red color which led to better results when the canny and contour modules were run on the template. 
+This function was implemented by converting an image to HSI, then scrolling through each pixel in the image and adding a number to the intensity to increase the intensity of each pixel. This enhanced the colors of the image. This function was particularly useful when detecting red templates. When pictures of the red templates were taken it was observed that in parts of the template the red appeared a little faded. The enhance colors module worked a treat in enhancing the red color which led to better results when the canny and contour modules were run on the template. 
 \end{description}
 
 \subsubsection{Interpreting image} 
