@@ -1,10 +1,9 @@
-% Do NOT change this "Section" title
-% and do NOT add more "Section" level titles.
-\section{Conclusion}\label{sec:conclusion}
-Text
 
-% You can use how many "subsections" and "subsubsections" you like.
-\subsection{Subsection}
-Text
-\subsubsection{Subsubsection1}
-Text
+\section{Conclusion}\label{sec:conclusion}
+As mentioned in Section~\ref{sec:result}, the drivers work well. Future projects should use these drivers instead of implementing their own drivers from scratch. Hopefully, the work of this project will save time for future projects.
+
+\subsection{Future work}
+Future work on these drivers may include further testing. As mentioned in Section~\ref{sec:result_uart}, the UART drivers worked well under normal conditions (when the receive buffer did not overflow). But under abnormal conditions (when the receive buffer overflowed) the actual behavior of the UART drivers was not what was expected. The whole system cashed instead of there ''just" being a few bytes lost in the UART communication. \\
+What can be learned from this is that tests of a subsystem such as drivers of this kind should not be ''nice". Tests should not only involve normal working condition, but should also try to ''break" the subsystem and see how it breaks. Specifications on a subsystem should not only include the system's behavior under normal working conditions but also how the subsystem should behave when put under conditions it cannot handle (such as when the receive buffer is not read by the application software causing the it to overflow).
+
+It might also be worth to try to prove the correctness of the drivers using methods such as UPPAAL.

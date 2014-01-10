@@ -1,10 +1,15 @@
-% Do NOT change this "Section" title
-% and do NOT add more "Section" level titles.
+
 \section{Result}\label{sec:result}
-Text
+The drivers were tested individually and also as a part of testing the individual board software. All drivers are working well. The subsections below describe the results of each driver more thoroughly.
 
 
-\subsection{UART drivers}
+\subsection{CAN drivers}
+<ASEEEM, FILL THIS IN>
+
+\subsection{SPI drivers}
+<ASEEEM, FILL THIS IN>
+
+\subsection{UART drivers}\label{sec:result_uart}
 The UART drivers have been tested and used extensively throughout the project and work well. There was one error that was detected quite some time after the UART code was implemented: \\
 If a Receive Complete interrupt occurred when the receive buffer was full, the ISR will not do anything. This meant that the \emph{USART0 Data Register} (or \emph{USART1 Data Register}) would not be read. \\
 When the next byte was received it would too be put in this register and since this register had not been read, an error occurred and the AT90CAN128 would reset itself. \\
