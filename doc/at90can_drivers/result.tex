@@ -4,10 +4,19 @@ The drivers were tested individually and also as a part of testing the individua
 
 
 \subsection{CAN drivers}
-<ASEEEM, FILL THIS IN>
+The CAN drivers were tested thoroughly. The following functionalities were tested:
+\begin{enumerate}
+\item Basic send and receive functionality was tested. A message was sent over CAN bus and a message was received.
+\item Received multiple messages in the buffer and checked if the Can\_get function returned the highest priority message first.
+\item Overflow the send and receive buffers and observed that the messages were discarded after the buffers were full.
+\item Sent the Mode message to change the mode of the board and saw how the send and receive functionality changed depending on the mode.
+\item Sent the reboot message and the board rebooted.
+\end{enumerate}
+Apart from these tests the CAN drivers were also tested exhaustively throughout the project by other modules which were using the CAN. The CAN drivers seem to be pretty stable.
 
-\subsection{SPI drivers}
-<ASEEEM, FILL THIS IN>
+\subsection{SPI drivers}\label{sec:result_spi}
+The SPI drivers were tested by sending and receiving messages to the ADS1255, Analog to Digital Converter (ADC) chip. Messages were sent to write to the registers of the ADC and the value was read back. Also the SPI drivers were tested to receive the Digital value from ADC which is of 24 bits. Both the tests worked as expected. \\
+The SPI drivers were not tested when more than one slave device is connected to the master or when the AT90CAN acts as a slave.
 
 \subsection{UART drivers}\label{sec:result_uart}
 The UART drivers have been tested and used extensively throughout the project and work well. There was one error that was detected quite some time after the UART code was implemented: \\
