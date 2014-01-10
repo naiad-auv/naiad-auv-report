@@ -11,13 +11,13 @@ Since PID control is based upon the current error, the difference between the cu
 
 The positional errors are very straight forward. Since the position of the craft is represented by a vector with three components it is simply the difference between the current value, x, y, z, of each component and the wanted value, \^x, \^y, \^z, of each component as seen in \eqref{POSITIONALERRORCALCX}\eqref{POSITIONALERRORCALCY}\eqref{POSITIONALERRORCALCZ}
 
-\begin{center}
-	\begin{gather}
-		\label{POSITIONALERRORCALCX} $error(x) = \^x - x$ \\
-		\label{POSITIONALERRORCALCY} $error(y) = \^y - y$ \\
-		\label{POSITIONALERRORCALCZ} $error(z) = \^z - z$
-	\end{gather}
-\end{center}
+%\begin{center}
+%	\begin{gather}
+%		\label{POSITIONALERRORCALCX} error(x) = \^x - x \\
+%		\label{POSITIONALERRORCALCY} error(y) = \^y - y \\
+%		\label{POSITIONALERRORCALCZ} error(z) = \^z - z
+%	\end{gather}
+%\end{center}
 
 The error in orientation is a bit more complex. Since the orientation of the craft is represented with an orientation matrix one calculates the relative orientation of the craft compared to the wanted orientation by multiplying the inverse of the current orientation and the wanted orientation as seen in REFERENS TILL DEN MULTIPLIKATIONEN. This puts both orientations in local space, with the current orientation being the identity matrix.
 
