@@ -9,18 +9,18 @@ In this report we will go over the reasoning and the implementation of the motio
 
 \subsection{The craft}
 
-The Naiad AUV is a small lightweight autonomous underwater vehicle where modularity and ease of modification is one of the key features. Both Naiads hardware and software is built as a distributed system with its basis in one single CAN-bus. This gives the platform the ability to add, remove and replace nodes on the bus to change certain aspects of the craft. One of the key features of the platform is to build it small, this will give the users the opportunity to use several crafts in a swarm to cover a larger area in a short time span without a huge investment if needed.
+The Naiad AUV is a small lightweight autonomous underwater vehicle where modularity and ease of modification are key features. Both Naiads hardware and software is built as a distributed system with its basis in one single CAN-bus. This gives the platform the ability to add, remove and replace nodes on the bus to change certain aspects of the craft. One of the key features of the platform is to build it small, this will give the users the opportunity to use several crafts in a swarm to cover a larger area in a short time span without a huge investment if needed.
 
 \subsection{Motion control not navigation}
 
 The motion control system of the Naiad AUV is developed with the purpose of giving the Naiad AUV the ability to move from position and orientation A to position and orientation B in a suitable manner. The motion control system should not be mixed up with navigation and path planning. It provides the mission control system with a movement service.
 
-The motion control system of the Naiad AUV is a layered software system which has its basis in six PID controller. Each component of the current location (orientation and position) of the craft is controlled by a separate PID controller. 
+The motion control system of the Naiad AUV is a layered software system which has its basis in six PID controllers. Each component of the current location (orientation and position) of the craft is controlled by a separate PID controller. 
 
-All PID based calculations in the system are based on a optimal thruster configuration where each thruster only affects one component.
+All PID based calculations in the system are based on an optimal thruster configuration where each thruster only affects one component.
 
-A conversion from the optimal thruster configuration to the real system is done through a matrix multiplication with the inverse of a matrix that holds the effects of each thruster on each component this matrix can be seen in figure \ref{fig:THRUSTERCONFIGURATIONMATRIX}.
+A conversion from the optimal thruster configuration to the real system is done through a matrix multiplication with the inverse of a matrix that holds the effects of each thruster on each component, this matrix can be seen in figure \ref{fig:THRUSTERCONFIGURATIONMATRIX}.
 
-With this approach the flow of data in the system is easy to follow and it provides the Naiad AUV with a reliable motion control system that executes its task flawlessly with proper configuration.
+With this approach the flow of data in the system is easy to follow. It provides the Naiad AUV with a reliable motion control system that executes its task flawlessly with proper configuration.
 
 This report is organized as follows. In section \ref{sec:implementation} the implementation of the system in question is explained. In section \ref{sec:result} the results are shown and in section \ref{sec:conclusion} the authors conclusions are given. 
