@@ -8,10 +8,11 @@ The purpose of this team was to develop a vision system for an autonomous underw
 One of the challenges faced by all underwater vision systems is the ever-changing lighting conditions under water. Rays of light shining down through the water can affect the image detection system. A system was needed to deal with this light disturbance.
 
 \subsection{Software/Hardware}
-There were two hard requirements of the project for the vision system. The first was that Ada should be the main programming language. This was to introduce safety critical features to the code and make the system very robust and safety critical. The other requirement was that the software should be developed for the research platform GIMME-2 \cite{web:GIMME2}. 
-For the real time image capture and perception OpenCV \cite{web:OpenCV} was chosen and interfaced with the GIMME-2 and Ada. For the three Dimensional reconstruction Point Cloud Library \cite{web:PCL}, PCL, was chosen and also interfaced to work through Ada. The operating system chosen to develop the software was Ubuntu 12.04.
+There were two hard requirements of the project for the vision system. The first was that Ada should be the main programming language. This was to introduce safety critical features to the code and make the system robust and safety critical. The other requirement was that the software should be developed for the research platform GIMME-2 \cite{web:GIMME2}. 
+For real time image capture and perception OpenCV \cite{web:OpenCV} was chosen and interfaced with the GIMME-2 and Ada. Point Cloud Library \cite{web:PCL}, PCL, was chosen for the three Dimensional reconstruction which was also interfaced to work through Ada. The operating system chosen to develop the software was Ubuntu 12.04.
 
 \subsubsection{Software/components decisions \& reasons}
+A number of software components were chosen for this project. Below is a description of the main components used and the reasons behind choosing each component. 
 \begin{enumerate}
   \item GIMME2 \\ This was a hard requirement from the customer. A state of the art platform described in detail in the hardware report.
   \item Ada \\ This was a hard requirement from the customer. Introduces safety critical characteristics to the vision software system.

@@ -1,7 +1,9 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Method}\label{sec:method}
+The following section is split in two sections. Firstly the preparation steps undertaken to integrate all software components with each other is described. Secondly some of the main software modules implemented are described.
 \subsection{Preparation}
+Before the modules need for the visual perception system could be coded, the software modules needed to be interfaced to each other. The following subsections describes the work undertaken to prepare all the software modules.
 \subsubsection{OpenCV with Ada}
 The first task undertaken in this project was to try to get OpenCV working with Ada. Bindings were found online \cite{web:oldAdaBindings} however these binding were found to be rigidly implemented to an older version of OpenCV and an operating system no longer supported. An alternative solution was required. After much research a method of binding OpenCV to Ada was found \cite{web:newAdaBindings} and this method was adapted to bind opencv to ada. This generated bindings that could be used by including the wrapper file in the ada project, however linking several projects that used the bindings together, and compiling and running the project in an IDE proved troublesome. A Makefile was constructed to link everything together.
 
@@ -12,6 +14,7 @@ Much like OpenCV, PCL needed to be converted from C++ to Ada. The same approach 
 As GIMME-2 was a state of the art hardware platform, development support was limited. One positive was that its ARM processor architecture is also used in the Beaglebone Black and Pandaboard. As the Ubuntu operating system was not supported by GIMME-2, it was decided to statically compile the binaries needed on a Pandaboard statically and then move the binaries to the GIMME-2 to be run.
 
 \subsection{Software}
+The visual and perception system was broken down into separate modules for each vision component needed. This was done to modularize the system, making it easy to add and take away modules if and as they were required.  
 \subsubsection{Stereo vision}
 It works. sometimes.
 
@@ -41,6 +44,7 @@ If the combined greatest difference is greater than a user defined threshold the
 \end{description}
  
 \subsubsection{Manipulating image properties} 
+Image properties were manipulated in order to enhance certain features of images. This helped improve the performance of the object detection modules.
 \begin{description}
 \item[Image Contrast]\hfill \\
 This is a basic image manipulation functionality targeted to enhance the image quality if required.
@@ -87,9 +91,9 @@ This function was implemented by converting an image to HSI, then scrolling thro
 \end{description}
 
 \subsubsection{Interpreting image} 
+After the image preprocessing modules of the vision system have completed, the image processing modules work on feature and object detection. The following modules were implemented to search for feaures on a given image. 
 \begin{description}
 \item[Threshold]\hfill \\
-
 The vision system has the ability to threshold the input image to filter for any specified range of the visual spectrum. 
 It works on HSI images, and it was particularly challenging to filter Red color as the Hue values see a wrap-around effect for Red, meaning that the spectrum begins at Red and ends at Red.
 This problem was solved by working around the easily detected colors.
@@ -97,7 +101,6 @@ To detect red, we first filter for Yellow, and Green separately. Then we filter 
 the opencv function inRange is used here.
 
 \item[Canny]\hfill \\
-
 The canny edge detection algorithm \cite{article:canny}  was used for detecting edges in the images. the canny algorithm is based on three main objectives
 \begin{enumerate}
   \item the response to noise is reduced using gaussian filtering
@@ -125,6 +128,7 @@ Optical flow tracking was implemented to use as part of velocity estimation in t
 \end{description}
 
 \subsubsection{Comprehending features found} 
+When features on the image have been found, the vision system uses the features collected to interpret the image. The following modules were implemented to look for certain shapes and templates.
 \begin{description}
 \item[hough circles]\hfill \\
 OpenCV's hough circles function was implemented to enable the ability to detect circles. The hough circles module is based on the Hough circle transform as described in Yuen \cite{article:yuen} 
@@ -137,6 +141,7 @@ OpenCV's matchShapes function was used for the object recognition part of the vi
 \end{description}
 
 \subsubsection{Three dimensional reconstruction} 
+Point Cloud Library, PCL, was chosen for the three dimensional reconstruction part of the vision system. Due to timing constraints there was only time to implement a few basic filters and simple poissen surface reconstruction module.
 \begin{description}
 \item[converting to Ada.]\hfill \\
 PCL was converted to Ada in much the same way as opencv. Modules were written in c++ and then bound to Ada. \cite{web:newAdaBindings}. The PCL modules could then be called from Ada.
