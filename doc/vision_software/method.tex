@@ -29,15 +29,23 @@ The hardware is potentially capable of stereo vision, taking pitures with its du
 \subsubsection{Image Enhancement}
 Cleaning up the image was attempted by four methods. Blurring the image, Sharpening the image to make features more clear and easier to detect, manipulating image properties, and noise reduction. 
 \begin{description}
-\item[Median Filter]\hfill \\The idea behind the Median filter is to search for highly improbable pixel values, and replace them with the median value of the surrounding pixels (computer and machine vision, 4th ed)
+\item[Median Filter]\hfill \\The idea behind the Median filter is to search for highly improbable pixel values, and replace them with the median value of the surrounding pixels \cite{davies2012computer}
 
 The median filter makes a 3x3 sliding window that reduces noise by filtering every pixel of the image. It works by replacing the value at the centre of the window with the median value of the pixels in the window.
 
+If the window is centered at i,j as N, the median filter can be represented by the following equation as shown in Forsyth2011 \cite{forsyth2011computer}:
+\begin{equation}
+y_{ij}=med(\lbrace x_{uv}|x_{uv}\in N_{ij} \rbrace)
+\end{equation}
+
 \item[Quaternion Switching Filter]\hfill \\
 The quaternion switching filter \cite{web:QNSF} is a filter based on quaternions.
-A quaternion is a vector representation that has 1 real part and 3 imaginary parts of the form 
-Q=w+ ix+jy+kz \cite{article:Hamilton1844}
-\\Quaternions are useful in image processing as an RGB pixel can be represented as a purely imaginary quaternion by letting the real part of the vector equal zero. A quaternion with only imaginary parts is known as a right quaternion.\cite{article:Hamilton1866}
+A quaternion is a vector representation that has 1 real part and 3 imaginary parts as Hamilton discovered \cite{article:Hamilton1844} of the form:
+\begin{equation}
+Q=w+ix+jy+kz
+\end{equation} 
+
+Quaternions are useful in image processing as an RGB pixel can be represented as a purely imaginary quaternion by letting the real part of the vector equal zero. A quaternion with only imaginary parts is known as a right quaternion.\cite{article:Hamilton1866}
 The quaternions allows representation of a 3 value pixel as a single function. Then quaternion unit transform theory can be used to find the pixel chromaticity difference and pixel intensity difference for the pixels in the sliding window.
 
 If the combined greatest difference is greater than a user defined threshold then the pixel is subjected to a Vector Median Filter. If the difference is less than the threshold then no filtering is performed on the pixel
@@ -54,24 +62,26 @@ It makes use of the opencv function \emph{convertTo} using alpha and beta as gai
 In this context, \emph{Invert} refers to the reversal in the nature of the pixel intensities of the image.
 For instance, an originally pure black input pixel yields a pure white pixel as output.
 It makes use of the simple form of  
-\begin{align*} &V(new) = 255 - V(old) \\ 
-\end{align*} 
-\\where V is the value of the pixel in BGR, to invert an image. 
+\begin{equation} V(new) = 255 - V(old)  
+\end{equation} 
+where V is the value of the pixel in BGR, to invert an image. 
 This method is particularly helpful when working with masks.
 
 In the final implementation, the opencv function \emph{addWeighted} was used to achieve the desired functionality, with constants 1.00 and -1.00 for alpha and beta channels respectively.
-
 \begin{align*}
-addWeighted(mask, 1.0, img.at(src), -1.0, 0, img.at(dst))
+addWeighted(mask, 1.0, src, -1.0, 0, dst)
 \end{align*}
-
 where the mask is a pure white image.
 
 \item[split channels]\hfill \\
 This enables to split an input image in it's basic color components, so the system could have color-channel filtering without use of any extra hardware.
 
 \item[Gaussian Blur]\hfill \\
-The Gaussian Blur function \cite{web:gaussianBlur}  needed to be implemented for the edge detection modules. A blur basically smooths out the image and makes jagged edges smoother and the image works better with the edge detection mods. Gaussian blur can also be used for noise reduction.
+The Gaussian Blur function \cite{web:gaussianBlur}  needed to be implemented for the edge detection modules. A blur basically smooths out the image and makes jagged edges smoother and the image works better with the edge detection mods. Gaussian blur can also be used for noise reduction. The Gaussian kernel G(x,y,$\sigma$ )
+\cite{korn2000mathematical}
+\begin{equation}
+G(x,y,\sigma)=\frac{1}{2\pi \sigma}exp(-\frac{x^2+y^2}{2\sigma ^2}),
+\end{equation}
 \\The Gaussian blur works by using a 2D Gaussian kernel that can be separated into two operations of the 1D kernel. This enables very fast implementation of multidimensional Gaussian filtering.  
 
 \item[Gaussian Sharpen]\hfill \\
