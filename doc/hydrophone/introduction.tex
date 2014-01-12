@@ -1,7 +1,7 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Introduction}\label{sec:introduction}
-A hydrophone is a device that uses a microphone to listen to sounds under water. Hydrophones are based on the idea of piezoelectric transducers that produce electrical signals in response to a pressure change. As sound is a pressure wave, it generates electrical signals propotional to the amplitude of sound.
+A hydrophone is a device that uses a microphone to listen to sounds under water\cite{web:hydrophone}. Hydrophones are based on the idea of piezoelectric transducers that produce electrical signals in response to a pressure change. As sound is a pressure wave, it generates electrical signals propotional to the amplitude of sound.
 For the AUV it was decided to use an array of 4 hydrophones arranged in a rectangular pattern. 
 The hydrophone circuit amplifies the received signal and then performs full wave rectification. The signal is then passed through low pass filter and through a Schmitt trigger. The result is that it generates pulses when the input signal crosses a threshold. \newline
 The hydrophone software uses external interrupts to get triggers from the circuit and records the time the signal arrived. When the signal is received at each hydrophone the multilateration algorithm calculates the pinger location based on the time difference of the arrival of the signal at each hydrophone. It then sends out a message containing the pinger location in 3 dimensions.\newline
