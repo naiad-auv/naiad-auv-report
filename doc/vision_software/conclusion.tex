@@ -8,23 +8,24 @@ Computer vision is a vast area and throughout the project the team discovered ma
 The system can be tested fully using integration, unit tests, acceptance tests. These would have to be wrote manually as the test suite a-unit cannot be used with the bindings.
 
 \subsubsection{Integrating disparity maps}
-The disparity maps obtained from the Gimme2 when it functions properly can be integrated into the velocity estimator function.
-The disparity map can be integrated with the velocity estimator function to recieve the estimated distance in centimeters instead of estimated pixels.
+The disparity maps obtained from the GIMME-2 when it functions properly can be integrated into the velocity estimator function.
+The disparity map can be integrated with the velocity estimator function to recieve the estimated distance in centimeters instead of estimated pixels. This could not be implemented as the GIMME-2 image capture was not functioning to a standard that allowed consecutive stereo images to be captured.
 
 \subsubsection{Integrating Can to the system}
-The can controller for the gimme2 has been completed by the vision firmware team. This code must be added to the vision software system main file.
+The can controller for the GIMME-2 has been completed by the vision firmware team. This code must be added to the vision software system main file.
 
 \subsubsection{Instruction handling system}
 A system for handling messages from mission control must be implemented.
 
 \subsubsection{PCL future work}
+PCL has two main surface reconstruction modules, triagulation and poisson reconstruction. One of these should be implemented to enable surface reconstruction of point clouds to fully three dimensional objects.
 \begin{description}
-\item[euclidean segmentation]\hfill \\
-a Euclidean segmentation module can be implemented to segment planes in a point cloud.
 \item[triangulation mesh]\hfill \\
 Constructing a triangular mesh around the point cloud, effectively turning the pointcloud from a group of points to a reconstructed surface can be implemented.
+\item[Poisson reconstruction]\hfill \\
+This implements a ``watertight" mesh around the point cloud, meaning that any gaps or holes like windows in the point cloud will be filled in. This may be conteracted by using PCL's concave/convex hull estimater as a ``bounding box" to give a more accurate mesh around the point cloud.
 \item[Adding color to mesh]\hfill \\
-Color can be added to the reconstructed triangular mesh by using the color intensity values from the original stereo images.
+Color can be added to the reconstructed mesh by using the color intensity values from the original stereo images, and painting the mesh accordingly.
 \end{description}
 
 

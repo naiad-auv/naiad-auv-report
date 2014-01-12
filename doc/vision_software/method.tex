@@ -77,12 +77,13 @@ where the mask is a pure white image.
 This enables to split an input image in it's basic color components, so the system could have color-channel filtering without use of any extra hardware.
 
 \item[Gaussian Blur]\hfill \\
-The Gaussian Blur function \cite{web:gaussianBlur}  needed to be implemented for the edge detection modules. A blur basically smooths out the image and makes jagged edges smoother and the image works better with the edge detection mods. Gaussian blur can also be used for noise reduction. The Gaussian kernel G(x,y,$\sigma$ )
+The Gaussian Blur function \cite{web:gaussianBlur}  needed to be implemented for the edge detection modules. A blur basically smooths out the image and makes jagged edges smoother and the image works better with the edge detection mods. Gaussian blur can also be used for noise reduction. The Gaussian kernel G(x,y,$\sigma$ ) can be represented as follows as depicted in Korn2000:
 \cite{korn2000mathematical}
 \begin{equation}
 G(x,y,\sigma)=\frac{1}{2\pi \sigma}exp(-\frac{x^2+y^2}{2\sigma ^2}),
 \end{equation}
-\\The Gaussian blur works by using a 2D Gaussian kernel that can be separated into two operations of the 1D kernel. This enables very fast implementation of multidimensional Gaussian filtering.  
+where the two free co-ordinates are represented by x,y and $\sigma$ is a parameter.
+\\The Gaussian blur works by using a 2D Gaussian kernel that can be separated into two operations of the 1D kernel. This enables very fast implementation of multidimensional Gaussian filtering \cite{korn2000mathematical}.  
 
 \item[Gaussian Sharpen]\hfill \\
 A Gaussian sharpen image module was implemented. This method was based on the Gaussian blur method as described above. It works by implementing a gaussian blur on the source image, and then subtracting the gaussian blurred image from the original image. 
@@ -111,14 +112,14 @@ To detect red, we first filter for Yellow, and Green separately. Then we filter 
 the opencv function inRange is used here.
 
 \item[Canny]\hfill \\
-The canny edge detection algorithm \cite{article:canny}  was used for detecting edges in the images. the canny algorithm is based on three main objectives
+The canny edge detection algorithm \cite{Canny:1986:CAE:11274.11275}  was used for detecting edges in the images. Canny states that the optimal detector for step edges would be convolution with a symmetric gaussian and directional second spatial derivatives \cite{books/sp/Cipolla96}. The canny algorithm is based on three main objectives \cite{Nixon:2008:FEI:1571711}
 \begin{enumerate}
   \item the response to noise is reduced using gaussian filtering
   \item Use non-maximum suppression to obtain good accuracy (only use points from the top of a ridge of edge data, whilst suppressing all others)
   \item eliminate multiple responses to a single edge by providing a single response
 \end{enumerate}
 
-The canny module took a greyscale input and outputs a binary image with the estimated lines on it.
+The canny module implemented takes a greyscale input and outputs a binary image with the estimated lines on it.
 
 \item[contours]\hfill \\
 The contour module used was based on the opencv contour module. This module is based on suzuki and abe which analyzes the topological structure of binary
@@ -148,6 +149,10 @@ The AUV was equipped with line detection capability by implementing OpenCV's hou
 
 \item[template matching]\hfill \\
 OpenCV's matchShapes function was used for the object recognition part of the vision system. This function is based on Hu Invariants \cite{article:hu} The matchShapes module is also scale invariant.
+
+\item[velocity estimation]\hfill \\
+The velocity estimation module implemented was based on OpenCV's optical flow module. It has two modes. First it checks to see if any ``large" objects are detected (pipes, barrels etc.) and if they have been detected it uses optical flow to find the average difference of position of the features, and divides by the image capture rate to give an estimated velocity in pixels per second. 
+The second mode is used if there are no large objects detected. It then uses optical flow to search for particles in the water, or on the floor of the pool/seabed, and estimates the velocity like in mode 1 except using the small particles positional difference. The reason for the modes is that smaller particles are harder to pick up, and sometimes light in the water can be mistaken for particles and have a negative affect the velocity estimation. Therefore it is more reliable to estimate optical flow using features of a larger object, and the first mode is preferred.
 \end{description}
 
 \subsubsection{Three dimensional reconstruction} 
@@ -162,4 +167,7 @@ The point clouds to be reconstructed to 3D must undergo stages before the actual
 
 \item[Remove outliers]\hfill \\
 A statistical outlier removal module was constructed to remove outliers from point clouds \cite{web:pclOutliers}. The module works by computing the mean distances of every point to their neighbours. Then all points whose mean distances are outside a defined interval are assumed to be outliers and are removed from the point cloud.
+
+\item[Conditional Euclidean segmentation]\hfill \\
+This module was based on the conditional euclidean segmentation tutorial on the Point Cloud Library website\cite{web:PCL}. The tutorial combines euclidean cluster extraction \cite{RusuDoctoralDissertation} and region growing segmentation \cite{web:pclRegionGrowing}. Euclidean segmentation breaks large point clouds down into smaller, more manageable data units. This improves computational time for the module. The region growing segmentation algorithm then searches for points on the same smooth surface. The segmented point cloud is then plotted using different colors to show the detected object clusters. 
 \end{description}
