@@ -19,29 +19,30 @@ in the Naiad project.
 
 
 In their solution they suggest a gateway that routes traffic to and from the
-CAN Bus network. The routing that had to be done would map full 32 bits IP
+CAN Bus network. The routing that had to be done would map full 32 bit IP
 addresses to CAN Bus IP addresses of 8 bits. This would be done by dropping the
 first 24 bits of the IPv4 address and only using the last 8 bits over the CAN
 Bus.
 
 Ditze et. al. doesn't go into
 detail about assignemnt of IP addresses
-but instead mentions that it can be done statically or dynamically. As the main
-goal for Naiad project was to use Space plug-and-play Avionics
-technology a requirement was that address assignment had to be done
-dynamically. A first suggestion was to use a well-known message ID that all new
-nodes transmit a DHCP request with. As the payload for the DHCP request a
-host's identifier would be set.
+but instead mentions that it can be done statically or dynamically. As a goal
+for the Naiad project was to to use Space plug-and-play Avionics technology
+it introduce the requirement that low level address assignment had to be done
+dynamically, to support plug-and-play features.
+A first suggestion was to use a well-known message ID that all new
+nodes would transmit a DHCP request with that message ID.
+As the payload for the DHCP request, a host's identifier would be set.
 The problem with this approach is when multiple hosts boot up
 simultaneously, collision will occur and the CAN Bus will go into an error
 state.
 
-Next approach was to use the destination address field and sender address field
+The next approach was to use the destination address field and sender address field
 with a total of 16 bits from the message ID as a unique host identifier field
 when sending a DHCP request message (shown in table
 \ref{table:mapping_message_id_to_ip_host_identifier}).
 This approach seems to be viable and would
-give 16 bits addresses which might be too few to prevent accidental CAN Bus
+give 16 bit addresses which might be too few to prevent accidental CAN Bus
 collisions during boot up. The 16 bit identifier would have to be generated
 from some kind of hardware ID such as the MAC Address for ethernet devices.
 
