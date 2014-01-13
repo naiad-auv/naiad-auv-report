@@ -18,10 +18,10 @@ Global Vector = Orientation*Local Vector
 Acceleration = \frac{\sum Force}{Mass}
 \end{equation}
 \begin{equation}
-J*\alpha = - \omega \times J \cdot\omega + T 
+J*\alpha = - \omega \times J \cdot\omega + T [?3]
 \end{equation}
 
-The inertia and the mass are both automatically calculated in the Solid Works CAD program used for designing the hull of the AUV. The affect of friction is less predictable and harder to mathematically calculate without expensive software. Assumptions regarding that a close to symmetric object actually is symmetric will be used to simplify the problem while still resulting in accurate approximations according to[?].
+The inertia and the mass are both automatically calculated in the Solid Works CAD program used for designing the hull of the AUV. The affect of friction is less predictable and harder to mathematically calculate without expensive software. Assumptions regarding that a close to symmetric object actually is symmetric will be used to simplify the problem while still resulting in accurate approximations according to[?2].
 
 The accelerations are then converted back to the Global reference frame, allowing for the numerical integration of the velocities, positions, angular velocities and orientation. The orientation is represented as a matrix and the other sets of data as vectors.
 \subsection{Communication}
@@ -30,3 +30,5 @@ The communication part of the simulator will be used to see the flow of data goi
 
 The communication between the simulator and the Beagle Bone Black, which is what the simulator will be connected to in the AUV will be done over Ethernet. For communicating over Ethernet TCP sockets will be used as they are easy to use and give reliable performance. The set of data sent over the TCP will be following the same standard as the data sent over the CAN bus which will make it simple to forward date by just pushing all data from CAN to Ethernet and vice versa without having to convert the messages.
 
+
+%[3] = Robotics, Vision and Control Peter Corke

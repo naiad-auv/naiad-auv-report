@@ -2,10 +2,14 @@
 
 Testing and monitoring the AUV are to of the key features of the simulator. When the simulator is connected to the AUV all the information that goes on the CAN bus between different subsystems will be received by the simulator. This information can either be used for monitoring the AUV if all sub systems are running together with the option of simulating a certain device sending out outputs just as if it was the real subsystem doing it.
 
-The implementation of the Simulator was written in Ada, it was written with an object oriented approach following the Model View ViewModel standard described in [?]. The Model View ViewModel approach puts all the logic away from the User Interface layer of the code and into the ViewModel layer used only for GUI logic. This allows for proper testing for all complexer parts of the code.
+The implementation of the Simulator was written in Ada, it was written with an object oriented approach following the Model View ViewModel standard described in [?1]. The Model View ViewModel approach puts all the logic away from the User Interface layer of the code and into the ViewModel layer used only for GUI logic. This allows for proper testing for all complexer parts of the code.
 
-The formulas used for simulating the movement of the AUV are based on numerical integration of the accelerations. The accelerations are calculated using the the general space manipulation formulas with simplified frictions assuming symmetry of the AUV which was found feasible in [?].
+The formulas used for simulating the movement of the AUV are based on numerical integration of the accelerations. The accelerations are calculated using the the general space manipulation formulas with simplified frictions assuming symmetry of the AUV which was found feasible in [?2].
 
 The backbone and the motion simulations of the simulator have been implemented and tested together with the motion control both as function calls and with CAN messages over Ethernet to test and validate the realistic motion together with the correct data transfers and responses. This yielded realistic movement patterns both with regards to the positioning as well as the orientation.
 
 \end{abstract}
+
+%[1] = http://msdn.microsoft.com/en-us/magazine/dd419663.aspx
+%[2] = http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4772083
+
