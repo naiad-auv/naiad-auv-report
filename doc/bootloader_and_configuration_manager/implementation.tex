@@ -15,7 +15,7 @@ EBSB is a byte created in the EEPROM that determines if the bootloader should ru
 Each AT90CAN with a bootloader is assigned an ID number between 0 and 255. ENNB is a byte created in the EEPROM that stores the ID of the microcontroller. This makes it possible for the bootloader to identify itself when communicating with the PC client.
 
 \subsubsection{Message to change EBSB}
-The bootloader will now listen for one more message. If the bootloader receives a message with CAN ID 11 then it will change the EEPROM byte EBSB into whatever value was sent in the first byte of the CAN message.
+The bootloader will now listen for one more message. If the bootloader receives a BOOT\_STATUS message with CAN ID 11 then it will change the EEPROM byte EBSB into whatever value was sent in the first byte of the CAN message.
 
 \subsection{Configuration Manager}
 
@@ -30,7 +30,7 @@ The PC client has a configuration file named card\_names.cfg. This file matches 
 For more information on where this is used see step 1 in Figure ~\ref{fig:activity_figure}.
 
 \subsubsection{Button to start bootloader}
-The start bootloader button is used to make the node that has been selected in the list of configured nodes to enter the bootloader. The PC client will first send a mode message with CAN ID 380 and the first byte set to 2 for bootloader mode. This is to tell the whole system that one or more nodes are going to be programmed through the bootloader. After waiting a brief moment it will send another message with CAN ID 12. This message signals to the selected node that it should enter the bootloader. The first byte in this message holds the ID of the node. Once completed it will send another message with CAN ID 7 to which all nodes that has entered the bootloader will respond. The PC client will then display all the discovered nodes that are ready to be programmed.
+The start bootloader button is used to make the node that has been selected in the list of configured nodes to enter the bootloader. The PC client will first send a mode message with CAN ID 380 and the first byte set to 2 for bootloader mode. This is to tell the whole system that one or more nodes are going to be programmed through the bootloader. After waiting a brief moment it will send START\_BOOTLOADER message with CAN ID 12. This message signals to the selected node that it should enter the bootloader. The first byte in this message holds the ID of the node. Once completed it will send a DISCOVER message with CAN ID 7 to which all nodes that has entered the bootloader will respond. The PC client will then display all the discovered nodes that replied.
 
 For more information on where this is used see step 2 in Figure ~\ref{fig:activity_figure}.
 
