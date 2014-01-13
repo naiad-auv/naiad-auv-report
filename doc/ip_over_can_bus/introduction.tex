@@ -4,7 +4,7 @@
 As part of the Space plug-and-play Avionics requirement
 focused on IP over CAN. The following sections will give a short
 introduction to the Internet Protocol (IP) and the Controller Area Network
-(CAN or CAN Bus).
+(CAN or CAN bus).
 
 % You can use how many "subsections" and "subsubsections" you like.
 \subsection{Internet Protocol (IP)}
@@ -22,7 +22,7 @@ is often written in decimal form as four octets (e.g. 192.168.0.1).
 
 As the number of connected devices grew more than expected in the 1990's
 "Network Address Translation" (NAT) was introduced to limit the number of
-publically accessible IP addresses assigned. At the same time improve routing for Internet
+publically accessible IP addresses assigned and at the same time improve routing for Internet
 Service Providers \cite{web:rfc1631, web:rfc1918, web:rfc3022}.
 
 One of the most common ways to assign IP addresses on a network is through the
@@ -30,7 +30,7 @@ Dynamic Host Configuration Protocol (DHCP) \cite{web:rfc2131, web:rfc2132, web:r
 When a host connects to the network, the client sends a DHCP request and the DHCP
 server(s) available on the network replies back with a DHCP offer containing a free
 IP address the new host can use. As identification the client uses either its
-MAC Address or another client identification value depending one the version of the
+MAC Address or another client's identification value depending one the version of the
 protocol that is used. After this process end-to-end communication is possible
 within the network.
 
@@ -48,11 +48,11 @@ addressing architecture \cite{web:rfc4291} while RFC 5952 \cite{web:rfc5952}
 defines recommended text representation of IPv6 addresses.
 
 In comparison with IPv4 the address assignment can be done in more than two different
-ways. The first one is by static assignemt which is equal to IPv4.
-Next one is DHCPv6. It works in a similiar manner
-to DHCP \cite{web:rfc3315}. As a configuration option of DHCPv6 a third
+ways. The first way is by static assignemt which is equal to IPv4.
+The second way is DHCPv6 that works in a similiar manner
+to DHCP \cite{web:rfc3315}. As a configuration option of DHCPv6, a third
 assignment procedure is possible with "DHCP
-Prefix Delegation" (DHCP-PD) \cite{web:rfc3633}. It assigns complete blocks of
+Prefix Delegation" (DHCP-PD) \cite{web:rfc3633} that assigns complete blocks of
 addresses to routers which are then free to distribute addresses within that
 block of addresses. If DHCPv6 isn't available "Stateless Address
 Autoconfiguration" (SLAAC) is a way for each host to generate and set a unique
@@ -60,7 +60,7 @@ address for each of its interfaces.
 This also includes what is called "Duplicate Address Detection" to prevent
 multiple hosts from using the same IPv6 address \cite{web:rfc4862, web:rfc4941}.
 
-As more and more devices get connected, the "Internet of things" become a
+As more and more devices get connected to the internet, the "Internet of things" become a
 reality. For "Internet of things" most focus has been put on wireless
 technologies such as the 6LoWPAN \cite{web:ietf_charter_6lowpan} work and
 ROLL \cite{web:ietf_charter_roll} within the IETF.
@@ -79,15 +79,15 @@ long and in the extended format is 29 bits long. Part A requires support for
 the standard format while Part B implementations must support
 standard format and extended format \cite{standard:can_bus}.
 
-The key part of the CAN Bus protocol is that all hosts connected to the same
+The key part of the CAN bus protocol is that all hosts connected to the same
 bus will be able to read simultaneously from the bus, it's up to each host to
 filter in the wanted messages. The filtering process is done by specifying one
 or multiple masks on each host that is used when reading incoming message
 IDs.
 
 One important aspect is that if multiple hosts transmit a message at the same
-time with the same message ID but with different payloads the CAN Bus will
-enter an error state. Multiple hosts are not allowed to transmit messages with the
+time with the same message ID but with different payloads the CAN bus will
+enter an error state. Multiple hosts are therefore not allowed to transmit messages with the
 same message ID.
 
 CAN with Flexible Data-Rate (CAN FD) is a new specification which increase the
