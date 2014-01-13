@@ -11,11 +11,11 @@ The implementation has the following parts:
    \item { \em The main program on the AT90CAN128} \newline This is implemented in the AT90CAN\_Uart\_To\_Can project.
 \end{itemize}
 
-The hardware filters in the CAN AT90CAN128 microcontroller are set to receive all CAN messages sent on the CAN bus, i.e. no filtering will be used. The reasoning for this is the following: 
-If not all messages would be to be forwarded to the BBB, the information about which messages that are to be forwarded would need to sent from the BBB to the Generic CAN controller over UART. This could most definitely be done but it would make the communication protocol much more complicated.
+The hardware filters in the CAN AT90CAN128 microcontroller are set to receive all CAN messages sent on the CAN bus, i.e. no filtering will be used. The reasoning for this is the following; 
+If not all messages would be forwarded to the BBB, then the information about which messages that are to be forwarded would need to sent from the BBB to the Generic CAN controller. This could most definitely be done but it would make the communication protocol much more complicated.
 
 \subsection{Protocol}
-The highest baud rate that was possible to achieve between the BBB and the AT90CAN128 microcontroller was 115200 baud. Both BBB and the AT90CAN128 microcontroller can send at higher speeds but 115200 baud was the highest that both of them could run at. This relatively low baud rate (compared the 250 kBaud used for the CAN bus, though the CAN protocol has a significant amount of overhead) means that the BBB to CAN link is the "bottle neck" of the whole CAN bus system. For this reason the protocol for sending CAN messages over UART was made as simple as possible to maximize performance i.e. number of CAN messages that can be sent per second.
+The highest baud rate that was possible to achieve between the BBB and the AT90CAN128 microcontroller was 115200 baud. Both BBB and the AT90CAN128 microcontroller can send at higher speeds but 115200 baud was the highest baud rate at which both of them could run. This relatively low baud rate (compared to the 250 kBaud used for the CAN bus, though the CAN protocol has a significant amount of overhead) means that the BBB to CAN link is the "bottle neck" of the whole CAN bus system. For this reason the protocol for sending CAN messages over UART was made as simple as possible to maximize performance, i.e. number of CAN messages that can be sent per second.
 
 There are mainly four pieces of information in each CAN message: 
 \begin{itemize}
@@ -45,13 +45,13 @@ The BBB\_Can project uses the UartWrapper to send and receive data on the UART. 
 The \emph{Send} procedure takes a CAN message as an argument, calls the \emph{Message\_To\_Bytes} procedure in \emph{CAN\_Utils} to get a string of bytes representing the CAN message and writes these bytes to the UART send buffer using UartWrapper. \newline
 The \emph{Get} function has three out parameters: \emph{msg} (the CAN message received), \emph{bMsgReceived} (a boolean value set true if a CAN message was received) and \emph{bUARTChecksumOK} (which is obsolete and should not be read). 
 
-The \emph{Get} procedure reads as much data that there is in the UART receive buffer and puts it in a separate software buffer. The reason for this separate software buffer is that the UartWrapper does not provide a function for getting the number of bytes in the receive buffer without reading all available bytes. \newline
+The \emph{Get} procedure reads all the data in the UART receive buffer and puts it in a separate software buffer. The reason for this separate software buffer is that the UartWrapper does not provide a function for getting the number of bytes in the receive buffer without reading all available bytes. \newline
 If there is enough data in the software buffer, the header of the message is read and converted to a CAN message. Given this, the number of bytes in the message payload is known and the remaining bytes are read from the software buffer. If not all payload bytes have been put into the software buffer, more data is read from the UART receive buffer until enough bytes can be read. The procedure will then return with the received CAN message and \emph{bMsgReceived} set true. \newline
 If not enough data for a full header has been received, the procedure will return with \emph{bMsgReceived} set false, \emph{msg} will then be undefined and shall not be read.
 
 
 \subsection{Main program running on the Generic CAN controller}
-The main program running on the Generic CAN controller is is called AT90CAN\_Uart\_To\_Can and has two main procedures:
+The main program running on the Generic CAN controller is called AT90CAN\_Uart\_To\_Can and has two main procedures:
 
 \begin{itemize}
    \item { \em Handle\_Uart}
@@ -70,8 +70,8 @@ This way any overflow in BBB to CAN subsystem will only be in one of the followi
    \item { \em The CAN send buffer} \newline
    If the main program tries to send messages at a higher rate than it can send, for example during to high CAN bus utilization.
    \item { \em The CAN receive buffer} \newline
-   If CAN messages are received from the CAN bus at a higher rate than what the main program can read, for example if the BBB is sending CAN messages at a high rate the Handle\_Can will not get enough time to empty the CAN receive buffer.
+   If CAN messages are received from the CAN bus at a higher rate than what the main program can read. For example if the BBB is sending CAN messages at a high rate the Handle\_Can will not get enough time to empty the CAN receive buffer.
 \end{itemize}
 
-In the first case is easily avoided by making sure the BBB does not send CAN messages at a faster rate than the BBB to CAN subsystem is capable of. The second and third cases will only cause individual CAN messages to be lost rather than compromising the communication protocol between the BBB and the Generic CAN controller. \newline
+The first case is easily avoided by making sure the BBB does not send CAN messages at a faster rate than the BBB to CAN subsystem is capable sending. The second and third cases will only cause individual CAN messages to be lost rather than compromising the communication protocol between the BBB and the Generic CAN controller. \newline
 This way the BBB to CAN communication subsystem can be considered fail-safe.

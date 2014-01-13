@@ -9,23 +9,23 @@ One of the challenges faced by all underwater vision systems is the ever-changin
 
 \subsection{Software/Hardware}
 There were two hard requirements of the project for the vision system. The first was that Ada should be the main programming language. This was to introduce safety critical features to the code and make the system very robust and safety critical. The other requirement was that the software should be developed for the research platform GIMME-2 \cite{web:GIMME2}. 
-For the real time image capture and perception OpenCV \cite{web:OpenCV} was chosen and interfaced with the GIMME-2 and ADA. For the three Dimensional reconstruction Point Cloud Library \cite{web:PCL}, PCL, was chosen and also interfaced to work through Ada. The operating system chosen to develop the software was Ubuntu 12.04.
+For the real time image capture and perception OpenCV \cite{web:OpenCV} was chosen and interfaced with the GIMME-2 and Ada. For the three Dimensional reconstruction Point Cloud Library \cite{web:PCL}, PCL, was chosen and also interfaced to work through Ada. The operating system chosen to develop the software was Ubuntu 12.04.
 
 \subsubsection{Software/components decisions \& reasons}
 \begin{enumerate}
-  \item GIMME2 \\ It was a hard requirement from the customer. A state of the art platform described in detail in the hardware report.
-  \item Ada \\ It was a hard requirement from the customer. Introduces safety critical characteristics to the vision software system.
+  \item GIMME2 \\ This was a hard requirement from the customer. A state of the art platform described in detail in the hardware report.
+  \item Ada \\ This was a hard requirement from the customer. Introduces safety critical characteristics to the vision software system.
   \item OpenCV \\ It seemed to be the obvious choice after a research was done on the state of the art technologies, and it was found that this library provides easy access to quite a few of the methods intended to be used in the system.
-  \item PCL \\ The main decision to make with three dimensional (3D) reconstruction was to choose between opencv and point cloud library to handle the three dimensional reconstruction. Both methods have advantages and disadvantages. opencv, which was already installed and operating well on the system. However to use opencv the system has to be trained to recognise objects and this introduces restrictions to the objects that can be detected by the system.
-Point cloud library does not have to be trained to reconstruct the images received from the stereo vision system, but it does mean introducing a new software library component to the system, binding to ada and adapting the makefile to handle the new library.
+  \item PCL \\ The main decision to make with three dimensional (3D) reconstruction was to choose between OpenCV and Point Cloud Library to handle the three dimensional reconstruction. Both methods have advantages and disadvantages. OpenCV, which was already installed and operating well on the vision system. However to use OpenCV the system has to be trained to recognise objects and this introduces restrictions to the objects that can be detected by the system.
+Point Cloud Library does not have to be trained to reconstruct the images received from the stereo vision system, but it does require introducing a new software library component to the system, binding to Ada and adapting the makefile to handle the new library.
 It was decided that the greater flexibility given by point cloud analysis would warrant the extra work in implementing it into the system.
 \end{enumerate}
 
 \subsubsection{OpenCV with Ada}
-Interfacing openCV with Ada would be a problem. Extensive research did not yield any instances of the current version of OpenCV (2.4.7) having support for ada. Bindings were found for an older version of OpenCV (2.2) \cite{web:oldAdaBindings} but as OpenCV has undergone significant changes since then, most notably the method in which image data is handled, these could not be used.
+Interfacing OpenCV with Ada would be a problem. Extensive research did not yield any instances of the current version of OpenCV (2.4.7) having support for Ada. Bindings were found for an older version of OpenCV (2.2) \cite{web:oldAdaBindings} but as OpenCV has undergone significant changes since then, most notably the method in which image data is handled, these could not be used.
 
 \subsubsection{PCL with Ada}
-As point cloud library is a relatively new software, 2011, \cite{Rusu_ICRA2011_PCL} its support of different languages is limited. Much like OpenCV a method to incorporate pcl to ada was needed.
+As Point Cloud Library is a relatively new software, 2011, \cite{Rusu_ICRA2011_PCL} its support of different languages is limited. Much like OpenCV a method to incorporate PCL to Ada was needed.
 
-Hardware Platform
+\subsubsection{Hardware Platform}
 The state of the art hardware platform used for the project, the GIMME-2, presented several challenges to the software team. As the platform was state of the art, support for developing software for it was limited.

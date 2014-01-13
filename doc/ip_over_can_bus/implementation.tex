@@ -4,12 +4,12 @@
 The latest solution presented for IP over CAN is from Ditze et. al. with a 10
 bits prioritisation field, 3 bits message type field, 8 bits destination
 address and 8 bits sender address. This solution is shown in table
-\ref{table:mapping_message_id_to_ip} It's from this solution work started,
+\ref{table:mapping_message_id_to_ip}. It's from this solution work started,
 in the Naiad project.
 
 \begin{table}[h]
 \centering
-    \caption{Mapping of message ID to IP over CAN Bus.}
+    \caption{Mapping of message ID to IP over CAN bus.}
     \begin{tabular}{|c|c|c|c|} \hline
     \label{table:mapping_message_id_to_ip}
     Prioritisation & Msg & Sender Address & Dest. Address  \\ \hline
@@ -18,36 +18,37 @@ in the Naiad project.
 \end{table}
 
 
-In their solution they suggest a gateway that routes traffic to and from the
-CAN Bus network. The routing that had to be done would map full 32 bits IP
-addresses to CAN Bus IP addresses of 8 bits. This would be done by dropping the
+In their solution Ditze et al. suggest a gateway that routes traffic to and from the
+CAN bus network. The routing that has to be done would map full 32 bit IP
+addresses to CAN bus IP addresses of 8 bits. This would be done by dropping the
 first 24 bits of the IPv4 address and only using the last 8 bits over the CAN
 Bus.
 
-Ditze et. al. doesn't go into
-detail about assignemnt of IP addresses
-but instead mentions that it can be done statically or dynamically. As the main
-goal for Naiad project was to use Space plug-and-play Avionics
-technology a requirement was that address assignment had to be done
-dynamically. A first suggestion was to use a well-known message ID that all new
-nodes transmit a DHCP request with. As the payload for the DHCP request a
-host's identifier would be set.
-The problem with this approach is when multiple hosts boot up
-simultaneously, collision will occur and the CAN Bus will go into an error
+Ditze et al. don't go into
+detail about assignment of IP addresses
+but instead mention that it can be done statically or dynamically. As a goal
+for the Naiad project was to to use Space plug-and-play Avionics technology
+it introduce the requirement that low level address assignment had to be done
+dynamically, to support plug-and-play features.
+A first suggestion was to use a well-known message ID that all new
+nodes would transmit a DHCP request with that message ID.
+As the payload for the DHCP request, a host's identifier would be set.
+The problem with this approach is that when multiple hosts boot up
+simultaneously, a collision will occur and the CAN bus will go into an error
 state.
 
-Next approach was to use the destination address field and sender address field
+The next approach was to use the destination address field and sender address field
 with a total of 16 bits from the message ID as a unique host identifier field
 when sending a DHCP request message (shown in table
 \ref{table:mapping_message_id_to_ip_host_identifier}).
 This approach seems to be viable and would
-give 16 bits addresses which might be too few to prevent accidental CAN Bus
+give 16 bit addresses which might be too few to prevent accidental CAN bus
 collisions during boot up. The 16 bit identifier would have to be generated
 from some kind of hardware ID such as the MAC Address for ethernet devices.
 
 \begin{table}[h]
 \centering
-    \caption{Mapping of message ID to IP over CAN Bus with Host identifier
+    \caption{Mapping of message ID to IP over CAN bus with Host identifier
     during DHCP process.}
     \begin{tabular}{|c|c|c|} \hline
     \label{table:mapping_message_id_to_ip_host_identifier}
@@ -56,5 +57,5 @@ from some kind of hardware ID such as the MAC Address for ethernet devices.
     \end{tabular}
 \end{table}
 
-At this point other priorities were made in the project so no further progress
+When worked had reached this point other priorities were made in the project so no further progress
 was made.

@@ -2,9 +2,10 @@
 % and do NOT add more "Section" level titles.
 \section{Conclusion}\label{sec:conclusion}
 
-This system is very reliant on the calibration of the system in question. Without proper calibration and configuration of the different PID controllers the system wont behave in a desired way. Since the Zeiger-Nichols method did not give sufficient results we have not found a scientific method on calibrating the system. We had to use manual tuning and through trial and error find a correct configuration on each component.
+With this implementation a stable and reliable motion control system was creaded.
 
+With the current structure it is according to the authors, easy to understand the codebase and to follow the flow of data through the system. With the successive breakdown of the location of the craft into its components it is easy to understand how the system performs its calculations and retreives the next sequence of control values to the thruster controllers.
 
-With this implementation we have created a stable and reliable motion control system. And with the current structure it is easy to understand and follow the flow of data. 
+With the component based class structure a maintainable system with extensive unit testing has been written. And with this in mind the authors can confidently say that they have created a stable and reliable system that fulfills its purpose.
 
-With correct calibration one can place the craft in any orientation and move toward
+With correct calibration one can place the craft in any orientation and move towards the current setpoint. This is according to the authors very good since all six degrees of freedom can be used. If the craft got weighted down in some way it would compensate for that so transporting objects without loosing control of the craft is possible.

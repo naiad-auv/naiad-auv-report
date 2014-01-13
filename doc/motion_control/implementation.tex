@@ -4,20 +4,75 @@
 
 The motion control system for the naiad AUV is a layered system where the location of the craft is successively broken down into its components. It is borken down from location to one component for each positional and orientation part, x, y, z, rotation around x, rotation around y and rotation around z. 
 
-Each of these parts are controlled by its own PID controller. Where the difference between the absolute wanted location and the absolute current location determines the error for each component. 
+Each of these parts are controlled by its own PID controller.
 
+\subsection{Error calculations}
+PID control bases its control loop on the current error in the system, the difference between the current state of the system and a wanted state of the system. This implementation must be able to calculate both the error in position and orientation.
+
+The positional errors are very straight forward. Since the position of the craft is represented by a vector with three components it is simply the difference between the current value, x, y, z, of each component and the wanted value, \^x, \^y, \^z, of each component as seen in \eqref{POSITIONALERRORCALCX}\eqref{POSITIONALERRORCALCY}\eqref{POSITIONALERRORCALCZ}
+
+%\begin{center}
+%	\begin{gather}
+%		\label{POSITIONALERRORCALCX} error(x) = \^x - x \\
+%		\label{POSITIONALERRORCALCY} error(y) = \^y - y \\
+%		\label{POSITIONALERRORCALCZ} error(z) = \^z - z
+%	\end{gather}
+%\end{center}
+
+The error in orientation is a bit more complex. To be able to calculate the error in orientation one needs to move the wanted and current orientation to local space. Since the orientation of the craft is represented with an orientation matrix one can calculate the relative orientation of the craft compared to the wanted orientation by multiplying the inverse of the current orientation and the wanted orientation as seen in REFERENS TILL DEN MULTIPLIKATIONEN. This puts both orientations in local space, with the current orientation being the identity matrix.
+
+From that, the plane containing both axis vectors that are perpendicular to the axis vector of interest can be utilized, i.e for rotation around z, the plane contains the x and y axis vector. A plane containing the same axes in the wanted orientation is also utilized.
+
+The full orientation of the craft can be represented by a change in the plane of the craft and the direction of the craft in said plane. With these two planes the rotation matrix needed for moving from one plane to the other can be retrieved. The only difference between this new orientation matrix and the original wanted orientation matrix is the angular difference around the axis vector of interest.
+
+With this in mind a vector in the original plane can be rotated with the help of the new rotation matrix and a duplicate vector with the wanted orientation matrix. The angular difference between these two vectors is the angular error for said component.
+
+\subsection{Transformation to a usable value}
 The control value calculated for each component does not take into account each thrusters effect in the current orientation of the craft since its a single value.
 
-%, so this value needs to be mapped to a system that corresponds to the orientation of the craft at the current time. 
-
-After the control values of each component has been calculated we have a control configuration that corresponds to a craft that has one thruster that only creates force along its component. i.e one thruster that only gives rotation around x and one thruster that only gives translation along x, lets call this configuration  the optimal thruster configuration. 
+After the control values of each component has been calculated, a control configuration is obtained that corresponds to a craft that has one thruster that only creates force along its component. i.e one thruster that only gives rotation around x and one thruster that only gives translation along x, lets call this configuration  the optimal thruster configuration. 
 
 This configuration needs to be converted into a configuration that takes the current orientation of the craft into account, since the effect of a thruster and which axes it affects is dependent on the current orientation of the craft in question. 
 
-%This is done by Gaussian elimination. 
-
-A matrix of the relative effects of each thruster on all the different components is created. This matrix can be seen in FIGUERUOIAEROIAUOUIFAD. With this matrix one can convert the thruster values from the optimal thruster configuration to a real thruster configuration. The inverse of this thruster configuration matrix is calculated and the control value configuration crated for the optimal thruster configuration is multiplied  with this matrix. This gives us the real control value configuration needed for the craft to move closer to the current set point.
+A matrix of the relative effects of each thruster on all the different components is created. This matrix can be seen in Figure \ref{fig:THRUSTERCONFIGURATIONMATRIX}. With this matrix the thruster values from the optimal thruster configuration can be converted to a real thruster configuration. The inverse of this thruster configuration matrix is calculated and the control value configuration created for the optimal thruster configuration is multiplied with this matrix. This gives the real control value configuration needed for the craft to move closer to the wanted position and orientation of the craft.
 
 Since the position and orientation of the craft is calculated separately from each other the full range from -100\% to 100\% of each thruster is available to both the calculations for orientation and the positional calculations. After each part has calculated its control configuration these sets are just added to each other before they are transferred from the optimal configuration to the real configuration. Since the values that are supplied to the thruster controllers one can not have values outside the -100\% to 100\% these values need to be scaled within the range. 
 
 This is done in two steps. The first is to remove the control values for orientation and only try to preform the transition from optimal to real configuration only on the positional control configuration. If this configuration still yields a configuration that has values outside of the range of the thruster controllers then one scales this configuration based on the component that has moved furthest outside of its range. A ratio between that components control value and the range of thruster controllers is calculated and that ratio is multiplied with each component to keep the ratio between each thruster but move each component within the range. 
+
+\begin{figure}
+	\begin{center}
+		\begin{math}
+			\begin{matrix}
+				Thr & x & y & z & x^o & y^o & z^o\\
+				1 & -0.866025 & 0.5 & 0 & -0.0205 & -0.35507 & 0.248963 \\
+				2 & 0 & -1 & 0 & 0.035 & 0 & 0.338 \\
+				3 & 0.866025 & 0.5 & 0 & -0.0205 & 0.035507 & 0.292265 \\
+				4 & 0 & 0 & 1 & 0.111 & -0.095 & 0 \\
+				5 & 0 & 0 & 1 & -0.025 & 0.476 & 0 \\
+				6 & 0 & 0 & 1 & -0.161 & -0.095 & 0 \\
+			\end{matrix}
+		\end{math}
+		\caption{Thruster configuration matrix. Index explanation can be seen  in figure \ref{fig:THRUSTERINDICES}.}
+		\label{fig:THRUSTERCONFIGURATIONMATRIX}
+	\end{center}
+\end{figure}
+
+
+\begin{figure}
+	\begin{center}
+		\begin{tabular}{c l}
+			Thruster & Position \\
+			\hline		
+			1 & Horizontal front right \\
+			2 & Horizontal front left \\
+			3 & Horizontal back \\
+			4 & Vertical front right \\
+			5 & Vertical front left \\
+			6 & Vertical back
+		\end{tabular}
+	\caption{Thruster indices}
+	\label{fig:THRUSTERINDICES}
+	 \end{center}
+ \end{figure}
+		 
