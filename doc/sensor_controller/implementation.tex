@@ -27,7 +27,7 @@ Readings from all sensors will be put in the same CAN message containing 5 paylo
 \subsection{Temperature sensor}
 To receive the data from the temperature sensor a protocol converter between UART and 1-wire communications has been used. In order to read the temperature a number of characters have to be sent from the UART to the converter which interprets the received characters and generates the corresponding 1-wire signals. The temperature sensor detects the signals, makes an analog-to-digital conversion of the temperature and puts the data on the 1-Wire bus. Afterwards, the converter takes the data from the 1-Wire bus, translates it into characters and sends them over the UART to the AT90CAN128. 
 
-On the AT90CAN128 the characters are computed into a value which has a resolution of 1 degree Celsius, which is more than enough since the speed of sound doesn't change that much at this little temperature variation. A procedure has been written so that when it is called it will take a temperature reading and return the computed temperature.
+On the AT90CAN128 the characters are computed into a value with a resolution of 1 degree Celsius, which is more than enough, since the speed of sound doesn't change that much at this little temperature variation. A procedure has been written so that when it is called it will take a temperature reading and return the computed temperature.
 
 \subsection{Pressure sensor}
 Since the pressure sensor is analog, the AVR.AT90CAN128.ADC library~\cite{web:naiad_git} is used to read the analog output of the sensor whenever a CAN message is to be sent with sensor readings. This analog-to-digital value is converted to millibars before being sent as a CAN message. 

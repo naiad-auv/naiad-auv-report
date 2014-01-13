@@ -2,14 +2,14 @@
 \subsection{Virtual Plug-and-Play Network}
 \subsubsection{Design}
 The goal with the first implementation was to test the capabilities of VPPN.
-This included basic infrastructure such as a Lookup Service, a CAN Bus
+This included basic infrastructure such as a Lookup Service, a CAN bus
 gateway, an application (a consumer of data) and a service provider. Figure
 \ref{fig:vppn-overview} shows the basic components needed and how they are
 interconnected in suggested minimal implementation.
 
 \begin{figure}[h]
     \includegraphics[width=0.5\textwidth]{./figure/vppn-overview.png}
-    \caption{Overview of the minimal VPPN design with CAN Bus Gateway.}
+    \caption{Overview of the minimal VPPN design with CAN bus Gateway.}
     \label{fig:vppn-overview}
 \end{figure}
 
@@ -23,7 +23,7 @@ example connecting all components together is presented after that.
     \item {\em Service Provider} could be a sensor of some kind that
         applications can subsribe to for reguarly updates of the sensor value.
     \item {\em VPPN-CAN Gateway} routes traffic from the local subnet in the
-        processing unit to the CAN Bus local subnet.
+        processing unit to the CAN bus local subnet.
 \end{itemize}
 
 In a fully operational VPPN network adress resolution and initial
@@ -41,24 +41,24 @@ require information from other components. The Lookup Service in the minimal
 implementation would find that the "Application" requires sensor information of
 the same type the "Service Provider" supply. The Lookup Service would then report
 back to the Application with information that the Application should contact
-the Service Provider. The Application would then ask ones for required data or
+the Service Provider. The Application would then ask for required data or
 subscribe to the Service Provider's sensor information in a peer to peer manner.
 
-Whenever the Service Provider on the CAN Bus subnet were to communicate
-with another component outside of the CAN Bus subnet the VPPN-CAN Gateway
-would route the traffic. To be able to do this routing the VPPN-CAN Gateway is also
-responsible for the adress resolution in the boot up phase for the CAN Bus
+Whenever the Service Provider on the CAN bus subnet communicates with another
+component outside of the CAN bus subnet the VPPN-CAN Gateway routes the traffic.
+To be able to do this routing, the VPPN-CAN Gateway is also
+responsible for the adress resolution in the boot up phase for the CAN bus
 subnet.
 
-\subsubsection{VPPN and CAN Bus}\label{subsubsec:vppn_can_bus}
+\subsubsection{VPPN and CAN bus}\label{subsubsec:vppn_can_bus}
 In the minimal design the VPPN-CAN Gateway component runs on the same
 processing unit as the Mission Control System and connects with other
 components on that local subnet through UDP/IP through the loopback interface.
 
 In a VPPN network each component, both hardware and software, must have a unique
 logical address. When starting the system the responsiblity of the VPPN-CAN Gateway is to
-enumerate the CAN Bus for all connected components and assign a local subnet address to
-each one. This contradicts the behaviour of the CAN Bus which is message based
+enumerate the CAN bus for all connected components and assign a local subnet address to
+each one. This contradicts the behaviour of the CAN bus which is message based
 and not address based. As per request from the customer the project went
 forward with the minimal implementation design without putting any attention to
 the contradiction.
@@ -74,7 +74,7 @@ interface at port 3500 requesting an address. Together with the request for a
 new address a unique identifier is included in the message (e.g. MAC Address
 for IPv4 networks).
 
-Applying the same behaviour to the CAN Bus would cause the CAN Bus to
+Applying the same behaviour to the CAN bus would cause the CAN bus to
 malfunction due to collision errors when multiple CAN hosts transmit the same
 message ID but with different payloads (including the unique identifier).
 This is related to the bootstraping problem others have tried to solve with
@@ -82,7 +82,7 @@ This is related to the bootstraping problem others have tried to solve with
 
 For the minimal implementation the project went forward with inspiration from
 Ditze et. al \cite{web:porting_ip_can} where the 29 bits message ID from the
-CAN Bus 2.0B specification is divided into different subparts. Starts with a 10
+CAN bus 2.0B specification is divided into different subparts. It starts with a 10
 bits prioritisation band, 3 bits message type field, 8 bits sender address and
 the last 8 bits represent destination address. This can be seen in table
 \ref{table:mapping_message_id_to_ip}.
@@ -98,7 +98,7 @@ the last 8 bits represent destination address. This can be seen in table
     \end{tabular}
 \end{table}
 
-To eliminate the problem with collisions on the CAN Bus unique component
+To eliminate the problem with collisions on the CAN bus unique component
 identifiers must be used within the message id. One solution explored was to
 define a message type as "DHCP" request and use both the sender and destination
 address as a 16 bits unique data field. 16 bits is not enough for MAC addresses

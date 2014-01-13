@@ -89,21 +89,27 @@ fi
 ### Gimme 2
 ### Simulator on shore...very last as well as IDE.
 
-TECHNICAL="bbb_to_can
-            at90can_drivers
-            bootloader_and_configuration_manager
-            space_plug_and_play_avionics
-            ip_over_can_bus
+#           hull
+#           generic_can
+#           power_supply_kill_switch
+
+TECHNICAL=" pneumatics
+            thruster_controller
+            vision_hardware
             hydrophone
             inertial_navigation_system
-            simulator
-            pneumatics
-            thruster_controller
             sensor_controller
-            vision_hardware
-            vision_software"
+            at90can_drivers
+            bbb_to_can
+            vision_software
+            motion_control
+            sensor_fusion
+            missionctrl
+            bootloader_and_configuration_manager
+            simulator
+            space_plug_and_play_avionics
+            ip_over_can_bus"
 
-#            motion_control
 
 LL="project_management
     hardware_managers_lessons_learned
