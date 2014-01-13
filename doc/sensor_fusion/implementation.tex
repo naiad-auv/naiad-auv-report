@@ -28,6 +28,20 @@ tasks would be given a set of CAN message IDs on boot up that were of interest t
 the Main task. The Main task had now only one responsibilty left and that was
 to do the actual sensor fusion calculations.
 
+\begin{figure}[ht]
+    \includegraphics[width=0.5\textwidth]{./figure/software_architecture.png}
+    \caption{Sensor fusion software architecture. Showing the different tasks and
+    how they interact with each other through several different protected objects.}
+    \label{fig:software_architecture}
+\end{figure}
+
+The final design of the software architecture is seen in figure \ref{fig:software_architecture}.
+The dashed circles on the left and right side are protected objects specific for
+the different hardware resources. For the CAN bus this is required because you
+can't read and write at the same time but for the TCP connection multiple connections
+can be done in parallell so it can be changed.
+
+
 % You can use how many "subsections" and "subsubsections" you like.
 \subsection{Sensor fusion calculations}
 Text
