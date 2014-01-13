@@ -1,27 +1,59 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Implementation}\label{sec:implementation}
-The following sections describe the drivers of various modules of AT90CAN used in Naiad project.
+The following sections describe the drivers of various modules of AT90CAN128 used in the Naiad AUV project.
 \subsection{CAN Drivers}
-The AT90CAN consists of 1 CAN module. The CAN module has 15 Message Objects (MObs) from 0 to 14. Each of the MOb can be configured for either RX or TX. For the drivers in NAIAD, the MObs 0 to 12 are used for RX and 13 is used for TX. Out of the RX MObs only 0 to 9 can be configured by the user. For Naiad each board containing the AT90CAN can be in different modes like Bootloader mode, Simulation mode or Normal mode. The CAN module for different boards should operate differently in different mode, for example in Simulation mode the INS Board should not send any CAN messages. The Board\_And\_Mode\_Defs define how each board should react in each mode.The drivers primarily consist of following functions:
+The AT90CAN128 consists of 1 CAN module. The CAN module has 15 Message Objects (MObs) indexed from 0 to 14. Each MOb can be configured for either receiving (Rx mode) or transmitting (Tx mode). For the drivers in the Naiad AUV, MObs 0 to 12 are used for receiving and 13 is used for transmitting. Out of the Rx MObs only 0 to 9 can be configured by the user. For the Naiad AUV, each board containing the AT90CAN128 can be in different modes such as Bootloader mode, Simulation mode or Normal mode. The CAN module for different boards should operate differently in different modes, for example in Simulation mode the INS Board should not send any CAN messages. The Board\_And\_Mode\_Defs define how each board should react in each mode. \\
+The drivers primarily consist of following functions:
+
 \begin{enumerate}
-\item \textbf{Initialization (Can\_Init):} This is used to initialize the CAN module. It takes input the baud rate and Board name. The mode is initialized to Normal mode. The initialization sets the baud rate, clears all MObs and enables CAN. It also sets the MObs 10, 11, 12 to receive Bootloader start message, Mode message and Status request message respectively. These are the messages that all the boards should receive.
-\item \textbf{Set Filter and Mask (Can\_Set\_MOb\_ID\_MASK) :} This is used to configure the RX MObs from 0 to 9. This take inputs the MOb number and the filter and mask. For AT90CAN the MOb filter and mask is cleared once a message is received in that register and the user has to re-configure it. To avoid that hassle the filter and mask for each MOb is stored in an array and the MOb is automatically reconfigured with the filter and mask once a message is received in it.
-\item \textbf{Software Buffers :}The CAN drivers have RX and TX buffers of 16 messages each. The buffer is a ring buffer, and has pointers pointing to the read location and write location. The buffer pointers can have values from 0 to 31 even though the buffers are from 0 to 15. This is done to distinguish the full buffer from an empty buffer. When the buffer is empty both read and write will have same pointer location while in case of full they will differ by 16. In order to access the buffer, the buffer pointer mod 16 is used. 
-\item \textbf{CAN Interrupt :}The CAN interrupt occurs whenever a message is transmitted or received in the MObs. The Interrupt iterates over all MObs and checks if a message is received or transmitted. \newline
-For the receive interrupt it checks if the message is Mode message the mode is changed to the mode in the message, if the message is Reboot the Reboot function is called and if the message is to start the bootloader the boolean variable is set to True. Then the message is put in the message software buffer if the mode allows the CAN module to receive the messages. Otherwise the message is discarded. Then the RX Mobs filter and mast are reset by reading the values from the arrays.\newline
+\item \textbf{Initialization (Can\_Init):} This is used to initialize the CAN module. It takes the baud rate and board name as input. The mode is initialized to Normal mode. The initialization sets the baud rate, clears all MObs and enables CAN. It also sets the MObs 10, 11, 12 to receive Bootloader start message, Mode message and Status request message respectively. These are the messages that all the boards should receive.
+\item \textbf{Set Filter \& Mask (Can\_Set\_MOb\_ID\_MASK) :} This is used to configure the RX MObs from 0 to 9. This takes as inputs the MOb number and the filter and mask. For AT90CAN128 the MOb filter and mask is cleared once a message is received in that register and the user has to re-configure it. To avoid that hassle the filter and mask for each MOb is stored in an array and the MOb is automatically reconfigured with the filter and mask once a message is received in it.
+\item \textbf{Software Buffers :} The CAN drivers have RX and TX buffers of 16 messages each. The buffer is a ring buffer, and has pointers pointing to the read location and write location. The buffer pointers can have values from 0 to 31 even though the buffers are from 0 to 15. This is done to distinguish the full buffer from an empty buffer. When the buffer is empty both read and write will have same pointer location while in case of full they will differ by 16. In order to access the buffer, the buffer pointer mod 16 is used. 
+\item \textbf{CAN Interrupt :} The CAN interrupt occurs whenever a message is transmitted or received in the MObs. The Interrupt iterates over all MObs and checks if a message is received or transmitted. \newline
+For the receive interrupt it checks if the message is a Mode message and if so, the mode is changed to the mode defined in the message, if the message is a Reboot message, the Reboot function is called and if the message is to start the bootloader the boolean variable is set to True. Then the message is put in the message software buffer if the mode allows the CAN module to receive the messages. Otherwise the message is discarded. Then the RX Mobs filter and mask are reset by reading the values from the arrays.\newline
 For the transmit interrupt, when the message has been transmitted the message is removed from the software buffer and the next message is put in the RX register for transmitting.
-\item \textbf{Reading CAN Messages (Can\_Get) :}This is used to get the messages received. The function takes input the time it should wait for the message and returns a message and a boolean variable to tell if the message is received. A value of -1 can be passed in waiting time to make the funtion wait infinitely till a message arrives. The function iterates through all the messages in the software buffers and returns the highest priority message. Also the returned message is removed from the software buffer. This function is also calls the switch\_to\_bootloader message after the mode is set to bootloader and the mode message has been read by the user.
-\item \textbf{Transmitting CAN Messages (Can\_Send) :}This function takes input the message to send over the CAN bus. If the current mode for that board allows for a message to be sent the message is put into the TX software buffer otherwise the message is discarded.
+\item \textbf{Reading CAN Messages (Can\_Get) :} This is used to get the messages received. The function takes as input the time it should wait for the message and returns a message and a boolean variable to tell if the message is received. A value of -1 can be passed in "waiting time" to make the funtion wait infinitely till a message arrives. The function iterates through all the messages in the software buffers and returns the highest priority message. Also the returned message is removed from the software buffer. This function also calls the switch\_to\_bootloader message after the mode is set to bootloader and the mode message has been read by the user.
+\item \textbf{Transmitting CAN Messages (Can\_Send) :} This function takes as input the message to send over the CAN bus. If the current mode for that board allows for a message to be sent the message is put into the TX software buffer, otherwise the message is discarded.
 \end{enumerate}
 
 \subsection{SPI Drivers}
-The AT90CAN has 1 8 bit SPI module. The SPI drivers primarily has following functions:
+The AT90CAN128 has an 8 bit SPI module. The SPI drivers primarily has following functions:
 \begin{enumerate}
-\item \textbf{Initialization (Init) :}The Init function takes input the Clock divisor to use for the SPI clock, the clock mode, a boolean variable to tell if the device is master or slave, boolean to tell if the most significant bit is transmitted first and a boolean to tell if the Slave Select pin is used or not. The function disables the SPI device, configures it with the values passed and enables it.
-\item \textbf{SPI transmit and receive :}There are three functions to transmit and receive SPI data depending on if only transmit, only receive or both transmit and receive is required. 
-The SPI\_IO function takes input a byte which it transmits on the SPI and waits for the reply. It calls the master or slave IO functions depending on whether the AT90CAN is master or slave. The reply is then returned. \newline
+\item \textbf{Initialization (Init) :} The Init function takes as input the Clock divisor to use for the SPI clock, the clock mode, a boolean variable to tell if the device is master or slave, a boolean to tell if the most significant bit is transmitted first and a boolean to tell if the Slave Select pin is used or not. The function disables the SPI device, configures it with the values passed and enables it.
+\item \textbf{SPI transmit and receive :} There are three functions to transmit and receive SPI data depending on whether only transmit, only receive or both transmit and receive is required. 
+The SPI\_IO function takes as input a byte which it transmits on the SPI and waits for the reply. It calls the master or slave IO functions depending on whether the AT90CAN128 is master or slave. The reply is then returned. \newline
 The WriteSPI is used to transmit 1 byte of data. This function calls SPI\_IO internally. Whatever is received during that SPI transmit is discarded. \newline
 The ReadSPI is used to read a byte of SPI data. This function also calls SPI\_IO internally. A temp value of 0 is transmitted and the received value is returned.
-
 \end{enumerate}
+
+\subsection{UART drivers}
+The UART drivers provide the ability to send and receive data over the two UART buses that the AT90CAN128 has. For each of the two buses there is one send buffer that holds data that is to be sent and one receive buffer that holds data that is yet to be read. The buffers are implemented as circular buffers.  \\
+The UART drivers are implemented in the \\
+AVR.AT90CAN128.USART package that provides the following functions and procedures:
+
+\begin{itemize}
+\item \textbf{Init} initiates the UART by setting the registers controlling the baud rate and UART interrupts.
+\item \textbf{Put}  writes one byte to the send buffer and checks whether UART transmission is already ongoing, if not, transmission of the first byte is started. 
+\item \textbf{Write} uses \textbf{Put} to write a a string of data to the buffer.
+\item \textbf{Space\_Available} returns the amount of space left.
+\item \textbf{Data\_Available} returns the number of bytes present in the receive buffer.
+\item \textbf{Get\_Char} reads a byte from the receive buffer (if the buffer is not empty).
+\item \textbf{Read} reads a string of bytes from the receive buffer.
+\item \textbf{Flush\_Receive\_Buffer} empties a receive buffer.
+\end{itemize}
+
+Each function takes a variable of the type \textit{BAUDTYPE} as argument. \textit{BAUDTYPE} is used to represent which UART bus that a function call refers to. \\
+Four UART interrupts are used: \emph{USART0 Data Register Empty}, \emph{USART1 Data Register Empty}, \emph{USART0 Receive Complete} and \emph{USART1 Receive Complete}. \\
+
+
+\subsubsection{USART Data Register Empty interrupts}
+These interrupts occur when transmission of a byte has been completed. When this happens, the Interrupt Service Routine (ISR) checks whether the send buffer is non-empty (if there is more data to send). If so, a byte is read from the send buffer and transmission of this byte is started.
+
+
+\subsubsection{Receive Complete interrupts}
+These interrupts occur when a byte has been received. The ISR will fetch the byte by reading the \emph{USART0 Data Register} (or \emph{USART1 Data Register} depending on which bus caused the interrupt). If the receive buffer is not full the ISR will put this byte into the receive buffer. \\
+If the receive buffer is full the byte can not be stored in the receive buffer and will be lost. Because of this it is important that the application software reads the receive buffer often enough, particularly in applications where large quantities of data is received over UART.
+
+
+

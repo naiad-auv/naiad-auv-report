@@ -77,6 +77,18 @@ fi
 #
 # technical: All the reports that have any technical details about the AUV.
 
+# Hardware
+### Hull
+### actuators
+### Sensors
+# Mainboard
+### Connection between hardware, firmware and software.
+# Software
+### AVR / Firmware
+### beaglebone black
+### Gimme 2
+### Simulator on shore...very last as well as IDE.
+
 TECHNICAL="bbb_to_can
             at90can_drivers
             bootloader_and_configuration_manager

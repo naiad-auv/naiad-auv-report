@@ -9,8 +9,8 @@ Remember that design choices should never be determined by the egos of individua
 
 
 \subsection{Listen to your colleges}\label{sec:listen}
-Early on I realized that even though I was the manager of the hardware team, I still did not know particularity much more than anybody else in the team. Therefore I frequently discussed the decisions I took with my colleagues and I was very clear that I wanted feedback. If somebody realized that a I had taken a bad decision then I wanted that person to tell me this so that I could make better decision, etc. \\
-I believe that this was a very good thing to do. Many times did the members of my team come to me and tell me that decisions I had made were not the best, which often helped to avoid many mistakes. \\
+Early on I realized that even though I was the manager of the hardware team, I still did not know particularly much more than anybody else in the team. Therefore I frequently discussed the decisions I took with my colleagues and I was very clear that I wanted feedback. If somebody realized that I had taken a bad decision then I wanted that person to tell me this so that I could make better decisions, etc. \\
+I believe that this was a very good thing to do. There were many times when members of my team come to me and told me that a decision I had made were not the best, which often helped to avoid many mistakes. \\
 This lesson is closely related with Section~\ref{sec:ego}.
 
 
@@ -23,7 +23,7 @@ The interface between hardware and software should be discussed between the hard
 
 
 \subsection{Define software standards and follow them}\label{sec:software_standards}
-Regarding software standards, I am not too concerned about coding styles such as weather one should use underlines or not (e.g. \emph{my\_variable} or \emph{myVariable}), even though these types of standards do improve readability. \\
+Regarding software standards, I am not too concerned about coding styles such as whether one should use underlines or not (e.g. \emph{my\_variable} or \emph{myVariable}), even though these types of standards do improve readability. \\
 More concern should be put into what the overall structure of the whole body of code should look like. This includes a folder structure (e.g. one folder for hardware specific drivers, with subfolders for each hardware, one folder for platform independent code, and so on) how different parts of the code depend on each other and so forth.
 
 Please note that these definitions will in turn be further defined in Section~\ref{sec:define} and that this lesson also is associated with Section~\ref{sec:top_down}.
@@ -43,7 +43,7 @@ It is of the utmost importance that the person(s) that build one subsystem (i.e.
 
 I recommend defining a set of tests for each subsystem at an early state, before the subsystems are developed.
 This will both help the person(s) developing the subsystem and help others understand what the subsystem will do. 
-Defining User stories~\cite{web:wiki_user_story} and/or Integration tests~\cite{web:wiki_unit_testing} that will be used later on in the development cycle (testing phase) are good ways for the project team to define the goals for the different subsystems. \\
+Defining User stories~\cite{web:wiki_user_story} and/or Integration tests~\cite{web:wiki_integration_testing} that will be used later on in the development cycle (testing phase) are good ways for the project team to define the goals for the different subsystems. \\
 I also encourage that the process of defining each subsystem, their interfaces and tests is done by several people and that what is decided is then presented to the whole project group so that anyone can come with suggestions or ideas.
 
 
@@ -65,7 +65,7 @@ For managers (software, hardware and overall managers) this lesson also closely 
 \subsection{Talk to the client about requirements}\label{sec:client}
 During the project it became apparent that several of the "hard" requirements given by the client were not so hard at all. Neither did all the requirements seem as thought through as they first appeared. Several of the requirements turned out to be more of "nice to have" rather than "need to have", for example the robot-to-robot communication, IP-over-CAN, the use of space-plug-and-play, etc. \\
 
-The same is likely to be true in following projects courses. Consequently, I strongly advice future students of this project course to look carefully at the given requirements, analyse them so that their purposes are fully understood and prioritize them. Once this is done, requirements that either seem to be to hard to fulfil or that have low priority should be left for later evaluation. It is better to start with a few important requirements than trying to meet all from the beginning. \\
+The same is likely to be true in following project courses. Consequently, I strongly advice future students of this project course to look carefully at the given requirements, analyze them so that their purposes are fully understood and prioritize them. Once this is done, requirements that either seem to be to hard to fulfil or that have low priority should be left for later evaluation. It is better to start with a few important requirements than trying to meet all from the beginning. \\
 All this should be done in collaboration with the customer.
 
 This lesson is closely related to Section~\ref{sec:time}.
@@ -73,5 +73,21 @@ This lesson is closely related to Section~\ref{sec:time}.
 \subsection{Time is precious}\label{sec:time}
 There is a lot of work that needs to be done during a project such as this one. Even though each student is meant to put in a lot of time into the project, one will soon find that one will only have time for a fraction of what one first thought that one would be able to do. One principle that was mentioned during the project was "Take whatever time you think something is going to take, multiply by $\pi$ and round up". This was said as a joke but in some instances it was not too far from reality. \\
 For these reasons, one has to be very selective on what to spend time on. This applies for each person on all levels of the project.
+
+
+\subsection{Acquire test equipment}\label{sec:test}
+As mentioned earlier in this report, testing is important. There will undoubtedly be times when things don't work. \\
+Unlike software development, where much testing can be done "in software" using Unit testing~\cite{web:wiki_unit_testing} or simple text outputs to the screen, development of electronics and embedded software (or firmware, see Section~\ref{sec:firmware}) often requires hardware for testing.
+
+Embedded systems are generally not connected to a computer screen. For this reason, one needs some other method to retrieve debug output from the system. \\
+The simplest way for microcontrollers such as the AT90CAN128 used in the Naiad AUV to communicate with the "outside world" (i.e. a human looking at a computer screen) is via UART. For this reason it is of vital importance to have access to some form of UART-to-USB converters, i.e. a way of creating a comport on the PC that is connected to the UART bus on the microcontroller. Terminal software such as Bray's Terminal~\cite{web:brays_terminal} or  CuteCom~\cite{web:cutecom_terminal} will be needed for this.
+
+For debugging the CAN bus, which future student projects at M\"{a}lardalen University are also likely to use, hardware such as the Kvaser Leaf CAN-to-USB interface~\cite{web:kvaser_can} will be needed to monitor subsystems on the CAN bus. This type of hardware can also be used to emulate one subsystem when testing another subsystem. For example, during this project we sent faked motor control messages to the Motor controller and checked that the motor's speed changed according to the control messages.
+
+For testing electronics, equipment such as oscilloscopes, multimeters, function generators and voltage sources is necessary.
+
+When a student project begins, make sure that you get access to the equipment that you will need as soon as possible. Keep in mind that there will often be a delay from that you request to get something till you actually get it. This delay is likely to be longer than you expect.
+
+
 
 

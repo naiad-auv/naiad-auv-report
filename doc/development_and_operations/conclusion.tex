@@ -1,17 +1,39 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Conclusion}\label{sec:conclusion}
-The IT tools that will help the project are the tools that are used daily by most
-or all project members.
+A lot can be done with different tools to improve the efficiency of the development
+team and the quality of the code that is produced, though it's important to remember
+that too much of it will leave it all unused. Tools that are in the daily workflow
+are the ones that will be worth installing and maintaining.
 
-release manager that demand new features to have a complete set of working
-unit tests.
+\subsection{Development}
+\subsubsection{Ada}
+Try to stick with one development environment and make sure to set up cross-compilation
+of all your code straight away. This will prevent surprises were you end up rewriting
+a lot of code that works on the development machines but not on the ARM or AVR
+architectures.
 
-Vagrant with puppet? Same development environment on all development machines.
-Use puppet on build servers as well.
+To make sure all project members run with the same development environment you
+could look in to the possibility of setting a Vagrant \cite{web:vagrant}
+virtual machine system and letting everyone run with that.
 
-% You can use how many "subsections" and "subsubsections" you like.
-\subsection{Subsection}
-Text
-\subsubsection{Subsubsection1}
-Text
+\subsubsection{Version Control System}
+Git with Github services was a good choice for version control system though
+the workflow chosen was not. The time spent learning a distributed workflow such
+as git-flow is time well spent early on in the project.
+
+One last thing
+to remember is that a repository can grow very quickly if you allow binary files
+to be added. Some test files such as test images for the vision system are needed
+to be in the repository but try to limit it to as few as possible. This will
+keep the repository size to a minimum and make it easier to clone on new
+development machines.
+
+\subsection{Operations}
+\subsubsection{Website}
+If possible try to use wordpress.com service or similiar. The burden of
+maintaining the website is not worth it and you will save some well needed cash 
+as well. A public service such as wordpress.com
+will also make it easier to transfer the responsibility to others when the project
+course is over. The downside is that you won't have that much of flexibility when
+it comes to design.
