@@ -1,25 +1,31 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Introduction}\label{sec:introduction}
-This report covers the work of the vision system software team of Naiad, which was the project undertaken as part of the course Project in Advanced Embedded Systems, DVA425, at M\"{a}lerdalens H\"{o}gskola in the fall semester of 2013\footnote{M\"{a}lerdalens H\"{o}gskola \\School of Innovation, Design and Engineering\\Project in Advanced Embedded Systems DVA425\\ \\Mikael Ekstr\"{o}m, Evaluator \\ \textit{mikael.ekstrom@mdh.se}\\ \\Lars Asplund, Customer\\ \textit{lars.asplund@mdh.se}}. The team consisted of two international students in the final year of the Intelligent Embedded Systems program at the university.
-The purpose of this team was to develop a vision system for an autonomous underwater vehicle, AUV, capable of providing real-time object detection, recognition, and velocity estimation. The system should also be capable of recreating a three dimensional map of an object using stereo vision.
+This report covers the work of the vision system software team of Naiad\cite{web:naiad}, which was the project undertaken as part of the course Project in Advanced Embedded Systems, DVA425, at M\"{a}lerdalens H\"{o}gskola in the fall semester of 2013\footnote{M\"{a}lerdalens H\"{o}gskola \\School of Innovation, Design and Engineering\\Project in Advanced Embedded Systems DVA425\\ \\Mikael Ekstr\"{o}m, Evaluator \\ \textit{mikael.ekstrom@mdh.se}\\ \\Lars Asplund, Customer\\ \textit{lars.asplund@mdh.se}}. The team consisted of two international students in the final year of the Intelligent Embedded Systems program at the university.
+
+The goal of this team was to develop a vision system for an autonomous underwater vehicle, AUV, capable of providing real-time object detection, recognition, and velocity estimation. The system should also be capable of recreating a three dimensional map of an object using stereo vision.
 
 \subsection{Problems faced}
 One of the challenges faced by all underwater vision systems is the ever-changing lighting conditions under water. Rays of light shining down through the water can affect the image detection system. A system was needed to deal with this light disturbance.
 
 \subsection{Software/Hardware}
 There were two hard requirements of the project for the vision system. The first was that Ada should be the main programming language. This was to introduce safety critical features to the code and make the system robust and safety critical. The other requirement was that the software should be developed for the research platform GIMME-2 \cite{web:GIMME2}. 
-For real time image capture and perception OpenCV \cite{web:OpenCV} was chosen and interfaced with the GIMME-2 and Ada. Point Cloud Library \cite{web:PCL}, PCL, was chosen for the three Dimensional reconstruction which was also interfaced to work through Ada. The operating system chosen to develop the software was Ubuntu 12.04.
 
-\subsubsection{Software/components decisions \& reasons}
+For real time image capture and perception OpenCV \cite{web:OpenCV} was chosen and interfaced with the GIMME-2 and Ada. Point Cloud Library \cite{web:PCL}, PCL, was chosen for the three dimensional (3D) reconstruction which was also interfaced to work through Ada. The operating system chosen to develop the software was Ubuntu 12.04.
+
+\subsubsection{Software/Components Decisions \& Reasons}
 A number of software components were chosen for this project. Below is a description of the main components used and the reasons behind choosing each component. 
 \begin{enumerate}
-  \item GIMME2 \\ This was a hard requirement from the customer. A state of the art platform described in detail in the hardware report.
+  \item GIMME-2 \\ This was a hard requirement from the customer. A state of the art platform described in detail in the hardware report.
   \item Ada \\ This was a hard requirement from the customer. Introduces safety critical characteristics to the vision software system.
-  \item OpenCV \\ It seemed to be the obvious choice after a research was done on the state of the art technologies, and it was found that this library provides easy access to quite a few of the methods intended to be used in the system.
-  \item PCL \\ The main decision to make with three dimensional (3D) reconstruction was to choose between OpenCV and Point Cloud Library to handle the three dimensional reconstruction. Both methods have advantages and disadvantages. OpenCV, which was already installed and operating well on the vision system. However to use OpenCV the system has to be trained to recognise objects and this introduces restrictions to the objects that can be detected by the system.
+  \item OpenCV \\ It seemed to be the obvious choice after a research was conducted on the state of the art technologies, and it was found that this library provides easy access to quite a few of the methods intended to be used in the system.
+  \item Point Cloud Library \\ The main decision to make with three dimensional (3D) reconstruction was to choose between OpenCV and Point Cloud Library (PCL) to carry out the three dimensional reconstruction. Both methods have advantages and disadvantages.
+
+OpenCV was already installed and operating on the vision system and using it would mean time saved on installing extra software. However to use OpenCV the system has to be trained to recognise objects and this introduces restrictions to the objects that can be detected by the system.
+
 Point Cloud Library does not have to be trained to reconstruct the images received from the stereo vision system, but it does require introducing a new software library component to the system, binding to Ada and adapting the makefile to handle the new library.
-It was decided that the greater flexibility given by point cloud analysis would warrant the extra work in implementing it into the system.
+
+It was decided that the greater flexibility given by Point Cloud Library would warrant the extra work needed to implementing it into the system.
 \end{enumerate}
 
 \subsubsection{OpenCV with Ada}
