@@ -1,16 +1,24 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Implementation}\label{sec:implementation}
+The implementation of the simulator for project Naiad was created with the four following pillars in mind and tested with AUnit to ensure that all parts works as intended.
 
-% You can use how many "subsections" and "subsubsections" you like.
 \subsection{Overall design using the Model View ViewModel approach}
 
 The overall design of the simulator was implemented following the MVVM standard. At the top of this design is the graphical interface for the user. The graphical interface in turn holds several view models, which it gets its data from and calls on for changes. Each view model containing its own logic separated to that of the model itself to perform simpler tasks that is just for representation. There are 7 view models that all work on different parts of the program such as one for graphical representation, one for the PID values, one for the PID errors and one for setting each type of parameter.
 
 These view models then shares one common model that they are all keeping access to. This model in turns holds some simple logic together with the motion simulator part of the simulator together with the different communication accesses, both with CAN over Ethernet and with a direct link to motion control. Where it with the update command fetches information of both the simulated motion part and the communication part and sends it to the other respective part.
 
+\begin{figure}[h]
+    \includegraphics[width=0.5\textwidth]{./figure/Simulator-mod-500x350.png}
+    \caption{Simulator user interface}
+    \label{fig:one_column_figure}
+\end{figure}
+
 \subsection{Usability and design in GTK ada}
-The design of the user interface is built up as in figure [?] where the 3 views showing positioning in the 2 respective axis.
+
+
+The design of the user interface is built up as in figure 1 where the 3 views showing positioning in the 2 respective axis.
 
 The interface is built up from using buttons where popup windows appear for setting data or monitoring actuators such as the motors without bloating the screen. To perform actions with a logic free interface the accessible view models are used to perform the various actions such as setting values, retrieving information, calling the periodic update for the simulated AUV and so on.
 
