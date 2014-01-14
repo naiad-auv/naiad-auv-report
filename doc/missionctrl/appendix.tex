@@ -1,20 +1,122 @@
+\label{appendix}
 % Each section is a new appendix
-\section{First appendix}\label{sec:first_appendix}
-Text
-% You can use how many "subsections" and "subsubsections" you like.
-\subsection{Subsection}
-Text
-\subsubsection{Subsubsection1}
-Text
-\subsubsection{Subsubsection2}
-Text
+\section{NaiAda language grammar specification}\label{sec:grammar}
+\noindent
+\begin{lstlisting}
+program     -> comp_units 									        
 
-\section{Second appendix}\label{sec:second_appendix}
-Text
-% You can use how many "subsections" and "subsubsections" you like.
-\subsection{Subsection}
-Text
-\subsubsection{Subsubsection1}
-Text
-\subsubsection{Subsubsection2}
-Text
+comp_units  -> comp_units function					
+	    | comp_units primitive						
+	    | function									
+	    | primitive
+
+functions   -> functions function
+	    | function		
+
+primitive   -> 'primitive' ID 'is' prim_decls functions 'end' ID ';'	
+
+function    -> 'procedure' ID '(' formals ')' 'is' decls 'begin' stmnts 'end' ID ';'	
+            | 'procedure' ID 'is' decls 'begin' stmnts 'end' ID ';' 	
+            | 'function' ID '(' formals ')' 'return' BASIC_TYPE 'is' decls 'begin' stmnts 'end' ID ';'
+            | 'function' ID 'return' BASIC_TYPE 'is' decls 'begin' stmnts 'end' ID ';'
+
+prim_decls  -> prim_decls prim_decl
+	    | prim_decl		
+
+prim_decl   -> ID ':' 'in' BASIC_TYPE ';'	
+	    | ID ':' 'out' BASIC_TYPE ';'	
+
+formals     -> formals ';' formal
+            | formal	
+
+formal      -> ID ':' type
+
+decls       -> decls decl
+            | ε										
+decl        -> ID ':' type ';' 
+
+type	    -> BASIC_TYPE
+	    | 'access' '(' BASIC_TYPE ')'	
+
+stmnts      -> stmnts stmnt
+            | stmnt	
+
+stmnt       -> ID ':=' expr ';'     
+            | 'asm' '(' STRING_CONST ')' ';' 
+            | 'if' expr 'then' stmnts 'end' 'if' ';' 	
+            | 'if' expr 'then' stmnts 'else' stmnts 'end' 'if' ';'
+            | 'while' expr 'loop' stmnts 'end' 'loop' ';'	
+            | 'return' expr ';'                    
+            | 'return' ';'                       	
+            | ID '(' actuals ')' ';'        
+            | 'loop' stmnts 'end' 'loop' ';'        
+            | 'exit' ';'    		    
+	    | 'null' ';'			
+	    | '<<' ID '>>'			
+	    | 'goto' ID ';'			
+
+expr        -> '-' expr	
+            | 'not' expr		
+            | unaryop '(' expr ')'	
+            | expr '+' expr		
+            | expr '-' expr		
+            | expr '*' expr	
+            | expr '/' expr	
+            | expr 'and' expr		
+            | expr 'or' expr		
+            | expr '=' expr			
+            | expr '/=' expr			
+            | expr '<' expr			
+            | expr '<=' expr			
+            | expr '>' expr			
+            | expr '>=' expr			
+            |'(' expr ')'				
+            | ID '(' actuals ')'			
+            | ID					
+	    | 'access' '(' ID ')'			
+            | INT_CONST					
+            | 'true'
+            | 'false'				
+            | FLOAT_CONST					
+            | '[' expr ',' expr ',' expr ']' 
+            | '[' '[' expr ',' expr ',' expr ']' ',' 
+	          '[' expr ',' expr ',' expr ']' ',' 
+                  '[' expr ',' expr ',' expr ']' ']' 			
+	    | VEC_COMP								
+	    | MAT_COMP							
+
+unaryop	    -> BASIC_TYPE			
+	    | MATH_TYPE		
+	       
+MATH_TYPE   -> 'sin'
+	    | 'cos'
+	    | 'arcsin'
+	    | 'arccos'
+	    | 'abs'
+	    | 'sqrt'
+	    
+BASIC_TYPE  -> 'integer'
+	    | 'boolean'
+	    | 'float'
+	    | 'vector'
+	    | 'matrix'
+
+actuals     -> exprs	
+            | ε	
+
+exprs       -> exprs ',' expr	
+            | expr		
+
+ID          -> regexp{[A-Za-z_]([A-Za-z_]|[[0-9]])*}
+
+VEC_COMP    -> regexp{[A-Za-z_]([A-Za-z_]|[[0-9]])*\.[XYZ]}         
+
+MAT_COMP    -> regexp{[A-Za-z_]([A-Za-z_]|[[0-9]])*\.[XYZ]Vector}
+
+STRING_CONST-> regexp{"\""([^\"])*"\""}
+
+INT_CONST   -> regexp{[0-9]+}
+
+FLOAT_CONST -> regexp{[0-9]+\.[0-9]+}
+
+\end{lstlisting}
