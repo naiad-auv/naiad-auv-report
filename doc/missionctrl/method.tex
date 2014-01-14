@@ -1,8 +1,8 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Method}\label{sec:method}
-\subsection{System architecture overview}
-As can be seen in Fig. \ref{fig:data_flow_figure}, the system was designed to consist of four tasks, with each task having one purpose only.
+\subsection{System architecture}
+The system needed to be able to execute missions and receive new missions through the umbilical chord. In order to do this, several tasks were set up. The new missions needed to be received using TCP, so a task was created to handle this. Missions need to communicate with the rest of the AUV through CAN, so two tasks were created to handle the input and output over CAN. Finally, a main task was created to be in charge of executing the actual missions.
 
 \pageref{fig:data_flow_figure}
 \begin{figure}[h]
