@@ -9,8 +9,16 @@ The overall design of the simulator was implemented following the MVVM standard.
 
 These view models then shares one common model that they are all keeping access to. This model in turns holds some simple logic together with the motion simulator part of the simulator together with the different communication accesses, both with CAN over Ethernet and with a direct link to motion control. Where it with the update command fetches information of both the simulated motion part and the communication part and sends it to the other respective part.
 
+\begin{figure}[h]
+    \includegraphics[width=0.5\textwidth]{./figure/Simulator-mod-500x350.png}
+    \caption{Simulator user interface}
+    \label{fig:one_column_figure}
+\end{figure}
+
 \subsection{Usability and design in GTK ada}
-The design of the user interface is built up as in figure [?] where the 3 views showing positioning in the 2 respective axis.
+
+
+The design of the user interface is built up as in figure 1 where the 3 views showing positioning in the 2 respective axis.
 
 The interface is built up from using buttons where popup windows appear for setting data or monitoring actuators such as the motors without bloating the screen. To perform actions with a logic free interface the accessible view models are used to perform the various actions such as setting values, retrieving information, calling the periodic update for the simulated AUV and so on.
 
