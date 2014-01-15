@@ -3,19 +3,19 @@
 \section{Conclusion}\label{sec:conclusion}
 Overall the vision system completed the goals set out at the start of the project. As the GIMME-2 was not functioning reliably throughout the project, with stereo image capture taking up to ten minutes to capture an image from each camera, the software could only be tested using image datasets and not from the GIMME-2's cameras. 
 \subsection{Future work}
-Computer vision is a vast area and throughout the project the team discovered master thesis, and PH.D thesis dedicated to different parts of computer vision so there will always be scope to improve the vision system. With specific regards to project Naiad's vision system there are a number of areas that will require some work to successfully integrate all hardware and software.
+Computer vision is a vast area and throughout the project the team discovered master theses, and Ph.D theses dedicated to different parts of computer vision so there will always be scope to improve the vision system. With specific regards to project Naiad's vision system there are a number of areas that will require some work to successfully integrate all hardware and software.
 \subsubsection{Testing}
-The system can be tested fully using integration, unit tests, system tests and acceptance tests. These would have to be wrote manually as the test suite A-Unit cannot be used with the bindings.
+The system can be tested fully using integration, unit tests, system tests and acceptance tests. These would have to be written manually as the test suite AUnit cannot be used with the bindings.
 
 \subsubsection{Integrating Disparity Maps}
 The disparity maps obtained from the GIMME-2 when it functions properly can be integrated into the velocity estimator function.
-The disparity map can be integrated with the velocity estimator function to receive the estimated distance in centimetres instead of estimated pixels. This could not be implemented as the GIMME-2 image capture was not functioning to a standard that allowed consecutive stereo images to be captured.
+The disparity map can be integrated with the velocity estimator function to receive the estimated distance in centimetres instead of estimated pixels. This could not be implemented as the GIMME-2 image capture was not functioning to a standard that allowed consecutive stereo imagemode 1s to be captured.
 
 \subsubsection{Integrating CAN to the System}
-The Controller Area Network (CAN controller) for the GIMME-2 has been completed by the vision firmware team. This code must be added to the vision software system main file.
+The Controller Area Network (CAN) controller for the GIMME-2 has been completed by the vision firmware team. This code must be added to the vision software system main file.
 
 \subsubsection{Instruction Handling System}
-A system for handling messages from mission control must be implemented.
+A system for handling messages from mission control system must be implemented.
 
 \subsubsection{PCL Future Work}
 PCL was implemented towards the end of the project. Only a few basic filters and a surface reconstruction module was implemented, leaving lots of room for future extension.
