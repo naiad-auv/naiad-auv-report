@@ -9,9 +9,9 @@ The goal of this team was to develop a vision system for an autonomous underwate
 One of the challenges faced by all underwater vision systems is the ever-changing lighting conditions under water. Rays of light shining down through the water can affect the image detection system. A system was needed to deal with this light disturbance.
 
 \subsection{Software/Hardware}
-There were two hard requirements of the project for the vision system. The first was that Ada should be the main programming language. This was to introduce safety critical features to the code and make the system robust and safety critical. The other requirement was that the software should be developed for the research platform GIMME-2 \cite{web:GIMME2}. 
+There were two hard requirements of the project for the vision system. The first was that Ada \cite{web:mcsada} should be the main programming language. This was to introduce safety critical features to the code and make the system robust and safety critical. The other requirement was that the software should be developed for the research platform GIMME-2 \cite{web:GIMME2}. 
 
-For real time image capture and perception OpenCV \cite{web:OpenCV} was chosen and interfaced with the GIMME-2 and Ada. Point Cloud Library \cite{web:PCL}, PCL, was chosen for the three dimensional (3D) reconstruction which was also interfaced to work through Ada. The operating system chosen to develop the software was Ubuntu 12.04.
+For real-time image capture and perception OpenCV \cite{web:OpenCV} was chosen and interfaced with the GIMME-2 and Ada. Point Cloud Library \cite{web:PCL}, PCL, was chosen for the three dimensional (3D) reconstruction which was also interfaced to work through Ada. The operating system chosen to develop the software was Ubuntu 12.04.
 
 \subsubsection{Software/Components Decisions \& Reasons}
 A number of software components were chosen for this project. Below is a description of the main components used and the reasons behind choosing each component. 
@@ -32,7 +32,7 @@ It was decided that the greater flexibility given by Point Cloud Library would w
 Interfacing OpenCV with Ada would be a problem. Extensive research did not yield any instances of the current version of OpenCV (2.4.7) having support for Ada. Bindings were found for an older version of OpenCV (2.2) \cite{web:oldAdaBindings} but as OpenCV has undergone significant changes since then, most notably the method in which image data is handled, these could not be used.
 
 \subsubsection{PCL with Ada}
-As Point Cloud Library is a relatively new software \cite{Rusu_ICRA2011_PCL}, its support of different languages is limited. Much like OpenCV a method to incorporate PCL to Ada was needed.
+As Point Cloud Library is a relatively new software \cite{Rusu_ICRA2011_PCL}, its support for different languages is limited. Much like OpenCV a method to incorporate PCL to Ada was needed.
 
 \subsubsection{Hardware Platform}
 The state of the art hardware platform used for the project, the GIMME-2, presented several challenges to the software team. As the platform was state of the art, support for developing software for it was limited.

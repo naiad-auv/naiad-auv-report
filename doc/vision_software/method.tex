@@ -1,16 +1,16 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Method}\label{sec:method}
-There are two parts to the following section. Firstly the preparation steps undertaken to integrate all software components with each other is described. Secondly some of the main software modules implemented are described.
+The method will now be described. It is split into two sections. Firstly the preparation steps undertaken to integrate all software components with each other is described. Secondly some of the main software modules implemented are described.
 \subsection{Preparation}
 Before the modules need for the visual perception system could be coded, the software modules needed to be interfaced to each other. The following subsections describes the work undertaken to prepare all the software modules.
 \subsubsection{OpenCV with Ada}
 The first task undertaken in this project was to try to get OpenCV working with Ada. Bindings were found online \cite{web:oldAdaBindings} however these binding were found to be rigidly implemented to an older version of OpenCV and an operating system no longer supported. An alternative solution was required. After much research a method of binding C++ to Ada was found \cite{web:newAdaBindings} and this method was adapted to bind OpenCV to Ada.
 
-This generated bindings that could be used by including the wrapper file in the ada project, however linking several projects that used the bindings together, and compiling and running the project in an IDE proved troublesome. A Makefile was constructed to link everything together.
+This generated bindings that could be used by including the wrapper file in the ada project, however linking several projects that used the bindings together, and compiling and running the project in an Interactive Development Environment (IDE) proved troublesome. A Makefile was constructed to link everything together.
 
 \subsubsection{PCL with Ada}
-Much like OpenCV, PCL needed to be converted from C++ to Ada. The same approach as OpenCV was undertaken. The PCL modules required were first developed in C++ and then Ada bindings were generated using the binding commands found \cite{web:newAdaBindings}. The PCL functions could then be called from Ada. The Makefile was then adjusted to incorporate PCL. This simply required adding include directories to the necessary PCL libraries in the Makefile 
+Much like OpenCV, PCL needed to be converted from C++ to Ada. The same approach as OpenCV was undertaken. The PCL modules required were first developed in C++ and then Ada bindings were generated using the binding commands found \cite{web:newAdaBindings}. The PCL functions could then be called from Ada. The Makefile was then adjusted to incorporate PCL. This simply required adding include directories to the necessary PCL libraries in the Makefile. 
 
 \subsubsection{Developing for the GIMME-2}
 As the GIMME-2 was a state of the art hardware platform, development support was limited. One positive was that its ARM processor architecture is also used in the BeagleBone Black and Pandaboard. As the Ubuntu operating system was not supported by GIMME-2, it was decided to compile the binaries needed on a Pandaboard statically and then move the binaries to the GIMME-2 to be run.
@@ -21,8 +21,8 @@ The visual and perception system was broken down into separate modules for each 
 The hardware is potentially capable of stereo vision, taking pictures with its dual camera lenses at the same time, which enables depth perception and motion calculations.
 
 \begin{description}
-  \item [Calibrating the Cameras] \hfill \\As the GIMME-2 was having problems taking two pictures simultaneously, a custom stereo rig was constructed to run and test the calibration software. Calibration and Rectification code was constructed using a chessboard image to calibrate the cameras. This code can be tested on the GIMME-2 when it was the ability to take 10 consecutive stereo images needed to run the calibration software.
-  \item [Disparity Maps] \hfill \\Since the GIMME-2 flaunts a stereo system, disparity maps can be used for motion and distance estimation. OpenCV functionalities were used for this purpose.
+  \item [Calibrating the Cameras] \hfill \\As the GIMME-2 was having problems taking two pictures simultaneously, a custom stereo rig was constructed to run and test the calibration software. Calibration and Rectification code was constructed using a chessboard image to calibrate the cameras. This code can be tested on the GIMME-2 when it has the ability to take 10 consecutive stereo images needed to run the calibration software.
+  \item [Disparity Maps] \hfill \\Since the GIMME-2 flaunts a stereo system, disparity maps can be used for motion and distance estimation. Disparity maps are images that contain not only x an y axis values, but also the estimated z axis too. OpenCV functionalities were used for this purpose.
 
 \end{description}
 
@@ -138,17 +138,17 @@ The vision system has the ability to threshold the input image to filter for any
 It works on HSI images, and it was particularly challenging to filter the color red as the hue values see a wrap-around effect for red, meaning that the spectrum begins at red and ends at red.
 
 This problem was solved by working around the easily detected colors. To detect red, firstly yellow and green were filtered separately. Then the orange component was filtered from a bitwise OR-combination of the previous outputs. The resultant output is the red component.
-the OpenCV function inRange is used here.
+The OpenCV function inRange is used here.
 
 \item[Canny Edge Detection]\hfill \\
-The Canny edge detection algorithm \cite{Canny:1986:CAE:11274.11275}  was used for detecting edges in the images. Canny states that the optimal detector for step edges would be convolution with a symmetric Gaussian and directional second spatial derivatives \cite{books/sp/Cipolla96}. The Canny algorithm is based on three main objectives \cite{Nixon:2008:FEI:1571711}:
+The Canny edge detection algorithm \cite{Canny:1986:CAE:11274.11275}  was used for detecting edges in the images. Canny states that the optimal detector for step edges would be a convolution with a symmetric Gaussian and directional second spatial derivatives \cite{books/sp/Cipolla96}. The Canny algorithm is based on three main objectives \cite{Nixon:2008:FEI:1571711}:
 \begin{enumerate}
   \item The response to noise is reduced using Gaussian filtering
   \item Use non-maximum suppression to obtain good accuracy (only use points from the top of a ridge of edge data, whilst suppressing all others)
   \item Eliminate multiple responses to a single edge by providing a single response
 \end{enumerate}
 
-The Canny module implemented takes a grey scale input and outputs a binary image with the estimated lines are white on a black background.
+The Canny module implemented takes a grey scale input and outputs a binary image where the estimated lines are white on a black background.
 
 \item[Contour Tracing]\hfill \\
 The contour module used was based on the OpenCV contour module. This module is based on Suzuki and Abe which analyzes the topological structure of binary
@@ -162,7 +162,7 @@ After the contours were found the OpenCV function approx poly was used to approx
 OpenCV's good features to track module was implemented to use with optical flow. This yielded better results with optical flow than from using optical flow with contours. This module is based on the Shi-Tomasi algorithm \cite{article:tomasi}. This module uses the algorithm to find the most prominent corners in an image region. The method also shows comparatively better results than the Harris corner algorithm \cite{article:tomasi}.
 
 \item[Optical Flow Tracking]\hfill \\
-Optical flow tracking was implemented to use as part of velocity estimation in the vision system. Optical flow tracking in OpenCV uses the Lucas-Kanade method and uses a sparse iterative method \cite{web:opticalFlow}, which computes optical flow for a sparse feature set using features detected in the good features to track module described above. This module was used in to find an estimated velocity for the AUV.
+Optical flow tracking was implemented to use as part of velocity estimation in the vision system. Optical flow tracking in OpenCV uses the Lucas-Kanade method and uses a sparse iterative method \cite{web:opticalFlow}, which computes optical flow for a sparse feature set using features detected in the good features to track module described above. This module was used to find an estimated velocity for the AUV.
 
 \end{description}
 
