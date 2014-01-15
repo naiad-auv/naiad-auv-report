@@ -74,7 +74,10 @@ This lesson is closely related to Section~\ref{sec:time}.
 There is a lot of work that needs to be done during a project such as this one. Even though each student is meant to put in a lot of time into the project, one will soon find that one will only have time for a fraction of what one first thought that one would be able to do. One principle that was mentioned during the project was "Take whatever time you think something is going to take, multiply by $\pi$ and round up". This was said as a joke but in some instances it was not too far from reality. \\
 For these reasons, one has to be very selective on what to spend time on. This applies for each person on all levels of the project.
 
-\subsection{Acquire test equipment}\label{sec:test_equipment}
+\subsection{Acquire equipment}\label{sec:equipment}
+During the course of a project such as the Naiad AUV project several different kinds of equipment will be needed, some of which are crucial to the project's success. One such piece of equipment is a programmer for the microcontrollers used in the project. The Naiad AUV project used AT90CAN128 microcontrollers programmed by a JTAGICE MKII programmer. \\
+Students of future projects should make sure to get access to programmers for the microcontrollers that are to be used as soon as possible. The Naiad AUV project had only access to one programmer, which proved to be far from enough.
+
 As mentioned earlier in this report, testing is important. There will undoubtedly be times when things don't work. \\
 Unlike software development, where much testing can be done "in software" using Unit testing~\cite{web:wiki_unit_testing} or simple text outputs to the screen, development of electronics and embedded software (or firmware, see Section~\ref{sec:firmware}) often requires hardware for testing.
 
@@ -92,9 +95,9 @@ Ask nicely, but make sure that you are firm and determined to get the equipment 
 
 
 \subsection{Think of testing when designing hardware}\label{sec:testing}
-Make sure that you keep debugging and testing in mind from the beginning in the design process of any form of electronics. As mentioned in Section~\ref{sec:test_equipment}, testing and debugging embedded systems is often hard. 
+Make sure that you keep debugging and testing in mind from the beginning in the design process of any form of electronics. As mentioned in Section~\ref{sec:equipment}, testing and debugging embedded systems is often hard. 
 
-Remember to build the hardware to enable access to at least one UART bus on the microcontroller(s). This way you can output debug information to a PC (using a UART-to-USB converter, see Section~\ref{sec:test_equipment}) when the system is running. \\
+Remember to build the hardware to enable access to at least one UART bus on the microcontroller(s). This way you can output debug information to a PC (using a UART-to-USB converter, see Section~\ref{sec:equipment}) when the system is running. \\
 When building circuits that will interface each other\footnote{Such as the Inertial Measurement Unit that communicates over UART with the AT90CAN128 on the INS controller} it is a very good idea to connect their interface pins (the Tx and Rx pins in the case of UART) to some form of connector (simple break of header pins for example). This way you can monitor the communication. \\
 In the case of UART you will connect the Rx pin (the pin that "listens") of your UART-to-USB converter to one of the pins of the UART bus. If you want to monitor both pins at the same time you will need two UART-to-USB converters.
 

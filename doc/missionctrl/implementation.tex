@@ -1,16 +1,16 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Implementation}\label{sec:implementation}
-
+This section covers the implementation of all the components making up the mission control system for Naiad.
 % You can use how many "subsections" and "subsubsections" you like.
 \subsection{Hardware}
-It was established early on that the system was going to be run on a BeagleBone Black\cite{web:mcsbbb} board. This allowed the mission control system to be developed using a less stripped down version of Ada, which in the author's oppinion facilitates the development. Limited versions of Ada, for instance the version used on the AT90CAN\cite{web:mcsatcan} cards, don't support object oriented language features.
+It was established early on that the system was going to be run on a BeagleBone Black \cite{web:mcsbbb} board. This allowed the mission control system to be developed using a less stripped down version of Ada, which in the author's oppinion facilitates the development. Limited versions of Ada, for instance the version used on the AT90CAN128 \cite{web:mcsatcan} cards, don't support object oriented language features.
 
-\subsection{The virtual machine}
+\subsection{Virtual machine}
 The virtual machine was implemented to interpret stack machine code. Instructions are read and executed from a binary object file, which makes the interpreter perform operations on
 a memory stack.
 
-\subsection{Mission creation toolchain}
+\subsection{Toolchain for creating missions}
 The stack machine code is difficult for a person to read and understand, so the system was designed to have different levels of source code. On the lowest level there is
 stack machine code. One level up is a language similar to Ada, which has been named NaiAda (see \cref{sec:naiada}). The highest level is Extensible Markup Language (XML), which is used to aggregate different NaiAda source code files
 to create an entire mission which can then be turned into stack machine code. An overview of the toolchain can be seen in \cref{fig:another_column_figure}.
@@ -30,10 +30,10 @@ The integrated development environment is a graphical application written in Jav
 The next part in the toolchain is a python script which aggregates the source code for each component of the mission and puts everything in one file containing only NaiAda source code. The aggregation script also inserts a collection of basic NaiAda functions from a single file, which can be used by any primitive. These functions have collectively been called the standard library. This library can be expanded at any time by adding more functions to the same file.
 
 \subsubsection{Compiler}
-The compiler's purpose is to translate NaiAda source code into stack machine code. It has been developed in C, using the tools Flex and Bison\cite{web:mcsflex}\cite{web:mcsbison}. Flex is a tool for creating a lexical analyser to use as a scanner for a compiler. Bison is a tool for creating compilers, which can use scanners created with Flex. The compiler has been designed to report errors as precisely as possible. In order to do this, the compiler has different passes.
+The compiler's purpose is to translate NaiAda source code into stack machine code. It has been developed in C, using the tools Flex \cite{web:mcsflex} and Bison \cite{web:mcsbison}. Flex is a tool for creating a lexical analyser to use as a scanner for a compiler. Bison is a tool for creating compilers, which can use scanners created with Flex. The compiler has been designed to report errors as precisely as possible. In order to do this, the compiler has different passes.
 
 \begin{description}
-\item[Syntax analysis:] This pass checks to see that the syntax is correct according to NaiAda's grammar, presented in \cref{sec:grammar}.
+\item[Syntax analysis:] This pass checks to see that the syntax is correct according to NaiAda's grammar, which is presented in \cref{sec:grammar}.
 \item[Name analysis:] This pass checks to see that all the names for variables, functions and labels are not defined more than once nor undefined.
 \item[Type analysis:] This pass checks to see that the types matches up for all the functions, variables and constants.
 \end{description}
