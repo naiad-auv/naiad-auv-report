@@ -1,0 +1,81 @@
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}
+\contentsline {section}{\numberline {2}Usage}{4}{section.2}
+\contentsline {section}{\numberline {3}Comparison with Other Packages}{4}{section.3}
+\contentsline {section}{\numberline {4}Typesetting Cross-References}{6}{section.4}
+\contentsline {section}{\numberline {5}Sorting and Compressing}{7}{section.5}
+\contentsline {section}{\numberline {6}Overriding the Cross-Reference Type}{8}{section.6}
+\contentsline {section}{\numberline {7}Options that Modify the Cross-Reference Format}{10}{section.7}
+\contentsline {subsection}{\numberline {7.1}Capitalising All Cross-Reference Names}{10}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Including Names in Hyperlink Targets}{10}{subsection.7.2}
+\contentsline {subsection}{\numberline {7.3}Avoiding Abbreviations in Cross-Reference Names}{11}{subsection.7.3}
+\contentsline {section}{\numberline {8}Customising the Cross-Reference Formats}{11}{section.8}
+\contentsline {subsection}{\numberline {8.1}Customising the Cross-Reference Components}{12}{subsection.8.1}
+\contentsline {subsubsection}{\numberline {8.1.1}Global Customisation}{12}{subsubsection.8.1.1}
+\contentsline {subsubsection}{\numberline {8.1.2}Customising Individual Cross-Reference Types}{14}{subsubsection.8.1.2}
+\contentsline {subsubsection}{\numberline {8.1.3}Automatic \textbackslash \texttt {newtheorem} Definitions}{15}{subsubsection.8.1.3}
+\contentsline {subsection}{\numberline {8.2}Low-Level Customisation: Taking Full Control}{15}{subsection.8.2}
+\contentsline {subsubsection}{\numberline {8.2.1}Single Cross-References}{16}{subsubsection.8.2.1}
+\contentsline {subsubsection}{\numberline {8.2.2}Reference Ranges}{17}{subsubsection.8.2.2}
+\contentsline {subsubsection}{\numberline {8.2.3}Multiple Cross-References}{18}{subsubsection.8.2.3}
+\contentsline {subsubsection}{\numberline {8.2.4}Label Cross-References}{19}{subsubsection.8.2.4}
+\contentsline {section}{\numberline {9}Advanced Cross-Reference Formating}{19}{section.9}
+\contentsline {section}{\numberline {10}Language, \texttt {babel} and \texttt {polyglossia} support}{19}{section.10}
+\contentsline {section}{\numberline {11}The \texttt {cleveref.cfg} File}{21}{section.11}
+\contentsline {section}{\numberline {12}Poor Man's \texttt {cleveref}}{22}{section.12}
+\contentsline {section}{\numberline {13}Interaction with Other Packages}{23}{section.13}
+\contentsline {section}{\numberline {14}Known Bugs, Non-Bugs, and Possible}{24}{section.14}
+\contentsline {subsection}{\numberline {14.1}Non-Bugs}{24}{subsection.14.1}
+\contentsline {subsection}{\numberline {14.2}Known Bugs and Work-Arounds}{25}{subsection.14.2}
+\contentsline {subsection}{\numberline {14.3}Possible New Features and Improvements}{26}{subsection.14.3}
+\contentsline {section}{\numberline {15}Thanks}{26}{section.15}
+\contentsline {section}{\numberline {16}Implementation}{28}{section.16}
+\contentsline {subsection}{\numberline {16.1}Redefinitions of \LaTeX {} Kernel Macros}{28}{subsection.16.1}
+\contentsline {subsection}{\numberline {16.2}Utility Macros}{34}{subsection.16.2}
+\contentsline {subsubsection}{\numberline {16.2.1}miscellaneous}{34}{subsubsection.16.2.1}
+\contentsline {subsubsection}{\numberline {16.2.2}\texttt {aux} file information}{34}{subsubsection.16.2.2}
+\contentsline {subsubsection}{\numberline {16.2.3}Stack data structures}{36}{subsubsection.16.2.3}
+\contentsline {subsubsection}{\numberline {16.2.4}Sorting and comparison of counters}{40}{subsubsection.16.2.4}
+\contentsline {subsubsection}{\numberline {16.2.5}Reference stack processing}{47}{subsubsection.16.2.5}
+\contentsline {subsubsection}{\numberline {16.2.6}Prefix-stripping}{51}{subsubsection.16.2.6}
+\contentsline {subsection}{\numberline {16.3}Cross-Referencing Commands}{53}{subsection.16.3}
+\contentsline {subsection}{\numberline {16.4}Page-Referencing Commands}{60}{subsection.16.4}
+\contentsline {subsection}{\numberline {16.5}Reference Format Customisation Commands}{65}{subsection.16.5}
+\contentsline {subsubsection}{\numberline {16.5.1}Format component commands}{65}{subsubsection.16.5.1}
+\contentsline {subsubsection}{\numberline {16.5.2}Format definition commands}{77}{subsubsection.16.5.2}
+\contentsline {subsection}{\numberline {16.6}Support for Other Packages}{82}{subsection.16.6}
+\contentsline {subsubsection}{\numberline {16.6.1}\texttt {hyperref} support}{82}{subsubsection.16.6.1}
+\contentsline {subsubsection}{\numberline {16.6.2}\texttt {revtex4} and \texttt {revtex4-1} support}{88}{subsubsection.16.6.2}
+\contentsline {subsubsection}{\numberline {16.6.3}\texttt {varioref} support}{88}{subsubsection.16.6.3}
+\contentsline {subsubsection}{\numberline {16.6.4}\texttt {amsmath} support}{96}{subsubsection.16.6.4}
+\contentsline {subsubsection}{\numberline {16.6.5}\texttt {amsthm} support}{104}{subsubsection.16.6.5}
+\contentsline {subsubsection}{\numberline {16.6.6}\texttt {ntheorem} support}{106}{subsubsection.16.6.6}
+\contentsline {subsubsection}{\numberline {16.6.7}\texttt {IEEEtrantools} support}{107}{subsubsection.16.6.7}
+\contentsline {subsubsection}{\numberline {16.6.8}\texttt {breqn} support}{108}{subsubsection.16.6.8}
+\contentsline {subsubsection}{\numberline {16.6.9}\texttt {algorithmicx} support}{108}{subsubsection.16.6.9}
+\contentsline {subsubsection}{\numberline {16.6.10}\texttt {listings} support}{109}{subsubsection.16.6.10}
+\contentsline {subsubsection}{\numberline {16.6.11}\texttt {algorithm2e} support}{110}{subsubsection.16.6.11}
+\contentsline {subsubsection}{\numberline {16.6.12}\texttt {subfig} support}{110}{subsubsection.16.6.12}
+\contentsline {subsubsection}{\numberline {16.6.13}\texttt {memoir} subfig support}{111}{subsubsection.16.6.13}
+\contentsline {subsubsection}{\numberline {16.6.14}\texttt {caption} support}{112}{subsubsection.16.6.14}
+\contentsline {subsubsection}{\numberline {16.6.15}\texttt {aliascnt} support}{113}{subsubsection.16.6.15}
+\contentsline {subsection}{\numberline {16.7}Poor Man's \texttt {cleveref}}{113}{subsection.16.7}
+\contentsline {subsection}{\numberline {16.8}Sort and Compress Options}{129}{subsection.16.8}
+\contentsline {subsection}{\numberline {16.9}Capitalise Option}{130}{subsection.16.9}
+\contentsline {subsection}{\numberline {16.10}Nameinlink Option}{130}{subsection.16.10}
+\contentsline {subsection}{\numberline {16.11}Noabbrev Option}{130}{subsection.16.11}
+\contentsline {subsection}{\numberline {16.12}Language and \texttt {babel} Support}{131}{subsection.16.12}
+\contentsline {subsubsection}{\numberline {16.12.1}English}{132}{subsubsection.16.12.1}
+\contentsline {subsubsection}{\numberline {16.12.2}German}{137}{subsubsection.16.12.2}
+\contentsline {subsubsection}{\numberline {16.12.3}Dutch}{142}{subsubsection.16.12.3}
+\contentsline {subsubsection}{\numberline {16.12.4}French}{146}{subsubsection.16.12.4}
+\contentsline {subsubsection}{\numberline {16.12.5}Spanish}{151}{subsubsection.16.12.5}
+\contentsline {subsubsection}{\numberline {16.12.6}Italian}{155}{subsubsection.16.12.6}
+\contentsline {subsubsection}{\numberline {16.12.7}Russian}{160}{subsubsection.16.12.7}
+\contentsline {subsubsection}{\numberline {16.12.8}Ukrainian}{175}{subsubsection.16.12.8}
+\contentsline {subsubsection}{\numberline {16.12.9}Norwegian}{190}{subsubsection.16.12.9}
+\contentsline {subsubsection}{\numberline {16.12.10}Danish}{194}{subsubsection.16.12.10}
+\contentsline {subsubsection}{\numberline {16.12.11}Esperanto}{199}{subsubsection.16.12.11}
+\contentsline {subsubsection}{\numberline {16.12.12}Swedish}{202}{subsubsection.16.12.12}
+\contentsline {subsubsection}{\numberline {16.12.13}Brazilian}{207}{subsubsection.16.12.13}
+\contentsline {subsection}{\numberline {16.13}Default Cross-Reference Formats}{212}{subsection.16.13}
+\contentsline {subsection}{\numberline {16.14}\texttt {cleveref.cfg} Config File}{232}{subsection.16.14}
