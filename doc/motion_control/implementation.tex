@@ -9,17 +9,9 @@ Each of these parts are controlled by its own PID controller.
 \subsection{Error calculations}
 PID control bases its control loop on the current error in the system, the difference between the current state of the system and a wanted state of the system. This implementation must be able to calculate both the error in position and orientation.
 
-The positional errors are very straight forward. Since the position of the craft is represented by a vector with three components it is simply the difference between the current value, x, y, z, of each component and the wanted value, \^x, \^y, \^z, of each component as seen in \eqref{POSITIONALERRORCALCX}\eqref{POSITIONALERRORCALCY}\eqref{POSITIONALERRORCALCZ}
+The positional errors are very straight forward. Since the position of the craft is represented by a vector with three components it is simply the difference between the current value, x, y, z, of each component and the wanted value, \^x, \^y, \^z, of each component as seen in \eqref{eq:POSITIONALERRORCALCX} \eqref{eq:POSITIONALERRORCALCY} \eqref{eq:POSITIONALERRORCALCZ}
 
-%\begin{center}
-%	\begin{gather}
-%		\label{POSITIONALERRORCALCX} error(x) = \^x - x \\
-%		\label{POSITIONALERRORCALCY} error(y) = \^y - y \\
-%		\label{POSITIONALERRORCALCZ} error(z) = \^z - z
-%	\end{gather}
-%\end{center}
-
-The error in orientation is a bit more complex. To be able to calculate the error in orientation one needs to move the wanted and current orientation to local space. Since the orientation of the craft is represented with an orientation matrix one can calculate the relative orientation of the craft compared to the wanted orientation by multiplying the inverse of the current orientation and the wanted orientation as seen in REFERENS TILL DEN MULTIPLIKATIONEN. This puts both orientations in local space, with the current orientation being the identity matrix.
+The error in orientation is a bit more complex. To be able to calculate the error in orientation one needs to move the wanted and current orientation to local space. Since the orientation of the craft is represented with an orientation matrix, where each column is one of the axis vectors as seen in figure \ref{fig:ORIENTATIONMATRIX}. one can calculate the relative orientation of the craft compared to the wanted orientation by multiplying the inverse of the current orientation and the wanted orientation as seen in figure \ref{fig:RELATIVEROTATIONCALCULATION}. This puts both orientations in local space, with the current orientation being the identity matrix.
 
 From that, the plane containing both axis vectors that are perpendicular to the axis vector of interest can be utilized, i.e for rotation around z, the plane contains the x and y axis vector. A plane containing the same axes in the wanted orientation is also utilized.
 
@@ -40,6 +32,24 @@ Since the position and orientation of the craft is calculated separately from ea
 
 This is done in two steps. The first is to remove the control values for orientation and only try to preform the transition from optimal to real configuration only on the positional control configuration. If this configuration still yields a configuration that has values outside of the range of the thruster controllers then one scales this configuration based on the component that has moved furthest outside of its range. A ratio between that components control value and the range of thruster controllers is calculated and that ratio is multiplied with each component to keep the ratio between each thruster but move each component within the range. 
 
+\begin{center}
+	\begin{figure}
+	\begin{equation}
+		\label{eq:POSITIONALERRORCALCX} 
+		error(x) = \hat{x} - x
+	\end{equation}
+	\begin{equation}
+		\label{eq:POSITIONALERRORCALCY}
+		 error(y) = \hat{y} - y
+	\end{equation}
+	\begin{equation}
+		\label{eq:POSITIONALERRORCALCZ} 
+		error(z) = \hat{z} - z
+	\end{equation}
+	\caption{Positional error calculations}
+	\end{figure}
+\end{center}
+
 \begin{figure}
 	\begin{center}
 		\begin{math}
@@ -53,7 +63,7 @@ This is done in two steps. The first is to remove the control values for orienta
 				6 & 0 & 0 & 1 & -0.161 & -0.095 & 0 \\
 			\end{matrix}
 		\end{math}
-		\caption{Thruster configuration matrix. Index explanation can be seen  in figure \ref{fig:THRUSTERINDICES}.}
+		\caption{Thruster configuration matrix. These values are measured from the solid works model. Index explanation can be seen  in figure \ref{fig:THRUSTERINDICES}.}
 		\label{fig:THRUSTERCONFIGURATIONMATRIX}
 	\end{center}
 \end{figure}
@@ -75,4 +85,42 @@ This is done in two steps. The first is to remove the control values for orienta
 	\label{fig:THRUSTERINDICES}
 	 \end{center}
  \end{figure}
+
+\begin{figure}
+	\begin{center}
+		\[ O = 
+		\begin{bmatrix}
+			Ux & Vx & Wx \\
+			Uy & Vy & Wy \\
+			Uz & Vz & Wz 
+		\end{bmatrix} \]
+		\caption{Representation of an orientation matrix. Where each column is a axis vector.}
+		\label{fig:ORIENTATIONMATRIX}
+	\end{center}
+\end{figure}
+
+\begin{figure}
+	\begin{center}
+			$c =$ relative current orientation matrix
+
+			$w =$ relative wanted orientation matrix 
+
+			$C =$ absolute current orientation matrix 
+
+			$W =$ absolute wanted orientation matrix 
+
+			$I =$ identity matrix 
+
+		\begin{equation}
+			c = M^[-1] * M = I
+		\end{equation}
+		\begin{equation}
+			w = M^[-1] * W
+		\end{equation}
+
+		\caption{Calculation of relative current and wanted orientation}
+		\label{fig:RELATIVEROTATIONCALCULATION}
+	\end{center}
+\end{figure}
+
 		 
