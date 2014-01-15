@@ -3,17 +3,17 @@
 \section{Method}\label{sec:method}
 The method will now be described. It is split into two sections. Firstly the preparation steps undertaken to integrate all software components with each other is described. Secondly some of the main software modules implemented are described.
 \subsection{Preparation}
-Before the modules need for the visual perception system could be coded, the software modules needed to be interfaced to each other. The following subsections describes the work undertaken to prepare all the software modules.
+Before the modules for the visual perception system could be developed, the software modules needed to be interfaced to each other. The following subsections describes the work carried out to prepare all the software modules.
 \subsubsection{OpenCV with Ada}
 The first task undertaken in this project was to try to get OpenCV working with Ada. Bindings were found online \cite{web:oldAdaBindings} however these binding were found to be rigidly implemented to an older version of OpenCV and an operating system no longer supported. An alternative solution was required. After much research a method of binding C++ to Ada was found \cite{web:newAdaBindings} and this method was adapted to bind OpenCV to Ada.
 
-This generated bindings that could be used by including the wrapper file in the ada project, however linking several projects that used the bindings together, and compiling and running the project in an Interactive Development Environment (IDE) proved troublesome. A Makefile was constructed to link everything together.
+This generated bindings that could be used by including the wrapper file in the Ada project, however linking several projects that used the bindings together, and compiling and running the project in an Interactive Development Environment (IDE) proved troublesome. A Makefile was constructed to link everything together.
 
 \subsubsection{PCL with Ada}
 Much like OpenCV, PCL needed to be converted from C++ to Ada. The same approach as OpenCV was undertaken. The PCL modules required were first developed in C++ and then Ada bindings were generated using the binding commands found \cite{web:newAdaBindings}. The PCL functions could then be called from Ada. The Makefile was then adjusted to incorporate PCL. This simply required adding include directories to the necessary PCL libraries in the Makefile. 
 
 \subsubsection{Developing for the GIMME-2}
-As the GIMME-2 was a state of the art hardware platform, development support was limited. One positive was that its ARM processor architecture is also used in the BeagleBone Black and Pandaboard. As the Ubuntu operating system was not supported by GIMME-2, it was decided to compile the binaries needed on a Pandaboard statically and then move the binaries to the GIMME-2 to be run.
+As the GIMME-2 was a state of the art hardware platform, development support was limited. Fortunately, the processor architecture of the BeagleBone Black and the Pandaboard are compatible to that of the GIMME-2. As the Ubuntu operating system was not supported by GIMME-2, it was decided to compile the binaries needed on a Pandaboard statically and then move the binaries to the GIMME-2 to be run.
 
 \subsection{Software}
 The visual and perception system was broken down into separate modules for each vision component needed. This was done to modularize the system, making it easy to add and remove modules if and as they were required.  
@@ -33,26 +33,26 @@ Cleaning up the image was attempted by four methods. Blurring the image, sharpen
 
 The median filter makes a 3x3 sliding window that reduces noise by filtering every pixel of the image. It works by replacing the value at the centre of the window with the median value of the pixels in the window.
 
-If the window N is centred at (i, j), the median filter can be represented by the following equation as shown in Forsyth2011 \cite{forsyth2011computer}:
+If the window N is centred at (i, j), the median filter can be represented by the following equation as shown by Forsyth (2011) \cite{forsyth2011computer}:
 \begin{equation}
 y_{ij}=med(\lbrace x_{uv}|x_{uv}\in N_{ij} \rbrace)
 \end{equation}
 
 \item[Quaternion Switching Filter]\hfill \\
 The quaternion switching filter \cite{Geng2012150} is a filter based on quaternions.
-A quaternion is a vector representation that has 1 real part and 3 imaginary parts as Hamilton discovered \cite{article:Hamilton1844} of the form:
+A quaternion is a vector representation that has one real part and three imaginary parts as Hamilton discovered \cite{article:Hamilton1844} of the form:
 \begin{equation}
 Q=w+ix+jy+kz
 \end{equation}
 
 Quaternions are useful in image processing as an RGB pixel can be represented as a purely imaginary quaternion by letting the real part of the vector equal zero. A quaternion with only imaginary parts is known as a right quaternion \cite{article:Hamilton1866}.
-The quaternions allow representing a 3 value RGB pixel as a single function. Then quaternion unit transform theory can be used to find the pixel chromaticity difference and pixel intensity difference for the pixels in the sliding window.
+The quaternions allow representing a three-value RGB pixel as a single function. Then quaternion unit transform theory can be used to find the pixel chromaticity difference and pixel intensity difference for the pixels in the sliding window.
 
-The intensity difference and chromaticity difference can be represented as shown in Geng2012 \cite{Geng2012150}:
+The intensity difference and chromaticity difference can be represented as shown by Geng (2012) \cite{Geng2012150}:
 \\
 \\ Where
 \\ \textit{r, g, b: red, green and blue color components with a range between 0 and 255}
-\\ \textit{i, j, k: imaginary co-efficients}
+\\ \textit{i, j, k: imaginary coefficients}
 \begin{equation}
 \bar{T}qT = \frac{1}{3}(r+g+b)(i+j+k)-\frac{1}{\sqrt{3}}[(b-g)i+(r-b)j+(g-r)k]
 \end{equation}
@@ -92,7 +92,7 @@ It makes use of the OpenCV function \emph{convertTo} using alpha and beta as gai
 In this context, \emph{Invert} refers to the reversal in the nature of the pixel intensities of the image.
 For instance, an originally pure black input pixel yields a pure white pixel as output.
 It makes use of the simple form of  
-\begin{equation} V(new) = 255 - V(old)  
+\begin{equation} V_{new} = 255 - V_{old}  
 \end{equation} 
 where V is the value of the pixel in BGR, to invert an image. 
 This method is particularly helpful when working with masks.
@@ -107,7 +107,7 @@ where the mask is a pure white image.
 This splits an input image into it's basic color components, so the system could have color-channel filtering without use of any extra hardware.
 
 \item[Gaussian Blur]\hfill \\
-The Gaussian Blur function \cite{web:gaussianBlur}  needed to be implemented for the edge detection modules. A blur basically smooths out the image and makes jagged edges smoother and the image works better with the edge detection modules. Gaussian blur can also be used for noise reduction. The Gaussian kernel G(x, y, $\sigma$ ) can be represented as depicted in Korn2000:
+The Gaussian blur function \cite{web:gaussianBlur}  needed to be implemented for the edge detection modules. A blur basically smooths out the image and makes jagged edges smoother and the image works better with the edge detection modules. Gaussian blur can also be used for noise reduction. The Gaussian kernel G(x, y, $\sigma$ ) can be represented as depicted by Korn (2000):
 \cite{korn2000mathematical}
 \begin{equation}
 G(x,y,\sigma)=\frac{1}{2\pi \sigma}exp(-\frac{x^2+y^2}{2\sigma ^2}),
@@ -124,7 +124,7 @@ To overcome these limitations, image fusion techniques are applied.
 
 Naiad's vision system implements single-source image fusion techniques to enhance image clarity and quality. However, this module is not used by default due to cost in terms of execution time. But with time, as the FPGA becomes usable, this module could be easily enabled.
 
-For future, it is being planned to have a multi-focus fusion module in place to work alongside the stereo-vision system to help find objects more efficiently \cite{article:Zheng2010} \cite{article:Zhang2010} \cite{article:Shutao}.
+For future, it is being planned to have a multi-focus fusion module in place to work alongside the stereo-vision system to help find objects more efficiently \cite{article:Zheng2010 , article:Zhang2010 , article:Shutao}.
 
 \item[Enhance Colors]\hfill \\
 This function was implemented by converting an image to a Hue Saturation Intensity (HSI) image, and then scrolling through each pixel in the image and adding a number to the intensity to increase the intensity of each pixel. This enhanced the colors of the image. This function was particularly useful when detecting red templates. When pictures of the red templates were taken it was observed that in parts of the template the red appeared a little faded. The enhance colors module worked a treat in enhancing the red color which led to better results when the canny and contour modules were run on the template. 
@@ -138,7 +138,7 @@ The vision system has the ability to threshold the input image to filter for any
 It works on HSI images, and it was particularly challenging to filter the color red as the hue values see a wrap-around effect for red, meaning that the spectrum begins at red and ends at red.
 
 This problem was solved by working around the easily detected colors. To detect red, firstly yellow and green were filtered separately. Then the orange component was filtered from a bitwise OR-combination of the previous outputs. The resultant output is the red component.
-The OpenCV function inRange is used here.
+The OpenCV function \emph{inRange} is used here.
 
 \item[Canny Edge Detection]\hfill \\
 The Canny edge detection algorithm \cite{Canny:1986:CAE:11274.11275}  was used for detecting edges in the images. Canny states that the optimal detector for step edges would be a convolution with a symmetric Gaussian and directional second spatial derivatives \cite{books/sp/Cipolla96}. The Canny algorithm is based on three main objectives \cite{Nixon:2008:FEI:1571711}:
@@ -173,15 +173,15 @@ When features on the image have been found, the vision system uses the features 
 OpenCV's hough circles function was implemented to enable the ability to detect circles. The Hough circles module is based on the Hough circle transform as described in Yuen \cite{article:yuen}. 
 
 \item[Hough Lines]\hfill \\
-The AUV was equipped with line detection capability by implementing OpenCV's Hough lines module. The module is based on Matas2000 \cite{article:matas}. This can be used to find objects with parallel lines like pipes etc.
+The AUV was equipped with line detection capability by implementing OpenCV's Hough lines module. The module is based on Matas (2000) \cite{article:matas}. This can be used to find objects with parallel lines like pipes etc.
 
 \item[Template Matching]\hfill \\
-OpenCV's matchShapes function was used for the object recognition part of the vision system. This function is based on Hu Invariants \cite{article:hu}. The matchShapes module is also scale invariant.
+OpenCV's \emph{matchShapes} function was used for the object recognition part of the vision system. This function is based on Hu Invariants \cite{article:hu}. The matchShapes module is also scale invariant.
 
 \item[Velocity Estimation]\hfill \\
 The velocity estimation module implemented was based on OpenCV's optical flow module. It has two modes. First it checks to see if any ``large" objects are detected (pipes, barrels etc.) and if they have been detected it uses optical flow to find the average difference of position of the features, and divides by the image capture rate to give an estimated velocity in pixels per second.
  
-The second mode is used if there are no large objects detected. It then uses optical flow to search for particles in the water, or on the floor of the pool/seabed, and estimates the velocity like in mode 1 except using the small particles positional difference. The reason for the modes is that smaller particles are harder to pick up, and sometimes light in the water can be mistaken for particles and have a negative affect the velocity estimation. Therefore it is more reliable to estimate optical flow using features of a larger object, and the first mode is preferred.
+The second mode is used if there are no large objects detected. It then uses optical flow to search for particles in the water, or on the floor of the pool/seabed, and estimates the velocity as in the previous mode, except using the positional difference of the small particles. The reason for the different modes is that smaller particles are harder to pick up, and sometimes light in the water can be mistaken for particles and have a negative affect on the velocity estimation. Therefore it is more reliable to estimate optical flow using features of a larger object, and the first mode is preferred.
 \end{description}
 
 \subsubsection{Three Dimensional Reconstruction} 
@@ -198,7 +198,7 @@ The point clouds to be reconstructed to 3-D must undergo stages before the actua
 A statistical outlier removal module was constructed to remove outliers from point clouds \cite{web:pclOutliers}. The module works by computing the mean distances of every point to their neighbours. Then all points whose mean distances are outside a defined interval are assumed to be outliers and are removed from the point cloud.
 
 \item[Conditional Euclidean Segmentation]\hfill \\
-This module was based on the conditional euclidean segmentation tutorial on the Point Cloud Library website\cite{web:PCL}. The tutorial combines euclidean cluster extraction \cite{RusuDoctoralDissertation} and region growing segmentation \cite{web:pclRegionGrowing}. Euclidean segmentation breaks large point clouds down into smaller, more manageable data units. This improves computational time for the module. The region growing segmentation algorithm then searches for points on the same smooth surface. The segmented point cloud is then plotted using different colors to show the detected object clusters.
+This module was based on the conditional euclidean segmentation tutorial on the Point Cloud Library website \cite{web:PCL}. The tutorial combines euclidean cluster extraction \cite{RusuDoctoralDissertation} and region growing segmentation \cite{web:pclRegionGrowing}. Euclidean segmentation breaks large point clouds down into smaller, more manageable data units. This improves computational time for the module. The region growing segmentation algorithm then searches for points on the same smooth surface. The segmented point cloud is then plotted using different colors to show the detected object clusters.
 
 \item[Triangulation Mesh]\hfill \\
 The PCL greedy triangulation mesh algorithm was implemented. This constructs a triangular mesh around the point cloud, effectively turning the point cloud from a group of points to a reconstructed surface. It works by finding a list of points a mesh can be constructed from and expands the list to include suitable points \cite{Marton09ICRA}. 
