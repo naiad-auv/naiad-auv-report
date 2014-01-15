@@ -23,15 +23,15 @@ These view models then shares one common model that they are all keeping access 
 \end{figure}
 \pagebreak
 
-\subsection{Usability and design in GTK ada}
+\subsection{Usability and design in GTK Ada}
 
 
-The design of the user interface is built up as in figure \ref{fig:schedule} where the 3 views showing positioning in the 2 respective axis.
+The design of the user interface is built up as in Figure \ref{fig:schedule} where the three views showing positioning in the two respective axis.
 
 The interface is built up from using buttons where popup windows appear for setting data or monitoring actuators such as the motors without bloating the screen. To perform actions with a logic free interface the accessible view models are used to perform the various actions such as setting values, retrieving information, calling the periodic update for the simulated AUV and so on.
 
 \subsection{Motion Simulation}
-The implementation of the motion simulation is based on calculating the torque and the forces from the motors. These are then used together with the inertia, frictions, buoyancy and other aspects stored in the simulated motion to calculate the acceleration and angular acceleration that they would affect the AUV with on that specific time step.
+The implementation of the motion simulation is based on calculating the torques and forces from the motors. These are then used together with the inertia, frictions, buoyancy and other aspects stored in the simulated motion to calculate the acceleration and angular acceleration that they would affect the AUV with on that specific time step.
  
 The acceleration and angular acceleration is then used with numerical integration to receive the changes in velocity and angular velocity during that time frame, combining it with previous knowledge giving velocity and angular velocity. The velocity and angular velocity are then used in the same way and integrated into position and orientation. 
 
