@@ -44,7 +44,21 @@ can be done in parallell so it can be changed.
 
 % You can use how many "subsections" and "subsubsections" you like.
 \subsection{Sensor fusion calculations}
-Text
+The Sensor fusion calculations consist of 2 parts:
+\subsection{Attitude Calculations}
+The gyroscope gives the yaw, pitch and roll values by integrating over the angular velocities. However even when the gyroscope is kept still it still has some residual angular velocities which causes the yaw, pitch and roll to drift over time and hence they need to be corrected. The roll and pitch values are corrected using the accelerometer readings which gives the direction of gravity. Once roll and pitch are corrected, the magnetometer reading is used to correct the yaw value. \\
+The Vectornav VN100 IMU (Inertial Measurement Unit) used in Naiad has a Kalman filter implemented which provides us with the compensated yaw, pitch and roll values. However according to the requirements the magnetic fields cannot be trusted in some competitions. This leads to the yaw values going haywire. \\
+Thus to correct yaw a Fiber Optic Gyroscope (FOG) is used. A fiber optic gyroscope uses a laser interferometer to calculate the angular speed of the gyroscope and so it is pretty accurate. The challenge is to integrate the readings obtained from the FOG to the readings obtained from the IMU.\\
+If we integrate the angular velocity from FOG we can get the yaw value. This value tells us the angle the AUV rotates in the Z axis attached to the AUV. The idea is that this is the yaw angle that should be applied to the AUV after the roll and pitch is done, that is the yaw should be the last operation to reach from one state to other. \\
+The VN100 IMU can output the yaw, pitch and roll in body frame of reference. To use the FOG value it should be converted to roll, pitch and yaw order. After that the yaw value of IMU can be replaced with the yaw from the FOG.\\
+The following two methods were proposed to change the angle order from yaw, pitch and roll to roll, pitch and yaw :
+\begin{enumerate}
+\item The idea is that for small changes in yaw, pitch and roll angles, the order in which the rotations are applied does not matter upto first degree of accuracy. So changes to yaw pitch and roll are calculated for IMU and the yaw change for FOG at each time step. If it is assumed that the AUV moves slowly and the samples are taken fast enough, the changes to the angles will be small. Thus the rotation matrix from the previous step is multiplied with the rotation matrix obtained by combining the yaw from FOG and roll and pitch from IMU to get a new rotation matrix.
+\item VN100 IMU can also output the DCM matrix. The other method is to get the DCM matrix and compare it to the rotation matrix obtained by applying rotations in roll, pitch and yaw order. Then we can derive formulas for the roll, pitch and yaw in terms of DCM matrix elements. 
+\end{enumerate}
+
+\subsection{Dead Reckoning}
+Dead reckoning is the name of the method used to calculate the x,y and z co-ordinates of the AUV with the starting position as the origin. The simplest way to do this is to integrate the accelerometer values twice to get the position. However this can lead to a lot of errors because a small error in accelerometer increases with exponentially with time as it is multiplied with time squared. To avoid this the plan was to use front and down facing cameras, which have stereo vision and calculate the velocity of the AUV. Then the velocity and acceleration can be combined using Kalman filter to get an estimate of the position.
 
 % \subsubsection{Subsubsection1}
 % Test of one column figure. It should be shown as close as possible to this
