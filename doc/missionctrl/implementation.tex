@@ -12,8 +12,8 @@ a memory stack.
 
 \subsection{Toolchain for creating missions}
 The stack machine code may be difficult to read and understand, so the system was designed to have different levels of source code. On the lowest level there is
-stack machine code. One level up is a language similar to Ada, which has been named NaiAda (see \cref{sec:naiada}). The highest level is Extensible Markup Language (XML), which is used to aggregate different NaiAda source code files
-to create an entire mission which can then be turned into stack machine code. An overview of the toolchain can be seen in \cref{fig:another_column_figure}.
+stack machine code. One level up is a language similar to Ada, which has been named NaiAda (see \Cref{sec:naiada}). The highest level is Extensible Markup Language (XML), which is used to aggregate different NaiAda source code files
+to create an entire mission which can then be turned into stack machine code. An overview of the toolchain can be seen in \Cref{fig:another_column_figure}.
 
 \pageref{fig:another_column_figure}.
 \begin{figure}[h]
@@ -33,7 +33,7 @@ The next part in the toolchain is a python script which aggregates the source co
 The compiler's purpose is to translate NaiAda source code into stack machine code. It has been developed in C, using the tools Flex \cite{web:mcsflex} and Bison \cite{web:mcsbison}. Flex is a tool for creating a lexical analyser to use as a scanner for a compiler. Bison is a tool for creating compilers, which can use scanners created with Flex. The compiler has been designed to report errors as precisely as possible. In order to do this, the compiler has different passes.
 
 \begin{description}
-\item[Syntax analysis:] This pass checks to see that the syntax is correct according to NaiAda's grammar, which is presented in \cref{sec:grammar}.
+\item[Syntax analysis:] This pass checks to see that the syntax is correct according to NaiAda's grammar, which is presented in \Cref{sec:grammar}.
 \item[Name analysis:] This pass checks to see that all the names for variables, functions and labels are not defined more than once nor undefined.
 \item[Type analysis:] This pass checks to see that the types match up for all the functions, variables and constants.
 \end{description}
@@ -46,7 +46,7 @@ The final step is the byte-code converter, which is used to convert the stack ma
 
 \subsection{NaiAda}
 \label{sec:naiada}
-NaiAda is the language created to write primitives (see \cref{sec:primitives}) in. It is designed to be as close to Ada as possible, and has been developed to have the ability to realize any task needed by the AUV.
+NaiAda is the language created to write primitives (see \Cref{sec:primitives}) in. It is designed to be as close to Ada as possible, and has been developed to have the ability to realize any task needed by the AUV.
 \subsubsection{Types}
 \begin{description}
 \item[Boolean:] Has two values, true or false.
