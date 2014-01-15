@@ -23,10 +23,10 @@ The task running the virtual machine is responsible for executing the missions. 
 The task handling TCP input is responsible for receiving missions through the TCP resource. The task is listening on a specific port for incoming connections. When a connection is established, the task tries to receive a mission file. When the task has successfully received a mission file, an indication flag is set. The virtual machine task checks for this flag each iteration, and if the flag is set, the new mission file is loaded and executed.
 
 \subsubsection{CAN In task}
-The task handling CAN input is responsible for receiving CAN messages from different components in the AUV through the CAN resource. The messages are put in a list which is shared with the virtual machine task, allowing missions to retreive data from other components of the AUV.
+The task handling CAN input is responsible for receiving CAN messages from different components in the AUV through the CAN resource. The messages are put in a list which is shared with the virtual machine task, allowing missions to retrieve data from other components of the AUV.
 
 \subsubsection{CAN Out task}
-The task handling CAN output is responsible for sending CAN messages to different components in the AUV through the CAN resource. The messages are retreived from a list which is shared with the virtual machine task, allowing missions to send data to other components of the AUV.
+The task handling CAN output is responsible for sending CAN messages to different components in the AUV through the CAN resource. The messages are retrieved from a list which is shared with the virtual machine task, allowing missions to send data to other components of the AUV.
 
 \subsection{Mission design}
 The process of designing missions has been layered in order to keep mission-designing as easy as possible. The user uses an integrated development environment (IDE) to graphically put together missions using different components. The components available are nodes, primitives and objectives.
