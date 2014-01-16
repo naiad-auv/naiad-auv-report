@@ -8,6 +8,7 @@
 *.bbl
 *.blg
 *.log
+*.gz
 *.pdf
 
 # GIMP Files
