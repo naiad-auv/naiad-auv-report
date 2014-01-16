@@ -2,7 +2,7 @@
 As stated in Section \ref{sec:result}, the majority of the INS system is implemented. Once the bugs are fixed, at least outputting readings from the IMU to the CAN bus should work. \\
 To get readings from the FOG there is some more implementation to do, but this should not take much time. \\ % THIS MIGHT CHANGE IF WE CONTINUE WORKING
 Future work should primarily focus on getting the INS system and Sensor Fusion to work together only using the IMU data (but without data from the FOG). Once this is done, focus should be to determine the accuracy of this system and how much drift there is. In terms of orientation there should only be a problem of drift in the yaw-axis (see Section \ref{sec:introduction}), which is what the FOG is meant to correct. \\
-Once this is done the accuracy of the FOG should be tested. It is likely that there is some need for calibration before full accuracy is achieved.
+Once this is done the accuracy of the FOG should be tested. It is likely that it will need some calibration before the desired accuracy is achieved.
 \pagebreak
 
 There are some possible ways to implement the INS system differently:
