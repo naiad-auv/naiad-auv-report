@@ -1,7 +1,7 @@
 % Each section is a new appendix
 \section{Appendix}
 \subsection{Getting started with GIMME-2 board}\label{sec:first_appendix}
-This section describes the step by step procedures for how to get started with the GIMME-2 board. The operating system used on the host machine is Ubuntu 12.04. The prerequisites for initializing the GIMME-2 board are:\begin{enumerate}
+This section describes the step by step procedure to get started with the GIMME-2 board. The operating system used on the host machine is Ubuntu 12.04. The prerequisites for initializing the GIMME-2 board are:\begin{enumerate}
 \item Micro-USB Male (Type B) to USB Male (Type A) connector or an Ethernet cable.
 \item Power supply. The board should be supplied with voltages in the range +12V to +24V.
 \item If the user is planning to use the USB cable, then a serial terminal, for example \textit{gtkterm}, should be installed on the host PC to interact with the Linux on the GIMME-2 board.
@@ -9,7 +9,7 @@ This section describes the step by step procedures for how to get started with t
 
 Assuming that Zynq Linux is already installed on the GIMME-2 board, the user can interact with it in either of the two ways described below. Ensure that the jumper configuration is 0100 before powering on the board.
 \subsubsection{Using serial interface}
-Connect the micro-USB to USB connector to the port labelled \textit{USB0} on the board and connect the other end to the host PC. Set the voltage in the power supply to +12V and connect it to the GIMME-2 board. Now open the serial terminal and the booting steps can be seen there. Once the booting is over, the user gets a \texttt{zynq>} prompt on the screen.
+Connect the micro-USB to USB connector to the port labelled \textit{USB0} on the board and connect the other end to the host PC. Set the voltage of the power supply to +12V and connect it to the GIMME-2 board. Now open the serial terminal and the booting steps can be seen there. Once the booting is over, the user gets a \texttt{zynq>} prompt on the screen.
 
 \subsubsection{Using Ethernet}
 Connect one end of the Ethernet cable to the middle port among the three on the GIMME-2 board and the other end to the host machine. Now open the bash terminal and execute
@@ -21,18 +21,4 @@ The procedure for creating a boot image is quite complex and time consuming. For
 \item Install the driver for Xilinx Platform USB Cable II \cite{driverCable}. If Step 1 is done in Windows OS, then no need to install the driver as it comes with the package.
 \end{enumerate}
 
-Using SDK, new boot image can be created by giving offsets to the binary files as mentioned in the user guide \cite{svnGimme}. If amendments have to be made to the Linux kernel like installing a new Linux driver, then the RAM disk image should be modified and new boot image should be created with the new RAM image. All the steps for modifying RAM image are also detailed in the user guide \cite{svnGimme}.
-%\subsubsection{Subsubsection1}
-%Text
-%\subsubsection{Subsubsection2}
-%Text
-%
-%\section{Second appendix}\label{sec:second_appendix}
-%Text
-%% You can use how many "subsections" and "subsubsections" you like.
-%\subsection{Subsection}
-%Text
-%\subsubsection{Subsubsection1}
-%Text
-%\subsubsection{Subsubsection2}
-%Text
+Using SDK, new boot image can be created by giving offsets to the binary files as mentioned in the user guide \cite{svnGimme}. If amendments have to be made to the Linux kernel like installing a new Linux driver, then the RAM disk image should be modified and a new boot image should be created with the new RAM image. All the steps for modifying RAM image are also detailed in the user guide \cite{svnGimme}.
