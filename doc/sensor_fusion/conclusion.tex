@@ -1,18 +1,22 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Conclusion}\label{sec:conclusion}
+The conclusions of this report are divided into 
+Software architecture and Sensor fusion calculations.
+
 \subsection{Software architecture}
 The software design of Sensor fusion meets the requirements set out in the
 beginning and make room for future improvements with the use of Ada Tasks
 in a modular way. It is also easy to change the actual algorithm used for the
 sensor fusion calculation as it's placed in one single Main task. The one main
-thing that can be improved with regard to the software architecture is how
+issue that can be improved with regard to the software architecture is how
 the filtering tasks filter the CAN messages by ID, at the moment it's just an
 if-statement for specific IDs and should be improved.
 
 % You can use how many "subsections" and "subsubsections" you like.
 \subsection{Sensor fusion calculations}
-Text
-
-\subsubsection{Subsubsection1}
-TODO REMOVE CITATION\cite{web:vagrant}
+The Sensor fusion calculations never reached the implementation
+stage because of the delay in arrival of IMU and FOG. However a lot
+of brainstorming was done in reaching the solutions to the problems presented.
+This report serves the purpose to point the people interested in the
+project in the right direction.
