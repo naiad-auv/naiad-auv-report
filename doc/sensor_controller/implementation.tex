@@ -2,7 +2,8 @@
 \section{Implementation}\label{sec:implementation}
 The temperature sensor used was the \emph{DS18B20} digital temperature sensor~\cite{web:ds18b20}. This sensor communicates over a 1-Wire interface. Since the Generic CAN controller does not have a 1-Wire interface, a DS2480B integrated circuit was used to convert between the 1-wire interface and UART (which the Generic CAN controller supports).
 
-The pressure sensor used was the \emph{IMCL Low Cost Submersible Pressure Sensor}~\cite{web:imcl}. The interface from the pressure sensor could be chosen when ordering the sensor so a simple analog voltage in the 0 to +5 Volt range was chosen since this is the range of the analog-to-digital converter on the AT90CAN128 microcontroller. Consequently, no interface circuitry was needed for the pressure sensor.
+The pressure sensor used was the \emph{IMCL Low Cost Submersible Pressure Sensor}~\cite{web:imcl}. The interface from the pressure sensor could be chosen when ordering the sensor so a simple analog voltage in the range of 0 to +5 Volt was chosen since this is the range of the analog-to-digital converter on the AT90CAN128 microcontroller. Consequently, no interface circuitry was needed for the pressure sensor.\\
+The customer's demands for the Naiad AUV included that it was to be able to go to a depth of 15 meters. At this depth the absolute pressure is approximately 2.5 bars (1 bar from the atmospheric pressure and 1 bar per 10 meters of water). The range of pressure for the pressure sensor was chosen to be 0 to 3 bars in order to provide some margin. This range could also be chosen when ordering the sensor.
 
 The salinity sensor chosen was the \emph{Atlas Scientific E.C Circuit}~\cite{web:ec_circuit}. The E.C Circuit is connected to a probe whose output the E.C Circuit measures. The E.C Circuit has a serial interface that is connected to one of the UART busses of the AT90CAN128 microcontroller. No level conversion is needed since the E.C Circuit's serial interface uses +5 Volt TTL levels.
 
@@ -50,4 +51,4 @@ The responses from the E.C Circuit have the following format:
 
 The last number ("32" in this example) represents the salinity in the Practical Salinity scale of 1978. The two other numbers represent the conductivity of the water, the Total Dissolved Solids (TDS) of salt in the water and are discarded. The salinity reading will be in the range 0 to 42. If the reading was out of range the value "\--\--" will replace the numerical value. \newline
 The salinity reading will be output from the E.C Circuit at regular intervals. The latest reading is stored as a variable so that it can easily be fetched when it is time to send a CAN message with sensor data. This variable is initiated at 254, meaning that no measurement has been done. If the salinity sensor is not connected to the UART bus of the Generic CAN controller, this variable will never be set to any other value and consequently the value 254 will always be output on the CAN bus.
-
+\pagebreak
