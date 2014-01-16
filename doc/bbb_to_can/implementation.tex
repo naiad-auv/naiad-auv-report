@@ -36,8 +36,8 @@ Since conversions between CAN messages and bytes would be done on many different
 The Can\_Utils project has three functions: \emph{Message\_To\_Bytes}, \emph{Bytes\_To\_Message\_Header} and \emph{Bytes\_To\_Message\_Data}.  \newline
 When converting bytes to a CAN message, the length of the message is unknown and therefore the conversion has to be done in two steps. 
 In the first step, the bytes of the header (which is of constant length) are read and converted to the message header, from which the length of the payload data can be retrieved. In the second step, as many bytes as the payload size are read and converted to message data. \newline
-This is the reason why two separate conversion procedures are provided: \emph{Bytes\_To\_Message\_Header} and \newline \textbf{Bytes\_To\_Message\_Data}.  \newline
-When converting a CAN message to bytes, the length of the message is known, and consequently the whole conversion can be done in one procedure, Message\_To\_Bytes.
+This is the reason why two separate conversion procedures are provided: \emph{Bytes\_To\_Message\_Header} and \newline \emph{Bytes\_To\_Message\_Data}.  \newline
+When converting a CAN message to bytes, the length of the message is known, and consequently the whole conversion can be done in one procedure, \emph{Message\_To\_Bytes}.
 
 \subsection{Interface code for the BeagleBone Black}
 The BBB\_Can project uses the UartWrapper project to send and receive data on the UART. BBB\_Can provides three procedures: \emph{Init}, \emph{Send} and \emph{Get}. \newline
@@ -53,25 +53,25 @@ If not enough data for a full header has been received, the procedure will retur
 \subsection{Main program running on the Generic CAN controller}
 The main program running on the Generic CAN controller is called AT90CAN\_Uart\_To\_Can and has two main procedures:
 
-\begin{enumerate}
+\begin{itemize}
    \item { \em Handle\_Uart}
    reads CAN messages from the UART receive buffer and writes them to the CAN send buffer.
    \item { \em Handle\_Can}
    reads CAN messages from the CAN receive buffer and writes them on to the UART send buffer.
-\end{enumerate}
+\end{itemize}
 
 Since this program is single threaded it will alternate between these procedures. \newline 
 As mentioned, the protocol for the communication over UART is sensitive to an overflow in the receive buffer. For this reason, the Handle\_Uart procedure has been prioritized and will handle all CAN messages in the buffer and only return when no more messages have been received. Handle\_Can will only handle one message, if any message is present in the CAN receive buffer, and then return. \newline
 This way any overflow in BBB to CAN subsystem will only be in one of the following:
 
-\begin{itemize}
+\begin{enumerate}
    \item { \em The send buffer of the BBB} \newline
    If the BBB writes to its send buffer at a higher rate than the UART connection can send.
    \item { \em The CAN send buffer} \newline
    If the main program tries to send messages at a higher rate than it can send, for example during to high CAN bus utilization.
    \item { \em The CAN receive buffer} \newline
    If CAN messages are received from the CAN bus at a higher rate than what the main program can read. For example if the BBB is sending CAN messages at a high rate the Handle\_Can will not get enough time to empty the CAN receive buffer.
-\end{itemize}
+\end{enumerate}
 
 The first case is easily avoided by making sure the BBB does not send CAN messages at a faster rate than the BBB to CAN subsystem is capable sending. The second and third cases will only cause individual CAN messages to be lost rather than compromising the communication protocol between the BBB and the Generic CAN controller. \newline
 This way the BBB to CAN communication subsystem can be considered fail-safe.
