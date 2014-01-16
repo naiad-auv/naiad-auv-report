@@ -16,9 +16,9 @@ Connect one end of the Ethernet cable to the middle port among the three on the 
 \texttt{ssh root@192.168.1.10}. Type in \textit{root} when password is prompted. The user gets a \texttt{zynq>} prompt on the screen.
 
 \subsection{Creation of Zynq Boot Image}
-The procedure for creating a boot image is quite complex and time consuming. For the sake of the new users, all the files required to create a boot image are available on the Subversion repository for project Naiad \cite{svnGimme}. Additional to the prerequisites mentioned in section 5.1, the user needs to do the following:\begin{enumerate}
-\item Install the full package of Xilinx ISE Design Suite\cite{downloadISE} including the Software Development Kit (SDK) on the host PC.
-\item Install the driver for Xilinx Platform USB Cable II \cite{driverCable}. If Step 1 is done in Windows OS, then no need to install the driver as it comes with the package.
+The procedure for creating a boot image is quite complex and time consuming. For the sake of the new users, all the files required to create a boot image are available on the Subversion repository for project Naiad \cite{web:svnGimme}. Additional to the prerequisites mentioned in section 5.1, the user needs to do the following:\begin{enumerate}
+\item Install the full package of Xilinx ISE Design Suite\cite{web:downloadISE} including the Software Development Kit (SDK) on the host PC.
+\item Install the driver for Xilinx Platform USB Cable II \cite{web:driverCable}. If Step 1 is done in Windows OS, then no need to install the driver as it comes with the package.
 \end{enumerate}
 
-Using SDK, new boot image can be created by giving offsets to the binary files as mentioned in the user guide \cite{svnGimme}. If amendments have to be made to the Linux kernel like installing a new Linux driver, then the RAM disk image should be modified and a new boot image should be created with the new RAM image. All the steps for modifying RAM image are also detailed in the user guide \cite{svnGimme}.
+Using SDK, new boot image can be created by giving offsets to the binary files as mentioned in the user guide \cite{web:svnGimme}. If amendments have to be made to the Linux kernel like installing a new Linux driver, then the RAM disk image should be modified and a new boot image should be created with the new RAM image. All the steps for modifying RAM image are also detailed in the user guide \cite{svnGimme}.
