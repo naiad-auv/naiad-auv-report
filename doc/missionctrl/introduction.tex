@@ -1,8 +1,22 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Introduction}\label{sec:introduction}
-During the design of the mission control system, a set of requirements were established. Missions for Naiad should be easy to create, preferably without having to write any code. Missions should be executed on the mission control system in concurrance with any other tasks performed by the mission control system. Missions should be transmitted to the mission control system through the umbilical chord.
+This report explains the development of the mission control system for Naiad AUV. Naiad AUV is an autonomous underwater vehicle (AUV), developed during Project Naiad. Project Naiad was a project run by 18 M.Sc. students, studying robotics and embedded systems, during the fall of 2013. The goal of the project was to develop a research platform for an AUV designed to locate toxic waste in the Baltic sea. Part of this goal was to develop a prototype AUV as a proof of concept. The prototype was named Naiad.
+
+\subsection{Requirements}
+During the design of the mission control system, a set of requirements were established.
+\begin{itemize}
+\item Missions for Naiad should be easy to create, preferably without having to write any code.
+\item Missions should be executed on the mission control system in concurrence with any other tasks performed by the mission control system.
+\item Missions should be transmitted to the mission control system through the umbilical chord, which is what the physical cable connection into the AUV is called.
+\item Missions have to be executed on the AUV whether the umbilical chord is connected or not.
+\item The mission control system has to communicate with other systems in the AUV.
+\end{itemize}
 
 % You can use how many "subsections" and "subsubsections" you like.
 \subsection{Limitations}
-The mission control system had to be developed in Ada. The system should operate under the restrictions of the ravenscar profile. Both of these limitations were specific requirements requested by the client.
+These limitations were specific requirements requested by the client.
+\begin{itemize}
+\item The mission control system had to be developed in Ada \cite{web:mcsada}.
+\item The system should operate under the restrictions of the Ravenscar profile \cite{article:mcsraven}. 
+\end{itemize}

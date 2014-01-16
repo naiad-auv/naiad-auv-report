@@ -5,7 +5,7 @@ The results that were achieved with the simulator lived up to the main expectati
 
 This allowed the simulator to be used both as a check for the motion control but also will allow the simulator to observe the AUV. Even though the simulator is not fully realistic with regards to the approximations of frictions and inertias the approximations were accurate enough for testing a self balancing system such as the PID controlled motion control. It would require new tuning values for the PID controllers to optimize overshoot and stabilizing times the AUV when in water.
 
-The Communication ended up working according to expectation, getting all the information across from point A to point B. Tests were done to ensure that all relevant CAN messages were sent and received according to the standard set-up for the CAN communication as can messages are sent over ethernets TCP sockets.
+The communication lived up to expectation by getting all the information across from point A to point B. Tests were done to ensure that all relevant CAN messages were sent and received according to the standard set-up for the CAN communication as can messages are sent over Ethernets TCP sockets.
 
 \subsection{Future work}
 Future work would involve increasing the modularity and the systems that could be simulated in the simulator together with choices about which sub systems that were to be simulated. Where each sub system would be running on its own with its own communication between other simulated sub systems and also one for external systems in the real AUV

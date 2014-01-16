@@ -4,7 +4,8 @@ As mentioned in Section ~\ref{sec:result}, the implementation of the BeagleBone 
 
 \subsection{Future work}
 As mentioned in the previous sections, the protocol for the communication over UART is based on the sequence of bytes being correct at any time. One could implement some form of "start of message" and "end of message" flags to signal the start and end of messages. This would ensure that if one message is sent incorrectly, with too many or too few bytes, the receiver would be able to find the "start of message" and "end of message" flags and regain synchronization. \newline
-Since any byte value can be sent in the payloads of the CAN messages, there exists no pattern of bytes that can be assumed not to occur in the data that will be sent over UART. Therefore some form of byte stuffing has to be implemented in order to handle this.
+Since any byte value can be sent in the payloads of the CAN messages, there exists no pattern of bytes that can be assumed not to occur in the data that will be sent over UART. Therefore some form of byte stuffing has to be implemented in order to handle this. \\
+Unfortunately a change such as this would make the protocol less efficient.
 
 To improve the communication speed, the UART communication could be done via SPI instead. This would require rewriting some of the AT90CAN\_Uart\_To\_Can code as well as implementing SPI on the BBB.
 

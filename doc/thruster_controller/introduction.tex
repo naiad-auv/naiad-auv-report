@@ -1,10 +1,10 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Introduction}\label{sec:introduction}
-A requirement from the client was to make the system modular in order to be able to change the parts easily and to reduce the costs of repairs. Each of the thrusters were  considered as a separate propulsion system and not as a whole. All the thrusters are inter-connected through the CAN(Controller Area Network) bus with the rest of the AUV's systems. Each of the thrusters represent a different node on the CAN bus so they are considered as separate systems. If one thruster is damaged the rest of the thrusters are not affected by that malfunction. The thrusters are given the actuation commands from their own Motor Controller. 
+A requirement from the client was to make the system modular in order to be able to change the parts easily and to reduce the costs of repairs. Each of the thrusters was considered as a separate propulsion system and not as a whole. All the thrusters are inter-connected through the CAN (Controller Area Network) bus with the rest of the AUV's systems. Each of the thrusters represent a different node on the CAN bus so they are considered as separate systems. If one thruster is damaged the rest of the thrusters are not affected by that malfunction. The thrusters are given the actuation commands from their own Motor Controller. 
 
 The Generic CAN controller is a custom electronic PCB specially designed for Naiad which is composed of an AT90CAN128 micro-controller unit with a interface to the CAN bus and also to other protocols like UART, SPI, I2C which is used in some of Naiad's systems. This controller is also used to actuate the thrusters and  interface them to the CAN bus.  
 
-The extracted actuation value is then computed and used to generate a PWM (Pulse Width Modulation) signal which is then transformed in a signal for the three winding BLDC (Brushless DC) motors. 
+The actuation value is computed and used to generate a PWM (Pulse Width Modulation) signal which is then transformed in a signal for the windings of the brushless DC motors used in the AUV. 
 
 

@@ -1,13 +1,20 @@
-% Do NOT change this "Section" title
-% and do NOT add more "Section" level titles.
+
 \section{Introduction}\label{sec:introduction}
+The Sensor Fusion is divided into two parts: Software architecture and Sensor fusion calculations.
+
 \subsection{Software architecture}
-The responsibiltiy of the Sensor fusion was from the beginning unclear. The design
+The responsibility of the Sensor fusion was from the beginning unclear. The design
 choices that were made had to leave room for change in responsibility.
-This could mean that the calculations that were supposed to be done later on were
-more computational heavy than first anticipated or perhaps, the other way around.
-It was also important to make sure that the ethernet connection nor the CAN bus
+This could mean that the calculations that were supposed to be done later on would be 
+more computationally heavy than first anticipated or perhaps, the other way around.
+It was also important to make sure that neither the ethernet connection nor the CAN bus
 connection were blocking the Sensor fusion calculations.
- 
+
 \subsection{Sensor fusion calculations}
-Text
+The Sensor fusion calculations are aimed to calculate the attitude
+(yaw, pitch and roll) and the position of the AUV in x, y and z
+coordinates taking the starting position as the origin. Due to time and financial 
+constraints that caused the ordering of IMU to be delayed, the Sensor fusion was never implemented. 
+This report
+is meant to guide the readers in the right direction and help them avoid
+future mistakes.

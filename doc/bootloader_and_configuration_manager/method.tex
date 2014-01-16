@@ -1,10 +1,10 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Method}\label{sec:method}
-The customer provided resources from a previous project named weRobot ~\cite{web:werobot}. This project was part of the course CDT310 (Foundations of Software Engineering) back in 2008 and a bootloader was created for AT90CAN together with a PC client that could send hex files from the computer to the bootloader via CAN.
+The customer provided resources from a previous project named weRobot ~\cite{web:werobot}. This project was part of the course CDT310 (Foundations of Software Engineering) back in 2008 and a bootloader was created for AT90CAN128 together with a PC client that could send hex files from the computer to the bootloader via CAN.
 
 % You can use how many "subsections" and "subsubsections" you like.
-
+\pagebreak
 \subsection{Bootloader}
 The weRobot bootloader is an improvement made upon Atmel's Slim CAN Bootloader ~\cite{web:slimbootloader}. There was a problem with running the weRobot bootloader, so this project uses the original bootloader from Atmel, but with the extra functionalities of the weRobot bootloader reimplemented.
 
@@ -12,4 +12,4 @@ The Slim CAN Bootloader is written in C and it is designed to be compiled with t
 
 \subsection{Configuration Manager}
 The Configuration Manager is built upon the weRobot PC client. The PC client is written in Ada and compiled with GNAT GPL Ada Development Environment 2013.
-The GUI is made in the GtkGlade GUI builder so it requires the GtkAda ~\cite{web:gtkada} library to compile. No information was found specifying in which version of GtkAda it was made, however the deprecated components have been replaced so that it now works in GtkAda 3.4.2 which is the latest version at the time of writing. As of now the client is compiled as an .exe executable on a computer running Windows 8.
+The GUI is made in the GtkGlade GUI builder so it requires the GtkAda ~\cite{web:gtkada} library to compile. No information was found specifying in which version of GtkAda it was made, however the deprecated components have been replaced so that it now works in GtkAda 3.4.2 which is the latest version at the time of writing. As of now the client is compiled as an executable on a computer running Windows 8.

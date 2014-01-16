@@ -7,32 +7,13 @@ At first, the GIMME-2 board receives a CAN message from the mission controller d
 \subsection{Operating system}
 The operating system used on the GIMME-2 board is Linux customized by Xilinx for Zynq processors which is based on the vanilla kernels from versions 3.0 and above. The user can interact with the Linux on the board either through serial interface or through SSH client. The team developed a boot image considering that the boot medium is the flash memory of the board. Booting from SD card is not working as there is a PCB flaw for pin mapping on the GIMME-2 board. The driver for Platform USB Cable II has to be installed in order to get the JTAG interface working for flashing the device.
 
-Creating a bootable Linux for Zynq is quite challenging as Linux boots up only when a combination of lots of factors succeed. The files necessary for booting Linux has to be built from scratch as the files available on the Xilinx website are mostly for the Zynq evaluation board. The procedures and tools used for building necessary files are described in detail in Xilinx wiki \cite{XilinxWiki}. 
+Creating a bootable Linux for Zynq is quite challenging as Linux boots up only when a complex combination of criteria is met. The files necessary for booting Linux have to be built from scratch as the files available on the Xilinx website are mostly for the Zynq evaluation board. The procedure and tools used for building the necessary files are described in detail in Xilinx wiki \cite{web:XilinxWiki}. 
 
 The First Stage Boot Loader (FSBL) is the first file loaded on power up which does the early system initialization. FSBL is created in Xilinx SDK using the system hardware description of the platform. Then the Universal bootloader starts which loads the Linux kernel image and the wrapped ramdisk image.
 
 \subsection{CAN driver}
-Xilinx has released the drivers for many peripherals in the mainline kernel \cite{XilDrivers}. However, the driver for the CAN module is not available in the mainline kernel and hence it has to be built from source. A generic CAN driver hosted on Linux known as can4linux \cite{can4linux} is supported by the Zynq Linux. The driver code is customized so as to get it working for Zynq and compiled for the target platform. On power up, the boot image is copied from the QSPI flash memory into the RAM and hence whatever changes made on the kernel will not be saved back into the flash memory. Hence the RAM disk image has to be edited by copying the driver module at an appropriate location and the start-up script is modified accordingly so that the driver gets loaded when the Linux boots up. This RAM disk image is used to create the boot file and hence it loads along with other drivers. 
+Xilinx has released the drivers for many peripherals in the mainline kernel \cite{web:XilDrivers}. However, the driver for the CAN module is not available in the mainline kernel and hence it has to be built from source. A generic CAN driver hosted on Linux known as can4linux \cite{web:can4linux} is supported by the Zynq Linux. The driver code is customized so as to get it working for Zynq and compiled for the target platform. On power up, the boot image is copied from the QSPI flash memory into the RAM and hence whatever changes made on the kernel will not be saved back into the flash memory. Hence the RAM disk image has to be edited by copying the driver module at an appropriate location and the start-up script is modified accordingly so that the driver gets loaded when the Linux boots up. This RAM disk image is used to create the boot file and hence it loads along with other drivers. 
 
-A command known as \textit{devmem} is used in order to access the registers of the Zynq processor through Linux. The clock for the CAN module is configured using the devmem command and added to the startup script so that the clock is set to the desired value when the board boots up. Other parameters like baud rate and mask are set in the program code. Another challenge was to write the code for testing in Ada when the driver code is written in C language. Few functions have to be imported from C into Ada in order to meet the requirement.
+The system command \textit{devmem} is used in order to access the registers of the Zynq processor through Linux. The clock for the CAN module is configured using the devmem command and added to the startup script so that the clock is set to the desired value when the board boots up. Other parameters such as baud rate and mask are set in the program code. Another challenge was to write the code for testing in Ada when the driver code is written in C language. Few functions have to be imported from C into Ada in order to meet the requirement.
 
-The cross compiler for Ada from Adacore is not available free of cost. So the team went for an alternative which is compiling the sources statically on the pandaboard or beaglebone black and copying the binaries on to the GIMME-2 for execution. Since the other two boards also has an ARM Cortex A-series as the processor and runs Ubuntu as the operating system, the binaries generated will be supported in the same architecture. 
-
-%Test of one column figure. It should be shown as close as possible to this
-%text. If you can't see the figure its number is \ref{fig:one_column_figure}
-%and located on page \pageref{fig:one_column_figure}.
-%\begin{figure}[h]
-%    \includegraphics[width=0.5\textwidth]{./figure/figureA.png}
-%    \caption{Figure A}
-%    \label{fig:one_column_figure}
-%\end{figure}
-%
-%\subsubsection{Subsubsection1}
-%Test of two columns figure. It should be shown at the top of a page. If you
-%can't see the figure its number is \ref{fig:two_column_figure}
-%and located on page \pageref{fig:two_column_figure}.
-%\begin{figure*}[t]
-%    \includegraphics[width=1.0\textwidth]{./figure/figureB.png}
-%    \caption{Figure B}
-%    \label{fig:two_column_figure}
-%\end{figure*}
+The cross compiler for Ada from Adacore is not available free of cost. So the team went for an alternative which is compiling the sources statically on the Pandaboard \cite{panda} or BeagleBone Black and copying the binaries on to the GIMME-2 for execution. Since the other two boards also have ARM Cortex A-series processor and run Ubuntu as the operating system, the binaries generated will be supported in the same architecture. 

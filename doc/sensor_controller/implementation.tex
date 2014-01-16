@@ -2,18 +2,19 @@
 \section{Implementation}\label{sec:implementation}
 The temperature sensor used was the \emph{DS18B20} digital temperature sensor~\cite{web:ds18b20}. This sensor communicates over a 1-Wire interface. Since the Generic CAN controller does not have a 1-Wire interface, a DS2480B integrated circuit was used to convert between the 1-wire interface and UART (which the Generic CAN controller supports).
 
-The pressure sensor used was the \emph{IMCL Low Cost Submersible Pressure Sensor}~\cite{web:imcl}. The interface from the pressure sensor could be chosen when ordering the sensor so a simple analog voltage in the 0 to +5 Volt range was chosen since this is the range of the analog-to-digital converter on the AT90CAN128 microcontroller. Consequently, no interface circuitry was needed for the pressure sensor.
+The pressure sensor used was the \emph{IMCL Low Cost Submersible Pressure Sensor}~\cite{web:imcl}. The interface from the pressure sensor could be chosen when ordering the sensor so a simple analog voltage in the range of 0 to +5 Volt was chosen since this is the range of the analog-to-digital converter on the AT90CAN128 microcontroller. Consequently, no interface circuitry was needed for the pressure sensor.\\
+The customer's demands for the Naiad AUV included that it was to be able to go to a depth of 15 meters. At this depth the absolute pressure is approximately 2.5 bars (1 bar from the atmospheric pressure and 1 bar per 10 meters of water). The range of pressure for the pressure sensor was chosen to be 0 to 3 bars in order to provide some margin. This range could also be chosen when ordering the sensor.
 
 The salinity sensor chosen was the \emph{Atlas Scientific E.C Circuit}~\cite{web:ec_circuit}. The E.C Circuit is connected to a probe whose output the E.C Circuit measures. The E.C Circuit has a serial interface that is connected to one of the UART busses of the AT90CAN128 microcontroller. No level conversion is needed since the E.C Circuit's serial interface uses +5 Volt TTL levels.
 
 The E.C Circuit outputs the conductivity of the water, the Total Dissolved Solids (TDS) of salt in the water, as well as the salinity expressed as an integer number in the Practical Salinity scale of 1978. Out of these, only the last is used. \newline
 Three types of probes can be used. One for fresh water, one for brackish water and one for salt water. The ranges of salinity each probe can measure do overlap, but a correct probe must be chosen or the salinity reading can come out of range. 
 
-Readings from all sensors will be put in the same CAN message containing 5 payload bytes according to Table~\ref{table:SensorMessage}. This CAN message is called the \emph{Sensor\_Message} and is sent at regular intervals.
+Readings from all sensors will be put in the same CAN message containing 5 payload bytes according to Table~\ref{table:SensorMessage}\footnote{Since only a precision of 1 degree C is used for temperature readings, the temperature could be represented by just one signed byte. Initially, a higher precision was intended to be used on the Temperature sensor.}. This CAN message is called the \emph{Sensor\_Message} and is sent at regular intervals.
 
 \begin{table*}
 \centering
-    \caption{Payload bytes of the Sensor CAN message}
+    \caption{Payload bytes of the Sensor CAN message }
     \begin{tabular}{|l|l|p{11cm}|} \hline
     \label{table:SensorMessage}
     	\textbf{Bytes} & \textbf{Data type} & \textbf{Meaning} \\ \hline
@@ -30,7 +31,7 @@ To receive the data from the temperature sensor a protocol converter between UAR
 On the AT90CAN128 the characters are computed into a value with a resolution of 1 degree Celsius, which is more than enough, since the speed of sound doesn't change that much at this little temperature variation. A procedure has been written so that when it is called it will take a temperature reading and return the computed temperature.
 
 \subsection{Pressure sensor}
-Since the pressure sensor is analog, the AVR.AT90CAN128.ADC library~\cite{web:naiad_git} is used to read the analog output of the sensor whenever a CAN message is to be sent with sensor readings. This analog-to-digital value is converted to millibars before being sent as a CAN message. 
+Since the pressure sensor is analog, the AVR.AT90CAN128.ADC library~\cite{web:github_naiad-auv-software} is used to read the analog output of the sensor whenever a CAN message is to be sent with sensor readings. This analog-to-digital value is converted to millibars before being sent as a CAN message. 
 
 
 \subsection{Salinity sensor}
@@ -48,6 +49,6 @@ The responses from the E.C Circuit have the following format:
 50000,32800,32\emph{<carriage return>}
 \end{quote}
 
-The last number ("32" in this example) represents the salinity in the Practical Salinity scale 1978. The two other numbers represent the conductivity of the water, the Total Dissolved Solids (TDS) of salt in the water and are discarded. The salinity reading will be in the range 0 to 42. If the reading was out of range the value "\--\--" will replace the numerical value. \newline
+The last number ("32" in this example) represents the salinity in the Practical Salinity scale of 1978. The two other numbers represent the conductivity of the water, the Total Dissolved Solids (TDS) of salt in the water and are discarded. The salinity reading will be in the range 0 to 42. If the reading was out of range the value "\--\--" will replace the numerical value. \newline
 The salinity reading will be output from the E.C Circuit at regular intervals. The latest reading is stored as a variable so that it can easily be fetched when it is time to send a CAN message with sensor data. This variable is initiated at 254, meaning that no measurement has been done. If the salinity sensor is not connected to the UART bus of the Generic CAN controller, this variable will never be set to any other value and consequently the value 254 will always be output on the CAN bus.
-
+\pagebreak
