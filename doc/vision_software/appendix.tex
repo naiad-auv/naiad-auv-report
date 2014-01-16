@@ -1,20 +1,66 @@
 % Each section is a new appendix
-\section{First appendix}\label{sec:first_appendix}
-Text
+.
 % You can use how many "subsections" and "subsubsections" you like.
-\subsection{Subsection}
-Text
-\subsubsection{Subsubsection1}
-Text
-\subsubsection{Subsubsection2}
-Text
+\newpage
+\section{Appendix A}\label{sec:vision_appendix_A}
+\begin{figure}[h]
+	\includegraphics[scale=0.5]{./figure/normal.jpg}
+	\caption{Sample Input}
+	\label{fig:normal output}
+\end{figure}
 
-\section{Second appendix}\label{sec:second_appendix}
-Text
-% You can use how many "subsections" and "subsubsections" you like.
-\subsection{Subsection}
-Text
-\subsubsection{Subsubsection1}
-Text
-\subsubsection{Subsubsection2}
-Text
+\begin{figure}[h]
+	\includegraphics[scale=0.5]{./figure/negative.jpg}
+	\caption{Invert Output}
+	\label{fig:Invert output}
+\end{figure}
+
+\begin{figure}[h]
+	\includegraphics[scale=0.45]{./figure/mask.jpg}
+	\caption{Sample Output for Red Threshold Masking}
+	\label{fig:masking output}
+\end{figure}
+
+\begin{figure}[h]
+	\includegraphics[scale=0.5]{./figure/contours.jpg}
+	\caption{Sample Output for Contour Tracing}
+	\label{fig:contour output}
+\end{figure}
+
+\begin{figure}[h]
+	\includegraphics[scale=0.5]{./figure/canny.jpg}
+	\caption{Sample Output for Canny Edge Detection}
+	\label{fig:canny output}
+\end{figure}
+\pagebreak
+
+\begin{figure}[h]
+	\includegraphics[width=0.5\textwidth]{./figure/statueBefore.png}
+	\caption{Sample Input for Conditional Euclidean Segmentation}
+	\label{fig:euclidean input}
+\end{figure}
+
+\begin{figure}[h]
+	\includegraphics[width=0.5\textwidth]{./figure/statueAfter.png}
+	\caption{Sample Output for Conditional Euclidean Segmentation}
+	\label{fig:euclidean output}
+\end{figure}
+
+\begin{figure}[h]
+	\includegraphics[width=0.5\textwidth]{./figure/pointChair.png}
+	\caption{Sample Input for Surface Reconstruction}
+	\label{fig:Chair Point Cloud}
+\end{figure}
+
+
+\begin{figure}[h]
+	\includegraphics[width=0.5\textwidth]{./figure/meshChair.png}
+	\caption{Sample Output for Greedy Triangulation Algorithm}
+	\label{fig:greedy output}
+\end{figure}
+
+\begin{figure}[h]
+	\includegraphics[width=0.5\textwidth]{./figure/poissonChair.png}
+	\caption{Sample Output for Poisson Algorithm}
+	\label{fig:poisson output}
+\end{figure}

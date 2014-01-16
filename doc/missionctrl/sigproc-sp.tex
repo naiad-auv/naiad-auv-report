@@ -30,12 +30,37 @@
 
 % For proper urls in the reference list
 \usepackage[hyphens]{url}
+\usepackage{listings}
+\usepackage{cleveref}
+
+\lstset{
+  breaklines=true
+  basicstyle=\itshape,
+  xleftmargin=3em,
+  emph={regexp,ε},
+  emphstyle=\textbf,
+  %morecomment=[n][\textbf]{regexp},
+  morecomment=[n][\textbf]{\'}{\'{}},
+  %morecomment=[n][\textbf]{ε},
+  literate={->}{$\rightarrow$}{2}
+           {ε}{$\epsilon$}{1}
+}
 
 \begin{document}
 
-\title{Mission Control System of Project Naiad\titlenote{This report was
+\title{Mission Control System for Project Naiad
+\titlenote{This report was
         written during the fall of 2013 in an advanced level project course
-        at M\"{a}lardalen University, Sweden.}}
+        at M\"{a}lardalen University, Sweden.
+\newline \newline        
+M\"{a}lardalens H\"{o}gskola\newline
+School of Innovation, Design and Engineering\newline
+Project in Advanced Embedded Systems DVA425\newline\newline
+Mikael Ekstr\"{o}m, Evaluator\newline
+\textit{mikael.ekstrom@mdh.se}\newline\newline
+Lars Asplund, Customer\newline
+\textit{lars.asplund@mdh.se}
+}}
 %\subtitle{[Extended Abstract]
 %\titlenote{A full version of this paper is available as
 %\textit{Author's Guide to Preparing ACM SIG Proceedings Using
@@ -139,8 +164,8 @@ Per-Erik M\r{a}hl\\
 %
 %APPENDICES are optional
 \balancecolumns
-%\appendix
-%\input{appendix.tex}
+\appendix
+\input{appendix.tex}
 %\section{Headings in Appendices}
 %The rules about hierarchical headings discussed above for
 %the body of the article are different in the appendices.

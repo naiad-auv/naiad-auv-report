@@ -1,12 +1,13 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Introduction}\label{sec:introduction}
-The simulator is a test platform for the AUV, the simulator is connected to the AUV with full access to all information going between each of the sub systems inside it. The functionality of the test platform is that it listens in on all communication and can act like one or more subsystems generating that subsystems data and sending it out on the CAN bus. This allows the simulator to see the response of the other parts of the system, such as the wanted motor power and which actuators that would be used. The calls to the actuators are then being observed in order to make the same actions in the simulator to continuingly feed the AUV with simulated sensor data.
+The simulator is a test platform for the AUV, which is connected to the AUV with full access to all information sent between the different sub systems of the AUV. The task of the simulator is that it should read all data sent from the AUV in order to either observe its movement or use the data for simulating a sub system of the AUV by sending out data over the CAN bus. This allows the simulator to see the response of the other parts of the system, such as the wanted motor power and which actuators that would be used. The calls to the actuators are then being observed in order to make the same actions in the simulator to feed the AUV with simulated sensor data.
 
-% You can use how many "subsections" and "subsubsections" you like.
 \subsection{Observation}
-The other use of the simulator is to simply observe the AUV and log how it behaves in the water. This data is both used for representing the AUV but also vital information that can be used in the future for improving the simulators performance when it comes to simulating actions.
-\subsection{Platform for faster than real time testing of the system}
-The last part of the simulator is to be a platform for testing the motion control algorithms in a faster simulated reality in order for AI based approaches to be able to evolve within reasonable time frames. Either for tuning the settings of the motion control or for creating AI based algorithms for moving.
-\linebreak
-The representation of the data will be shown positional in the three planes to allow for easy tracking of the moving patterns of the AUV, to compliment this is a three dimensional view of its orientation will give the user a clean and easy way to understand why the AUV moves like it does.
+When the simulator is observing the AUV regarding how it behaves in water with regards to position orientation. At this point the data will not only be showed on the GUI but will also be used as vital information that can be used in the future for improve the simulator's performance.
+
+\subsection{Simulation at a pace faster than real-time}
+The final task of the simulator is to be a platform for testing the motion control algorithms in a simulated pace which is faster than real-time in order for AI based approaches to be able to evolve within reasonable time frames. Either for tuning the settings of the motion control or for creating AI based algorithms for the motion control.
+
+\subsection{Representation}
+The presentation of the simulator will be shown with the position in three planes, which will make it easy for the user to track the movement patterns of the AUV. To compliment this a three dimensional view of its orientation will give the user a clean and easy to understand representation of how the AUV moves.

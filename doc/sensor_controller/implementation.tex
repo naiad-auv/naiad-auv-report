@@ -9,11 +9,11 @@ The salinity sensor chosen was the \emph{Atlas Scientific E.C Circuit}~\cite{web
 The E.C Circuit outputs the conductivity of the water, the Total Dissolved Solids (TDS) of salt in the water, as well as the salinity expressed as an integer number in the Practical Salinity scale of 1978. Out of these, only the last is used. \newline
 Three types of probes can be used. One for fresh water, one for brackish water and one for salt water. The ranges of salinity each probe can measure do overlap, but a correct probe must be chosen or the salinity reading can come out of range. 
 
-Readings from all sensors will be put in the same CAN message containing 5 payload bytes according to Table~\ref{table:SensorMessage}. This CAN message is called the \emph{Sensor\_Message} and is sent at regular intervals.
+Readings from all sensors will be put in the same CAN message containing 5 payload bytes according to Table~\ref{table:SensorMessage}\footnote{Since only a precision of 1 degree C is used for temperature readings, the temperature could be represented by just one signed byte. Initially, a higher precision was intended to be used on the Temperature sensor.}. This CAN message is called the \emph{Sensor\_Message} and is sent at regular intervals.
 
 \begin{table*}
 \centering
-    \caption{Payload bytes of the Sensor CAN message}
+    \caption{Payload bytes of the Sensor CAN message }
     \begin{tabular}{|l|l|p{11cm}|} \hline
     \label{table:SensorMessage}
     	\textbf{Bytes} & \textbf{Data type} & \textbf{Meaning} \\ \hline
@@ -27,10 +27,10 @@ Readings from all sensors will be put in the same CAN message containing 5 paylo
 \subsection{Temperature sensor}
 To receive the data from the temperature sensor a protocol converter between UART and 1-wire communications has been used. In order to read the temperature a number of characters have to be sent from the UART to the converter which interprets the received characters and generates the corresponding 1-wire signals. The temperature sensor detects the signals, makes an analog-to-digital conversion of the temperature and puts the data on the 1-Wire bus. Afterwards, the converter takes the data from the 1-Wire bus, translates it into characters and sends them over the UART to the AT90CAN128. 
 
-On the AT90CAN128 the characters are computed into a value which has a resolution of 1 degree Celsius, which is more than enough since the speed of sound doesn't change that much at this little temperature variation. A procedure has been written so that when it is called it will take a temperature reading and return the computed temperature.
+On the AT90CAN128 the characters are computed into a value with a resolution of 1 degree Celsius, which is more than enough, since the speed of sound doesn't change that much at this little temperature variation. A procedure has been written so that when it is called it will take a temperature reading and return the computed temperature.
 
 \subsection{Pressure sensor}
-Since the pressure sensor is analog, the AVR.AT90CAN128.ADC library~\cite{web:naiad_git} is used to read the analog output of the sensor whenever a CAN message is to be sent with sensor readings. This analog-to-digital value is converted to millibars before being sent as a CAN message. 
+Since the pressure sensor is analog, the AVR.AT90CAN128.ADC library~\cite{web:github_naiad-auv-software} is used to read the analog output of the sensor whenever a CAN message is to be sent with sensor readings. This analog-to-digital value is converted to millibars before being sent as a CAN message. 
 
 
 \subsection{Salinity sensor}
@@ -48,6 +48,6 @@ The responses from the E.C Circuit have the following format:
 50000,32800,32\emph{<carriage return>}
 \end{quote}
 
-The last number ("32" in this example) represents the salinity in the Practical Salinity scale 1978. The two other numbers represent the conductivity of the water, the Total Dissolved Solids (TDS) of salt in the water and are discarded. The salinity reading will be in the range 0 to 42. If the reading was out of range the value "\--\--" will replace the numerical value. \newline
+The last number ("32" in this example) represents the salinity in the Practical Salinity scale of 1978. The two other numbers represent the conductivity of the water, the Total Dissolved Solids (TDS) of salt in the water and are discarded. The salinity reading will be in the range 0 to 42. If the reading was out of range the value "\--\--" will replace the numerical value. \newline
 The salinity reading will be output from the E.C Circuit at regular intervals. The latest reading is stored as a variable so that it can easily be fetched when it is time to send a CAN message with sensor data. This variable is initiated at 254, meaning that no measurement has been done. If the salinity sensor is not connected to the UART bus of the Generic CAN controller, this variable will never be set to any other value and consequently the value 254 will always be output on the CAN bus.
 

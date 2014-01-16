@@ -16,13 +16,14 @@ components but instead design a plug-and-play system such that no matter what
 the mission requirements are, NASA can put together a sattelite within hours or
 days that meet a new mission's requirements.
 
+\pagebreak
 \subsubsection{The Standard}
 SPA is specified in a set of standards documents, each standard specifying
 functionality in a specific area ranging from "SPA Logical Interface Standard"
-to "28V Power Service". The standard documents defines everything from power
+to "28V Power Service". The standard documents define everything from power
 supply levels to how components should communicate with each other.
-Focus during the Naiad project have
-been a subset of all the standards more specifically the following ones:
+Focus during the Naiad project has
+been on a subset of all the standards more specifically the following ones:
 
 \begin{itemize}
   \item Local Subnet Adaptation Draft
@@ -49,23 +50,23 @@ Another requirement from the customer was the use of CAN Bus
 \cite{standard:can_bus} for communication between sensors and actuators.
 This meant that as a main part of the projects
 SPA implementation was to design and develop SPA functionality over the CAN
-Bus. No previous work has been found in this field.
+Bus. No previous work was found in this field.
 
 \subsection{SPA with Ada}
-A third requirement from the customer was the use of Ada as programming
+A third requirement from the customer was the use of Ada as the programming
 language. Previous implementation of the SPA standard exists in C/C++ but not
 in Ada.
 
 \subsection{Virtual Plug-and-Play Network}
 Virtual Network Protocol (VNP) \cite{web:vnp} or Virtual Plug-and-Play
 Network, VPPN (working titles) is an initiative to bring SPA technology to
-the consumer and business market outside of the space industry. VPPN put focus
-on the software part of the SPA standard and have therefore removed all parts
+the consumer and business market outside of the space industry. VPPN puts focus
+on the software part of the SPA standard and have therefore removes all parts
 related to hardware specifics such as which hardware connectors to use. To
-clarify this, SPA and VPPN is as of writing name of the same technology but
+clarify this, SPA and VPPN is as of writing names of the same technology but
 with different business targets. Throughout this report VPPN will be used
 except when refering to specific reports.
 
-The following parts of the report is structured as follows. Chapter \ref{sec:implementation}
-goes through what has been done with VPPN in the Naiad project and chapter
+The following parts of the report are structured as follows. Section \ref{sec:implementation}
+goes through what has been done with VPPN in the Naiad project and section
 \ref{sec:conclusion} focuses primarly on future work.

@@ -1,7 +1,7 @@
 % Do NOT change this "Section" title
 % and do NOT add more "Section" level titles.
 \section{Conclusion}\label{sec:conclusion}
-Due to limitations presented in this report Space plug-and-play Avionics (SPA) have
+Due to the limitations presented in this report Space plug-and-play Avionics (SPA) have
 not been used in the final AUV. The following two sections show how to continue
 with the combination of SPA/VPPN, CAN Bus and Ada.
 
@@ -18,7 +18,7 @@ Suggested work for the future is to tackle the problem starting from the now
 expired IETF draft presented by Cach and Fiedler \cite{web:draft-ip_over_can}.
 The benefit of this solution is a
 smaller prioritisation field which make it possible to use more bits for
-addressing during the address resolution phase. Though worth remembering is
+addressing during the address resolution phase. Although it is worth remembering
 that the solution presented by Cach and Fiedler is not designed for systems
 with hard real-time requirements.
 
@@ -26,12 +26,12 @@ with hard real-time requirements.
 The main lesson learned during development of the minimal implementation
 presented in this report was the lack of VPPN infrastructure
 components to test with. Most notable the Central Addressing Service (CAS) and the
-Lookup Service (LS). If UDP/IP were used previous implementation in C/C++ could be
+Lookup Service (LS). If UDP/IP were used, previous implementation in C/C++ could be
 used as drivers/stubs while developing the needed infrastructure in Ada. As
-this is not the case most reasonable approach to implement VPPN in Ada would
+that is not the case the most reasonable approach to implement VPPN in Ada would
 be to start with one local subnet within one single processing unit.
 
-First step would be to implement the CAS, the LS and the Local Subnet Manager (SM-L).
+The first step would be to implement the CAS, the LS and the Local Subnet Manager (SM-L).
 After that a test service provider and test application could be implemented
 within the same subnet before moving on with VPPN Gateways to other subnets.
 

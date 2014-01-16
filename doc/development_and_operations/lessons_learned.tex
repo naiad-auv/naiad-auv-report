@@ -8,56 +8,56 @@ The requirements we got from our customers included one specific on the
 programming language to use, Ada. In the beginning this felt like a bad choice
 as the members of the project team had limited experience with Ada but we
 couldn't do anything about it. Instead we took height for a longer learning
-period and a more open mind set for future trouble such as which compilers work
-and for which architectures the Ada features we need can be used on.
+period and a more open mindset for future trouble such as which compilers would work
+and for which architectures the Ada features we needed could be used on.
 
 \subsubsection{Ada}
 Ada is a strong-typed language. The first release of the language was published
 in 1983 with updates in 1995, 2005 and the latest in 2012. With the limited
 experience of Ada within the project team we didn't decide upon a specific version
 to use early on. It later turned out that it would have been wise to limit us to
-Ada 2005 functionality for better portability between different version of
+Ada 2005 functionality for better portability between different versions of
 the compiler used.
 
 \textbf{Compilation} and \textbf{cross-compilation} was done with the
 "GNU Compiler Collection" (GCC) compiler including the GNAT frontend. When
 someone is talking about "gnat" they are basically talking about GCC compiled
-with Ada programming language support. As of January 2014 ada is not compiled
-by default with GCC though packages in Debian/Ubuntu exists for easy installation.
+with Ada programming language support. As of January 2014 Ada support is not compiled
+by default with GCC, though packages in Debian/Ubuntu exists for easy installation.
 
 In the beginning of the project we were recommended to use the GNAT GPL compiler
-supplied to academia for free by "Adacore". The latest release was from April
-2013. The GNAT GPL compiler from Adacore is basically the GCC compiler with
-some extra features and bundled packages from Adacore. The reason for the
-recommendation were that the GNAT GPL version earlier included a compiler for
+supplied to academia for free by AdaCore. The latest release was from April
+2013. The GNAT GPL compiler from AdaCore is basically the GCC compiler with
+some extra features and bundled packages from AdaCore. The reason for the
+recommendation was that the GNAT GPL version earlier included a compiler for
 AVR architecture as well, this support was dropped with the 2013 release from
-Adacore. Some talks were made about aquiring a GNAT Pro version from Adacore to
+AdaCore. There were discussions made about aquiring a GNAT Pro version from AdaCore to
 be able to compare functionality between the GPL and Pro version but the Pro 
-version were never aquired.
+version was never aquired.
 
 As development platforms Windows 7/8 and Ubuntu 12.04 LTS/13.10 were used. Instead
 of trying to aquire the GNAT Pro license we looked into the available packages
-in the Ubuntu repository (those with Windows still used the Adacore GNAT GPL version).
+in the Ubuntu repository (those with Windows still used the AdaCore GNAT GPL version).
 The GNAT packages available in Ubuntu is directly imported from the Debian
 project and have a strict policy \cite{web:debian_ada_policy} how they should
 be compiled so every Ada package available in the repository should work with all others.
-The downside of that policy is that most packages are quite old but the upside
+The downside of this policy is that most packages are quite old but the upside
 is that they all work together and are easy to install.
 
 For cross-compilation against the AVR platform the AVR-Ada project \cite{web:avr-ada}
 is available. It requires GCC 4.7.X and the supplied package in Ubuntu is gnat-4.6 so some
-gcc compilation is required to be done to get it to work on Ubuntu.
+GCC compilation is required to be done to get it to work on Ubuntu.
 
 We also used the BeagleBone Black in the project which is an ARM processor with
 the ARMv7 architecture. As we installed Ubuntu directly on the BeagleBone Blacks
 we could also install the Ubuntu package and compile Ada code natively directly
 on the BeagleBone Blacks, we never tried to cross-compile for ARM.
 
-In the end on Windows we use the Adacore GNAT GPL bundle from 2012 to be able
-to compile for the at90can micro controller (AVR architecture). Compilation for
+In the end on Windows we use the AdaCore GNAT GPL bundle from 2012 to be able
+to compile for the AT90CAN128 micro controller (AVR architecture). Compilation for
 the BeagleBone Blacks was done with gnat-4.6 available in the repository, natively
 on the board. As a lot of development and testing took place on Ubuntu 64-bits
-machines both Adacore GNAT GPL bundle from 2013 and the gnat-4.6 package from the
+machines both AdaCore GNAT GPL bundle from 2013 and the gnat-4.6 package from the
 repository were used. One important aspect to remember here is that if the GPS
 IDE is used remember to set the compiler to 2005 version otherwise some features
 might compile on one machine and not on others. We noticed this when first trying
@@ -66,10 +66,10 @@ the same code on the BeagleBone Blacks, it didn't work.
 
 As final pointers it's worth mentioning that compiling for the AVR architecture
 on Ubuntu is very limited, it works but support for specific MCUs is limited. During
-Naiad project some development was made to support the at90can but the work was
+Naiad project some development was made to support the AT90CAN128 but the work was
 never finished. Also, compilation for the AVR architecture doesn't support any
 object-oriented programming such as tagged types and interfaces nor Ada tasks, this
-is true for both the Adacore GNAT GPL bundle and the gnat-4.6 package from Ubuntu
+is true for both the AdaCore GNAT GPL bundle and the gnat-4.6 package from Ubuntu
 repository.
 
 \textbf{Online help} is available but very limited when it comes to Ada. Great
@@ -110,9 +110,9 @@ This would let everyone peer review everyone's code and you could limit merges
 to the main branch to patches with at least 2 approved peer reviews.
 
 \subsubsection{GPS with AUnit}
-For unit testing AUnit were used. AUnit comes bundled with the Adacore GPL version
-and can be installed with the gnat packages on Ubuntu. One main difference is that
-the GPS IDE version that is bundled with Adacore GPL has more AUnit functionality
+For unit testing AUnit was used. AUnit comes bundled with the AdaCore GPL version
+and can be installed with the GNAT packages on Ubuntu. One main difference is that
+the GPS IDE version that is bundled with AdaCore GPL has more AUnit functionality
 than the version available in the Ubuntu repository.
 
 \subsubsection{Coding Guidelines}
@@ -143,7 +143,7 @@ project. This includes some network equipment and a server machine the project r
 as well as the webserver installed on a virtual private server.
 
 \subsubsection{Continious Integration with AUnit}
-As said earlier AUnit were used for unit testing and the idea was to set up
+As mentioned earlier, AUnit was used for unit testing and the idea was to set up
 our server machine with some kind of continous integration testing server. After
 each commit to the Git repository the test server would run all tests and give
 a positive or negative response back if all tests passed or not. If any test failed
@@ -152,18 +152,19 @@ the developer would be informed with details about which test didn't pass.
 Jenkins CI \cite{web:jenkins} was set up though we didn't get any public IP address so we had to use
 a polling scheme for the test server so it checked for new code every 5 minutes.
 The lack of public IP also restricted us to only get access to the test results
-when we were at the university. In the Jenkins was up and running throughout the
-project but it wasn't used at all. If the project members can't see the benefits
-of a service like this it's not worth maintaining it.
+when we were at the university. The Jenkins service was up and running throughout the
+project but it wasn't used at all. In the end, the lesson learned was that
+if project members can't see the benefits
+of a service, it's not worth maintaining it.
 
 \subsubsection{Website}
 For the website it was decided that we wanted to use some kind of content management
 system and not develop it from scratch, time is better spent on other tasks.
 The experience within the project team suggested that we would go with Wordpress.
 
-Wordpress was set up on a Ubuntu virtual machine at the hosting company "Tilaa"
+Wordpress was set up on a Ubuntu virtual machine at the hosting company Tilaa
 located in the Netherlands \cite{web:tilaa}. The price for the VPS was about 17 euro
-including VAT per month. The rationale for this was that we could have used a service such
+a month, including VAT. The rationale for this was that we could have used a service such
 as wordpress.com but end up with a lot of extra costs for changing the design as we
 want it. Wordpress.com is a good service when you don't want to change too much.
 Our own VPS gave us much more freedom in the design of the website.
