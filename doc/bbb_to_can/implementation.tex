@@ -3,15 +3,15 @@
 The implementation has the following parts:
 
 \begin{itemize}
-   \item { \em The UART drivers for the AT90CAN128 microcontroller} \newline This part is described in the AT90CAN drivers report.
-   \item { \em The CAN drivers for the AT90CAN128} \newline This part is described in the AT90CAN drivers report.
-   \item { \em The UART drivers for BeagleBone Black} \newline This part is described in the BeagleBone Black drivers report.
+   \item { \em The UART drivers for the AT90CAN128 microcontroller} \newline This part is described in the AT90CAN128 drivers report.
+   \item { \em The CAN drivers for the AT90CAN128} \newline This part is described in the AT90CAN128 drivers report.
+   \item { \em The UART drivers for BeagleBone Black}
    \item { \em Conversion between CAN message and strings of bytes } \newline This is implemented in the Can\_Utils project.
    \item { \em CAN interface code for the BeagleBone Black} \newline This is implemented in the BBB\_Can project.
    \item { \em The main program on the AT90CAN128} \newline This is implemented in the AT90CAN\_Uart\_To\_Can project.
 \end{itemize}
 
-The hardware filters in the CAN AT90CAN128 microcontroller are set to receive all CAN messages sent on the CAN bus, i.e. no filtering will be used. The reasoning for this is the following; 
+The hardware filters in the AT90CAN128 microcontroller are set to receive all CAN messages sent on the CAN bus, i.e. no filtering will be used. The reasoning for this is the following; 
 If not all messages would be forwarded to the BBB, then the information about which messages that are to be forwarded would need to sent from the BBB to the Generic CAN controller. This could most definitely be done but it would make the communication protocol much more complicated.
 
 \subsection{Protocol}
@@ -33,14 +33,14 @@ No "start of message" or "end of message" flags are used, to minimize the overhe
 \emph{Please note:} This protocol is dependent on the byte sequence between the two devices being precisely correct. Even one extra, one less, or (in some cases) a corrupted byte will cause an offset in the receiver buffer, and the two devices will become unsynchronized and the whole communication will be compromised. The same will happen if one or several bytes are lost e.g. due to a receive buffer overflowing. \newline
 
 Since conversions between CAN messages and bytes would be done on many different devices (the BeagleBone Black, the Generic CAN controller and also in the Simulator), this functionality was put into the \emph{Can\_Utils} project, in order to be shared. \newline
-The Can\_Utils project has three functions: Message\_To\_Bytes, Bytes\_To\_Message\_Header and Bytes\_To\_Message\_Data.  \newline
+The Can\_Utils project has three functions: \emph{Message\_To\_Bytes}, \emph{Bytes\_To\_Message\_Header} and \emph{Bytes\_To\_Message\_Data}.  \newline
 When converting bytes to a CAN message, the length of the message is unknown and therefore the conversion has to be done in two steps. 
 In the first step, the bytes of the header (which is of constant length) are read and converted to the message header, from which the length of the payload data can be retrieved. In the second step, as many bytes as the payload size are read and converted to message data. \newline
-This is the reason why two separate conversion procedures are provided: Bytes\_To\_Message\_Header and \newline Bytes\_To\_Message\_Data.  \newline
+This is the reason why two separate conversion procedures are provided: \emph{Bytes\_To\_Message\_Header} and \newline \textbf{Bytes\_To\_Message\_Data}.  \newline
 When converting a CAN message to bytes, the length of the message is known, and consequently the whole conversion can be done in one procedure, Message\_To\_Bytes.
 
 \subsection{Interface code for the BeagleBone Black}
-The BBB\_Can project uses the UartWrapper to send and receive data on the UART. BBB\_Can provides three procedures: \emph{Init}, \emph{Send} and \emph{Get}. \newline
+The BBB\_Can project uses the UartWrapper project to send and receive data on the UART. BBB\_Can provides three procedures: \emph{Init}, \emph{Send} and \emph{Get}. \newline
 \emph{Init} simply initiates the UartWrapper. \newline
 The \emph{Send} procedure takes a CAN message as an argument, calls the \emph{Message\_To\_Bytes} procedure in \emph{CAN\_Utils} to get a string of bytes representing the CAN message and writes these bytes to the UART send buffer using UartWrapper. \newline
 The \emph{Get} function has three out parameters: \emph{msg} (the CAN message received), \emph{bMsgReceived} (a boolean value set true if a CAN message was received) and \emph{bUARTChecksumOK} (which is obsolete and should not be read). 
@@ -53,12 +53,12 @@ If not enough data for a full header has been received, the procedure will retur
 \subsection{Main program running on the Generic CAN controller}
 The main program running on the Generic CAN controller is called AT90CAN\_Uart\_To\_Can and has two main procedures:
 
-\begin{itemize}
+\begin{enumerate}
    \item { \em Handle\_Uart}
    reads CAN messages from the UART receive buffer and writes them to the CAN send buffer.
    \item { \em Handle\_Can}
    reads CAN messages from the CAN receive buffer and writes them on to the UART send buffer.
-\end{itemize}
+\end{enumerate}
 
 Since this program is single threaded it will alternate between these procedures. \newline 
 As mentioned, the protocol for the communication over UART is sensitive to an overflow in the receive buffer. For this reason, the Handle\_Uart procedure has been prioritized and will handle all CAN messages in the buffer and only return when no more messages have been received. Handle\_Can will only handle one message, if any message is present in the CAN receive buffer, and then return. \newline
