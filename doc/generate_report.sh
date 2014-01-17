@@ -16,6 +16,56 @@ OPTIONS:
 EOF
 }
 
+function add_line_numbers()
+{
+### Takes one parameter as input, that is the PDF that needs
+### line numbers.
+REPORT=$1
+ORIG_PDF=$report/sigproc-sp.pdf
+PDF_NAME=$report
+
+mkdir -pv tempFolder123
+cp $ORIG_PDF tempFolder123/$PDF_NAME.pdf
+cd tempFolder123
+
+### Count number of pages
+PAGES=$( pdfinfo $PDF_NAME.pdf | grep 'Pages' - | awk '{print $2}' )
+
+### Generate page number document
+
+cat > ./pagenumbers.tex <<EOF
+\documentclass[12pt,a4paper]{article}
+\usepackage{multido}
+\usepackage[hmargin=.8cm,vmargin=1.5cm,nohead,nofoot]{geometry}
+\begin{document}
+\multido{}{$PAGES}{\vphantom{x}\newpage}
+\end{document}
+EOF
+
+pdflatex pagenumbers.tex
+
+pdftk $PDF_NAME.pdf burst output file_%03d.pdf
+pdftk pagenumbers.pdf burst output number_%03d.pdf
+
+time for i in $(seq -f %03g 1 $PAGES) ; do \
+    pdftk file_$i.pdf background number_$i.pdf output new-$i.pdf ; done
+
+pdftk new-???.pdf output $PDF_NAME.pdf
+
+# No compression for individual reports, too small to begin with.
+#gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE \
+#    -dQUIET -dBATCH -sOutputFile=$PDF_NAME-compressed.pdf $PDF_NAME.pdf
+
+cd ..
+
+mv tempFolder123/$PDF_NAME.pdf final_reports/
+# No compression for individual reports, too small to begin with.
+# mv tempFolder123/$PDF_NAME-compressed.pdf final_reports/
+
+### Remove temporary folder
+rm -rf tempFolder123
+
+}
 ##########################################
 # Entry point for script
 ##########################################
@@ -142,11 +192,17 @@ do
     cd ..
 done
 
-### Merge all reports
+### Merge all reports and generate each report with line numbers
+rm -rf final_reports
+mkdir -pv final_reports
 PDF_FILES_TO_MERGE=
+
 for report in $REPORTS
 do
     PDF_FILES_TO_MERGE="$PDF_FILES_TO_MERGE $report/sigproc-sp.pdf"
+    echo '=============================='
+    echo $report
+    add_line_numbers $report
 done
 
 pdftk $PDF_FILES_TO_MERGE cat output $REPORT_TYPE.pdf
@@ -184,8 +240,8 @@ gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE \
 
 cd ..
 
-mv tempFolder123/$REPORT_TYPE.pdf .
-mv tempFolder123/$REPORT_TYPE-compressed.pdf .
+mv tempFolder123/$REPORT_TYPE.pdf final_reports/
+mv tempFolder123/$REPORT_TYPE-compressed.pdf final_reports/
 
 ### Remove temporary folder
 rm -rf tempFolder123
